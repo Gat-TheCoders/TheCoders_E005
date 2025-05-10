@@ -2,9 +2,9 @@
 import type { Metadata } from 'next';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowLeft, CreditCard, PiggyBank, BarChartBig, Landmark, LayoutDashboard, TrendingUp, ListChecks, Settings, Home, Info, ArrowRight } from "lucide-react";
+import { ArrowLeft, CreditCard, PiggyBank, BarChartBig, Landmark, LayoutDashboard, ArrowRight } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'; // Added CardFooter
 
 export const metadata: Metadata = {
   title: 'My Dashboard | Own Finance',
