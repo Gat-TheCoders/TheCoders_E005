@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -134,9 +135,12 @@ export function SavingsPlanGenerator() {
             <h3 className="text-lg font-semibold text-primary">Your Personalized Savings Plan</h3>
           </div>
           <div className="p-4 bg-secondary/30 rounded-md prose prose-sm max-w-none dark:prose-invert">
-            {/* Using a simple split for paragraphs, more complex formatting might be needed based on AI output */}
-            {savingsPlan.savingsPlan.split('\n\n').map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
+            {savingsPlan.savingsPlan
+              .split('\n')
+              .map(line => line.trim())
+              .filter(line => line.length > 0)
+              .map((line, index) => (
+              <p key={index}>{line}</p>
             ))}
           </div>
         </CardContent>
@@ -144,3 +148,4 @@ export function SavingsPlanGenerator() {
     </Card>
   );
 }
+
