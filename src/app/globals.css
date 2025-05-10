@@ -194,4 +194,14 @@ body {
       background-position: -100% center;
     }
   }
+
+  .animate-spin-slow {
+    animation: spin-slow 5s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }

@@ -4,11 +4,13 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { LayoutDashboard, ListChecks, LineChart, Settings } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export function SecondaryNavbar() {
-  // Placeholder links, adjust as needed based on actual app features
+  const pathname = usePathname();
+  
   const navItems = [
-    { name: 'Dashboard', href: '/', icon: <LayoutDashboard className="h-4 w-4" /> },
+    { name: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
     { name: 'My Goals', href: '/personalized-savings-plan', icon: <ListChecks className="h-4 w-4" /> },
     { name: 'Insights', href: '/expense-optimizer', icon: <LineChart className="h-4 w-4" /> },
     { name: 'Settings', href: '/settings', icon: <Settings className="h-4 w-4" /> }, // Assuming a settings page might exist
@@ -24,8 +26,7 @@ export function SecondaryNavbar() {
                 href={item.href}
                 className={cn(
                   "flex items-center space-x-2 px-2 py-1.5 rounded-md text-foreground/70 hover:text-primary hover:bg-primary/10 transition-colors duration-200",
-                  // Add active state based on pathname if you have access to it here
-                  // e.g., pathname === item.href && "text-primary bg-primary/10"
+                  pathname === item.href && "text-primary bg-primary/10 font-semibold"
                 )}
               >
                 {item.icon}
