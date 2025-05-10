@@ -54,7 +54,7 @@ export function CreditScoreSimulator() {
   }
 
   return (
-    <Card className="shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 group">
+    <Card className="shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 group h-full">
       <CardHeader>
         <div className="flex items-center space-x-2">
           <div className="transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-[-5deg]">
