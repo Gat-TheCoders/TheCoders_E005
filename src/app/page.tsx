@@ -9,7 +9,7 @@ export default function DashboardPage() {
     <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
       <ScrollReveal initialClass="opacity-0 -translate-y-10" finalClass="opacity-100 translate-y-0" delay={0}>
         <section className="mb-12 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl lg:text-6xl">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl animated-text-gradient">
             Welcome to FinanceForward
           </h1>
           <p className="mt-6 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
