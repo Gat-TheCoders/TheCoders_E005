@@ -194,41 +194,4 @@ body {
       background-position: -100% center;
     }
   }
-
-  .animate-text-glow-active {
-    animation: textGlowEffect 3s forwards;
-  }
-
-  @keyframes textGlowEffect {
-    0% {
-      text-shadow: 
-        0 0 5px hsla(var(--primary-foreground), 0.7),
-        0 0 10px hsla(var(--primary-foreground), 0.5),
-        0 0 15px hsla(var(--primary), 0.5),
-        0 0 20px hsla(var(--primary), 0.3),
-        0 0 25px hsla(var(--accent), 0.3),
-        0 0 30px hsla(var(--accent), 0.2);
-        opacity: 0.8;
-    }
-    50% { /* Mid-point of the glow, peak intensity */
-      text-shadow: 
-        0 0 10px hsla(var(--primary-foreground), 0.9),
-        0 0 20px hsla(var(--primary-foreground), 0.7),
-        0 0 30px hsla(var(--primary), 0.7),
-        0 0 40px hsla(var(--primary), 0.5),
-        0 0 50px hsla(var(--accent), 0.5),
-        0 0 60px hsla(var(--accent), 0.4);
-        opacity: 1;
-    }
-    100% { /* Fade out the glow but text remains */
-      text-shadow: 
-        0 0 5px hsla(var(--primary-foreground), 0.5),
-        0 0 8px hsla(var(--primary-foreground), 0.3),
-        0 0 10px hsla(var(--primary), 0.3),
-        0 0 12px hsla(var(--primary), 0.1),
-        0 0 15px hsla(var(--accent), 0.1),
-        0 0 18px hsla(var(--accent), 0.05);
-        opacity: 1; /* Text itself should remain visible */
-    }
-  }
 }
