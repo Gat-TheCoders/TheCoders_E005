@@ -53,6 +53,10 @@ body {
     --sidebar-accent-foreground: 0 0% 9%; /* Dark gray text on green */
     --sidebar-border: 180 20% 80%; /* Lighter teal-toned sidebar border */
     --sidebar-ring: 180 100% 25.1%; /* Teal */
+
+    /* Colors for body background animation */
+    --primary-muted-bg: 180 40% 70%; 
+    --accent-muted-bg: 158 40% 75%;
   }
 
   .dark {
@@ -100,6 +104,10 @@ body {
     --sidebar-accent-foreground: 240 4.8% 95.9%; /* Light text */
     --sidebar-border: 240 3.7% 15.9%; /* Dark border */
     --sidebar-ring: 180 100% 35%; /* Lighter Teal */
+    
+    /* Colors for body background animation - dark mode */
+    --primary-muted-bg: 180 25% 15%;
+    --accent-muted-bg: 158 25% 18%;
   }
 }
 
@@ -108,7 +116,29 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground; /* Removed bg-background */
+    /* Animated background */
+    background: linear-gradient(
+      -45deg, 
+      hsl(var(--background)), 
+      hsl(var(--primary-muted-bg)), 
+      hsl(var(--background)), 
+      hsl(var(--accent-muted-bg))
+    );
+    background-size: 400% 400%;
+    animation: gradientBG 25s ease infinite;
+  }
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 

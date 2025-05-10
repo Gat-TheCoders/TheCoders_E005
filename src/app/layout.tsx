@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${GeistSans.variable} antialiased flex flex-col min-h-screen`}>
         <Header />
-        <main className="flex-grow bg-background">
+        <main className="flex-grow">
           {children}
         </main>
         <Toaster />
