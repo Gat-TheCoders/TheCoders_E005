@@ -28,9 +28,14 @@ import {
 } from '@/ai/flows/community-support-advisor';
 import {
   analyzeExpensesAndOptimizeSavings as analyzeExpensesAndOptimizeSavingsFlow,
-  type ExpenseOptimizerInput, // Ensure this type is correctly imported after changes
-  type ExpenseOptimizerOutput, // Ensure this type is correctly imported after changes
+  type ExpenseOptimizerInput,
+  type ExpenseOptimizerOutput,
 } from '@/ai/flows/expense-optimizer';
+import {
+  financialChat as financialChatFlow,
+  type FinancialChatInput,
+  type FinancialChatOutput,
+} from '@/ai/flows/financial-chat-flow';
 
 export async function handleSimulateCreditScore(input: CreditScoreSimulationInput): Promise<CreditScoreSimulationOutput | { error: string }> {
   try {
@@ -89,5 +94,15 @@ export async function handleAnalyzeExpensesAndOptimizeSavings(input: ExpenseOpti
   } catch (e) {
     console.error("Error in handleAnalyzeExpensesAndOptimizeSavings:", e);
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during expense analysis and savings optimization." };
+  }
+}
+
+export async function handleFinancialChat(input: FinancialChatInput): Promise<FinancialChatOutput | { error: string }> {
+  try {
+    const result = await financialChatFlow(input);
+    return result;
+  } catch (e) {
+    console.error("Error in handleFinancialChat:", e);
+    return { error: e instanceof Error ? e.message : "An unexpected error occurred during chat processing." };
   }
 }

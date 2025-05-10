@@ -7,5 +7,6 @@ import '@/ai/flows/bank-loan-eligibility.ts';
 import '@/ai/flows/group-lending-advisor.ts';
 import '@/ai/flows/community-support-advisor.ts';
 import '@/ai/flows/expense-optimizer.ts';
+import '@/ai/flows/financial-chat-flow.ts';
 
     

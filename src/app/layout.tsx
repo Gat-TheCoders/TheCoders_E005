@@ -4,8 +4,7 @@ import { GeistSans } from 'geist/font/sans';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/layout/header';
-
-// Removed GeistMono as it wasn't explicitly requested and GeistSans is primary
+import { FinancialChatbot } from '@/components/chat/financial-chatbot'; // Import the chatbot
 
 export const metadata: Metadata = {
   title: 'Own Finance',
@@ -24,6 +23,7 @@ export default function RootLayout({
         <main className="flex-grow">
           {children}
         </main>
+        <FinancialChatbot /> {/* Add chatbot here */}
         <Toaster />
       </body>
     </html>
