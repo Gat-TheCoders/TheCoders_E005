@@ -17,10 +17,6 @@ const loginFormSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
   mobileNumber: z.string().min(10, { message: "Mobile number must be at least 10 digits." }).regex(/^\+?[0-9\s-]+$/, { message: "Invalid mobile number format."}),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
-  confirmPassword: z.string().min(8, { message: "Password must be at least 8 characters." }),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Passwords do not match.",
-  path: ["confirmPassword"], // Point error to confirmPassword field
 });
 
 type LoginFormValues = z.infer<typeof loginFormSchema>;
@@ -35,7 +31,6 @@ export function LoginForm() {
       email: '',
       mobileNumber: '',
       password: '',
-      confirmPassword: '',
     },
   });
 
@@ -96,17 +91,6 @@ export function LoginForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex items-center"><Lock className="mr-2 h-4 w-4 text-muted-foreground" />Password</FormLabel>
-                  <FormControl><Input type="password" placeholder="********" {...field} /></FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex items-center"><Lock className="mr-2 h-4 w-4 text-muted-foreground" />Re-enter Password</FormLabel>
                   <FormControl><Input type="password" placeholder="********" {...field} /></FormControl>
                   <FormMessage />
                 </FormItem>
