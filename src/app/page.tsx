@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
-import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight } from 'lucide-react';
+import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Clipboard } from 'lucide-react';
 
 export default function HomePage() {
   const features = [
@@ -37,6 +37,12 @@ export default function HomePage() {
       icon: <Wallet className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />, 
       description: "Explore a simulation of community support funding credited to a virtual wallet." 
     },
+    {
+      href: '/open-bank-account',
+      title: 'Open Bank Account',
+      icon: <Clipboard className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
+      description: "Securely open an account with our online KYC process, featuring face capture and geo-tagging."
+    }
   ];
 
   return (
@@ -82,3 +88,4 @@ export default function HomePage() {
     </div>
   );
 }
+
