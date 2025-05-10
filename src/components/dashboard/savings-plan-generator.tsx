@@ -60,10 +60,12 @@ export function SavingsPlanGenerator() {
   }
 
   return (
-    <Card className="shadow-lg">
+    <Card className="shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 group">
       <CardHeader>
         <div className="flex items-center space-x-2">
-          <PiggyBank className="h-6 w-6 text-primary" />
+          <div className="transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-[-5deg]">
+            <PiggyBank className="h-6 w-6 text-primary" />
+          </div>
           <CardTitle>Personalized Savings Plan</CardTitle>
         </div>
         <CardDescription>Get an AI-powered savings strategy based on your income, expenses, and financial goals.</CardDescription>
@@ -125,8 +127,10 @@ export function SavingsPlanGenerator() {
       </Form>
       {savingsPlan && (
         <CardContent className="mt-6 border-t pt-6">
-           <div className="flex items-center space-x-2 mb-2">
-             <Lightbulb className="h-5 w-5 text-accent" />
+           <div className="flex items-center space-x-2 mb-2 group">
+             <div className="transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-6">
+                <Lightbulb className="h-5 w-5 text-accent" />
+             </div>
             <h3 className="text-lg font-semibold text-primary">Your Personalized Savings Plan</h3>
           </div>
           <div className="p-4 bg-secondary/30 rounded-md prose prose-sm max-w-none dark:prose-invert">

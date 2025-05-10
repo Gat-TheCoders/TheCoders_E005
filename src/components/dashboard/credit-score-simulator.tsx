@@ -54,10 +54,12 @@ export function CreditScoreSimulator() {
   }
 
   return (
-    <Card className="shadow-lg">
+    <Card className="shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 group">
       <CardHeader>
         <div className="flex items-center space-x-2">
-          <TrendingUp className="h-6 w-6 text-primary" />
+          <div className="transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-[-5deg]">
+            <TrendingUp className="h-6 w-6 text-primary" />
+          </div>
           <CardTitle>Credit Score Simulator</CardTitle>
         </div>
         <CardDescription>Understand factors affecting your creditworthiness based on transaction and mobile usage patterns.</CardDescription>
