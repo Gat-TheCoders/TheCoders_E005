@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
-import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Clipboard, BarChartBig, ShieldCheck, Activity, Flame, LineChart, Receipt } from 'lucide-react';
+import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Clipboard, BarChartBig, ShieldCheck, Activity, Flame, LineChart, Receipt, Database } from 'lucide-react'; // Added Database
 import { cn } from '@/lib/utils';
-import { SuggestedInvestmentCard } from '@/components/dashboard/suggested-investment-card'; // Import the new component
+import { SuggestedInvestmentCard } from '@/components/dashboard/suggested-investment-card'; 
 
 export default function HomePage() {
   const features = [
@@ -58,6 +58,12 @@ export default function HomePage() {
       title: 'Bill Payment',
       icon: <Receipt className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
       description: "Easily manage and pay your bills through our secure platform. (Coming Soon)"
+    },
+    {
+      href: '/fixed-deposit',
+      title: 'Fixed Deposit',
+      icon: <Database className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
+      description: "Explore fixed deposit options and manage your investments securely. (Coming Soon)"
     }
   ];
 
@@ -95,18 +101,15 @@ export default function HomePage() {
                 features.length % 3 === 1 && index === features.length - 1 && "lg:col-start-2",
                 // Center if 1 card in last row of SM (2-col grid), and reset for LG
                 features.length % 2 === 1 && index === features.length - 1 && "sm:col-span-2 sm:flex sm:justify-center lg:col-span-1 lg:col-start-auto",
-                // Specific handling for 7 items on LG to ensure centering, as the SM rule's LG reset might override the LG centering rule.
-                // features.length === 7 && index === features.length - 1 && "lg:col-start-2" 
                  (features.length === 7 && index === features.length - 1) || (features.length === 8 && index >= features.length - 2 && features.length % 3 === 2) ? "lg:col-start-auto" : "",
                  features.length === 7 && index === features.length -1 && "lg:col-start-2",
-                 features.length === 8 && index === features.length -2 && "lg:col-start-[auto] sm:col-span-1", // Ensure 2nd to last on 8 items is normal on sm
-                 features.length === 8 && index === features.length -1 && "lg:col-start-auto sm:col-span-2 sm:flex sm:justify-center lg:col-span-1" // last on 8 items
+                 features.length === 8 && index === features.length -2 && "lg:col-start-[auto] sm:col-span-1", 
+                 features.length === 8 && index === features.length -1 && "lg:col-start-auto sm:col-span-2 sm:flex sm:justify-center lg:col-span-1"
               )}
             >
               <Link href={feature.href} passHref legacyBehavior>
                 <Card className={cn(
                   "group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary",
-                  // Ensure centered card on SM takes appropriate width if its parent (ScrollReveal) is flex-centered
                   features.length % 2 === 1 && index === features.length -1 && "sm:max-w-md w-full",
                   features.length === 8 && index === features.length -1 && "sm:max-w-md w-full" 
                 )}>
@@ -150,4 +153,3 @@ export default function HomePage() {
     </div>
   );
 }
-
