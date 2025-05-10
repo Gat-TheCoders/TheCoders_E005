@@ -6,54 +6,24 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { 
   ArrowLeft, 
-  CreditCard, 
   PiggyBank as PiggyBankIcon, // Renamed to avoid conflict with data key
   BarChartBig as BarChartBigIcon, // Renamed
-  Landmark, 
-  LayoutDashboard, 
-  ArrowRight,
   DollarSign,
   ShieldCheck,
   TrendingUp,
   LineChart as LineChartLucideIcon // Renamed for clarity
 } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, type ChartConfig } from "@/components/ui/chart";
-import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, StackedBar } from 'recharts';
+import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 // Static metadata can be defined here if needed, but for dynamic titles, useEffect is better in client components
 // export const metadata: Metadata = {
-//   title: 'My Dashboard | Own Finance',
-//   description: 'Your financial command center. Access tools, get a quick overview of your financial activities including detailed investment breakdown.',
+//   title: 'Financial Overview | Own Finance',
+//   description: 'Visualize your monthly income, savings, and investment breakdown.',
 // };
 
-const dashboardFeatures = [
-  {
-    title: "Credit Score Simulator",
-    description: "Estimate your creditworthiness.",
-    href: "/credit-score-simulator",
-    icon: <CreditCard className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
-  },
-  {
-    title: "Personalized Savings Plan",
-    description: "Create AI-powered savings strategies.",
-    href: "/personalized-savings-plan",
-    icon: <PiggyBankIcon className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
-  },
-  {
-    title: "Expense Optimizer",
-    description: "Analyze spending and optimize savings.",
-    href: "/expense-optimizer",
-    icon: <BarChartBigIcon className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
-  },
-  {
-    title: "Bank Loan Eligibility",
-    description: "Assess your general loan eligibility.",
-    href: "/bank-loan-eligibility",
-    icon: <Landmark className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
-  },
-];
 
 const financialDashboardData = [
   { month: "Apr", income: 75000, savings: 15000, insuranceInvestments: 2000, stockInvestments: 5000, mutualFundInvestments: 3000 },
@@ -86,58 +56,30 @@ const dashboardChartConfig = {
 export default function DashboardPage() {
   // useEffect for dynamic title updates if needed
   // useEffect(() => {
-  //   document.title = 'My Dashboard | Own Finance';
+  //   document.title = 'Financial Overview | Own Finance';
   // }, []);
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
       <ScrollReveal delay={0}>
         <header className="mb-10 text-center">
-          <LayoutDashboard className="h-16 w-16 text-primary mx-auto mb-6" />
+          <LineChartLucideIcon className="h-16 w-16 text-primary mx-auto mb-6" />
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-primary">
-            My Dashboard
+            Financial Overview
           </h1>
           <p className="mt-4 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
-            Welcome to your financial command center. Access key tools and manage your finances effectively.
+            Visualize your monthly income, savings, and investment breakdown. All data is illustrative.
           </p>
         </header>
       </ScrollReveal>
-
-      <ScrollReveal delay={200}>
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold mb-6 text-center text-primary/90">Quick Access Tools</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {dashboardFeatures.map((feature, index) => (
-              <Link href={feature.href} passHref key={index} legacyBehavior>
-                <Card className="group h-full flex flex-col rounded-lg shadow-md transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 cursor-pointer border-border hover:border-primary">
-                  <CardHeader className="items-center text-center pt-6 pb-3">
-                    <div className="p-3 rounded-full bg-primary/10 mb-3 transition-colors group-hover:bg-accent/10">
-                      {feature.icon}
-                    </div>
-                    <CardTitle className="text-lg font-semibold group-hover:text-accent transition-colors">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-center flex-grow px-4 pb-4">
-                    <CardDescription className="text-xs text-muted-foreground">{feature.description}</CardDescription>
-                  </CardContent>
-                   <CardFooter className="p-4 pt-0 text-center justify-center">
-                      <Button variant="outline" size="sm" className="font-medium text-primary group-hover:text-accent group-hover:border-accent transition-colors">
-                        Go to Tool <ArrowRight className="ml-2 h-3 w-3 transition-transform group-hover:translate-x-1" />
-                      </Button>
-                  </CardFooter>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </section>
-      </ScrollReveal>
       
-      <ScrollReveal delay={300}>
+      <ScrollReveal delay={100}>
         <section className="mb-12">
             <Card className="shadow-xl">
                 <CardHeader>
                     <div className="flex items-center space-x-3">
                         <LineChartLucideIcon className="h-8 w-8 text-primary" />
-                        <CardTitle className="text-2xl text-primary">Financial Overview</CardTitle>
+                        <CardTitle className="text-2xl text-primary">Monthly Financial Summary</CardTitle>
                     </div>
                     <CardDescription>Monthly income, savings, and investment breakdown (₹). All data is illustrative.</CardDescription>
                 </CardHeader>
@@ -177,14 +119,14 @@ export default function DashboardPage() {
                     </ChartContainer>
                      <p className="mt-4 text-xs text-muted-foreground text-center">
                         Note: "Total Investments" is represented by the sum of stacked Insurance, Stocks, and Mutual Funds bars.
-                        For a view including expenses, visit the <Link href="/insights" className="text-primary hover:underline">Insights page</Link>.
+                        For a detailed expense view, visit the <Link href="/insights" className="text-primary hover:underline">Insights page</Link>.
                     </p>
                 </CardContent>
             </Card>
         </section>
       </ScrollReveal>
 
-      <ScrollReveal delay={400}>
+      <ScrollReveal delay={200}>
         <div className="mt-12 text-center">
           <Button variant="outline" asChild className="transition-all hover:shadow-md">
             <Link href="/">
