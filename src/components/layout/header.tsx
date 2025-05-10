@@ -46,7 +46,7 @@ export function Header() {
               <Phone className="h-5 w-5" />
             </Link>
           </Button>
-          <Button variant="outline" asChild>
+          <Button variant="default" className="font-semibold animated-bg-gradient" asChild>
             <Link href="/login">Login</Link>
           </Button>
           <Button variant="default" className="font-semibold animated-bg-gradient" asChild>
@@ -57,3 +57,4 @@ export function Header() {
     </header>
   );
 }
+
