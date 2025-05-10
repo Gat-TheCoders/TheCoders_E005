@@ -1,3 +1,4 @@
+
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -22,7 +23,19 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: '2mb', // Or your preferred limit
     },
-  }
+  },
+  webpack: (config, { isServer }) => {
+    // Fix for "Module not found: Can't resolve 'async_hooks'"
+    // This error occurs when a Node.js specific module is attempted to be bundled for the client.
+    // OpenTelemetry (used by Genkit) might be causing this.
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        async_hooks: false, // Provide an empty module or mark as external for client bundles
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;
