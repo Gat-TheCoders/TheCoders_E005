@@ -26,6 +26,11 @@ import {
   type CommunitySupportAdvisorInput,
   type CommunitySupportAdvisorOutput,
 } from '@/ai/flows/community-support-advisor';
+import {
+  analyzeExpensesAndOptimizeSavings as analyzeExpensesAndOptimizeSavingsFlow,
+  type ExpenseOptimizerInput,
+  type ExpenseOptimizerOutput,
+} from '@/ai/flows/expense-optimizer';
 
 export async function handleSimulateCreditScore(input: CreditScoreSimulationInput): Promise<CreditScoreSimulationOutput | { error: string }> {
   try {
@@ -76,3 +81,15 @@ export async function handleSimulateCommunitySupport(input: CommunitySupportAdvi
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during community support simulation." };
   }
 }
+
+export async function handleAnalyzeExpensesAndOptimizeSavings(input: ExpenseOptimizerInput): Promise<ExpenseOptimizerOutput | { error: string }> {
+  try {
+    const result = await analyzeExpensesAndOptimizeSavingsFlow(input);
+    return result;
+  } catch (e) {
+    console.error("Error in handleAnalyzeExpensesAndOptimizeSavings:", e);
+    return { error: e instanceof Error ? e.message : "An unexpected error occurred during expense analysis and savings optimization." };
+  }
+}
+
+    
