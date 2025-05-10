@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -15,6 +16,7 @@ import { handleSuggestInvestment } from '@/app/actions';
 import type { SuggestedInvestmentInput, SuggestedInvestmentOutput } from '@/ai/flows/suggested-investment-flow';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { cn } from "@/lib/utils"; // Added import for cn
 
 const formSchema = z.object({
   monthlyIncome: z.coerce
@@ -151,3 +153,4 @@ export function SuggestedInvestmentCard() {
     </Card>
   );
 }
+
