@@ -22,7 +22,7 @@ export function FinanceForwardLogo(props: SVGProps<SVGSVGElement>) {
           <animateTransform
             attributeName="gradientTransform"
             type="translate"
-            values="0 0; -180 0" // Changed: continuous flow in one direction
+            values="0 0; -180 0" // Continuous flow in one direction
             dur="3s"
             repeatCount="indefinite"
           />
@@ -30,7 +30,8 @@ export function FinanceForwardLogo(props: SVGProps<SVGSVGElement>) {
       </defs>
       <text
         x="90" // Center the text horizontally (viewBoxWidth / 2)
-        y="35" // Baseline for the text
+        y="25" // Adjust y for vertical centering
+        dominantBaseline="middle" // Explicitly set dominant-baseline for better vertical centering
         textAnchor="middle" // Anchor the text from its middle point for centering
         fontFamily="var(--font-geist-sans), Arial, sans-serif"
         fontSize="30"
