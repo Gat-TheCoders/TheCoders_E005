@@ -1,3 +1,4 @@
+
 // src/app/actions.ts
 "use server";
 
@@ -6,12 +7,7 @@ import {
   type CreditScoreSimulationInput,
   type CreditScoreSimulationOutput 
 } from '@/ai/flows/credit-score-simulation';
-import { 
-  generateSavingsPlan as generateSavingsPlanFlow,
-  type GenerateSavingsPlanInput,
-  type GenerateSavingsPlanOutput
-} from '@/ai/flows/personalized-savings-plan';
-// import { GenerateSavingsPlanInputSchema } from '@/ai/schemas/personalized-savings-plan-schemas'; // Not used directly here for validation but good to keep if needed
+// Removed imports for Personalized Savings Plan
 import {
   assessLoanEligibility as assessLoanEligibilityFlow,
   type BankLoanEligibilityInput,
@@ -54,18 +50,7 @@ export async function handleSimulateCreditScore(input: CreditScoreSimulationInpu
   }
 }
 
-export async function handleGenerateSavingsPlan(input: GenerateSavingsPlanInput): Promise<GenerateSavingsPlanOutput | { error: string }> {
-  try {
-    const result = await generateSavingsPlanFlow(input);
-    return result;
-  } catch (e) {
-    console.error("Error in handleGenerateSavingsPlan:", e);
-    if (e instanceof Error && (e as any).issues) { 
-       return { error: "Invalid input data for savings plan."}
-    }
-    return { error: e instanceof Error ? e.message : "An unexpected error occurred during savings plan generation." };
-  }
-}
+// Removed handleGenerateSavingsPlan function
 
 export async function handleAssessLoanEligibility(input: BankLoanEligibilityInput): Promise<BankLoanEligibilityOutput | { error: string }> {
   try {
@@ -126,3 +111,4 @@ export async function handleSuggestInvestment(input: SuggestedInvestmentInput): 
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during investment suggestion." };
   }
 }
+
