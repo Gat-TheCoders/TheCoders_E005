@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import './globals.css';
@@ -7,7 +8,7 @@ import { Header } from '@/components/layout/header';
 // Removed GeistMono as it wasn't explicitly requested and GeistSans is primary
 
 export const metadata: Metadata = {
-  title: 'FinanceForward',
+  title: 'Own Finance',
   description: 'Your partner in financial understanding and growth.',
 };
 
@@ -28,3 +29,4 @@ export default function RootLayout({
     </html>
   );
 }
+
