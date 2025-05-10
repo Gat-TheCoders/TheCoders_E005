@@ -11,7 +11,7 @@ import {
   type GenerateSavingsPlanInput,
   type GenerateSavingsPlanOutput
 } from '@/ai/flows/personalized-savings-plan';
-import { GenerateSavingsPlanInputSchema } from '@/ai/schemas/personalized-savings-plan-schemas';
+// import { GenerateSavingsPlanInputSchema } from '@/ai/schemas/personalized-savings-plan-schemas'; // Not used directly here for validation but good to keep if needed
 import {
   assessLoanEligibility as assessLoanEligibilityFlow,
   type BankLoanEligibilityInput,
@@ -37,6 +37,12 @@ import {
   type FinancialChatInput,
   type FinancialChatOutput,
 } from '@/ai/flows/financial-chat-flow';
+import {
+  suggestInvestment as suggestInvestmentFlow,
+  type SuggestedInvestmentInput,
+  type SuggestedInvestmentOutput,
+} from '@/ai/flows/suggested-investment-flow';
+
 
 export async function handleSimulateCreditScore(input: CreditScoreSimulationInput): Promise<CreditScoreSimulationOutput | { error: string }> {
   try {
@@ -50,15 +56,11 @@ export async function handleSimulateCreditScore(input: CreditScoreSimulationInpu
 
 export async function handleGenerateSavingsPlan(input: GenerateSavingsPlanInput): Promise<GenerateSavingsPlanOutput | { error: string }> {
   try {
-    // Optionally, re-validate with Zod schema if input comes directly from client without server-side form validation
-    // const validatedInput = GenerateSavingsPlanInputSchema.parse(input);
-    // const result = await generateSavingsPlanFlow(validatedInput);
     const result = await generateSavingsPlanFlow(input);
     return result;
   } catch (e) {
     console.error("Error in handleGenerateSavingsPlan:", e);
-    // Handle Zod validation errors specifically if parsing
-    if (e instanceof Error && (e as any).issues) { // Basic check for ZodError
+    if (e instanceof Error && (e as any).issues) { 
        return { error: "Invalid input data for savings plan."}
     }
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during savings plan generation." };
@@ -112,5 +114,15 @@ export async function handleFinancialChat(input: FinancialChatInput): Promise<Fi
   } catch (e) {
     console.error("Error in handleFinancialChat:", e);
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during chat processing." };
+  }
+}
+
+export async function handleSuggestInvestment(input: SuggestedInvestmentInput): Promise<SuggestedInvestmentOutput | { error: string }> {
+  try {
+    const result = await suggestInvestmentFlow(input);
+    return result;
+  } catch (e) {
+    console.error("Error in handleSuggestInvestment:", e);
+    return { error: e instanceof Error ? e.message : "An unexpected error occurred during investment suggestion." };
   }
 }
