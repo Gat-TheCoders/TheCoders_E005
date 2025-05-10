@@ -15,10 +15,11 @@ export const GenerateSavingsPlanInputSchema = z.object({
   monthlyIncome: z.coerce.number({invalid_type_error: "Monthly income must be a number.", required_error: "Monthly income is required."}).positive('Monthly income must be positive.').describe('Your total monthly income in INR.'),
   monthlyExpenses: z.coerce.number({invalid_type_error: "Monthly expenses must be a number.", required_error: "Monthly expenses are required."}).nonnegative('Monthly expenses cannot be negative.').describe('Your total monthly expenses in INR.'),
   customGoals: z.array(GoalInputSchema).min(1, "Define at least one financial goal.").describe("List of your financial goals with target and current savings."),
-}).refine(data => data.monthlyIncome > data.monthlyExpenses, {
-    message: "Monthly income must be greater than monthly expenses to generate a meaningful savings plan.",
-    path: ["monthlyIncome"],
 });
+// Removed: .refine(data => data.monthlyIncome > data.monthlyExpenses, {
+//     message: "Monthly income must be greater than monthly expenses to generate a meaningful savings plan.",
+//     path: ["monthlyIncome"],
+// });
 
 // GoalProgressOutputSchema is used by GenerateSavingsPlanOutputSchema
 export const GoalProgressOutputSchema = z.object({
@@ -36,3 +37,4 @@ export const GenerateSavingsPlanOutputSchema = z.object({
   detailedGoalPlans: z.array(GoalProgressOutputSchema).describe("Detailed plan and progress for each specified financial goal. For each goal, calculate 'remainingAmount' and 'completionPercentage' based on the provided 'targetAmount' and 'currentAmount'."),
   disclaimer: z.string().describe("Standard financial advice disclaimer: 'This savings plan is AI-generated based on the information you provided and is for educational and illustrative purposes only. It is not financial advice. Consider consulting with a qualified financial professional for personalized guidance.'")
 });
+
