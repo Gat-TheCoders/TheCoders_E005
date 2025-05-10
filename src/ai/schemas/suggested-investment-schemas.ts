@@ -1,4 +1,4 @@
-'use server';
+
 /**
  * @fileOverview Zod schemas for the Suggested Investment AI flow.
  *
@@ -48,3 +48,4 @@ export const SuggestedInvestmentOutputSchema = z.object({
     .describe('A mandatory disclaimer stating that the suggestions are for educational purposes only and not financial advice.'),
 });
 export type SuggestedInvestmentOutput = z.infer<typeof SuggestedInvestmentOutputSchema>;
+
