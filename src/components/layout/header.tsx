@@ -26,7 +26,7 @@ export function Header() {
             <Link href="/login">Login</Link>
           </Button>
           <Button variant="default" className="font-semibold animated-bg-gradient" asChild>
-            <Link href="/signin">Sign In</Link>
+            <Link href="/signin">Sign Up</Link>
           </Button>
         </div>
       </div>
