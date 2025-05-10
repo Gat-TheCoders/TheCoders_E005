@@ -54,7 +54,7 @@ const BankLoanEligibilityOutputSchema = z.object({
       z.object({
         bankName: z
           .string()
-          .describe('Name of a representative bank or lender type (e.g., "Major National Bank", "Local Credit Union", "Online Lender"). Do not use real, specific bank names unless very generic like "Community Bank".'),
+          .describe('Specific name of a recognizable financial institution or lender (e.g., "Chase Bank", "Bank of America", "SoFi").'),
         loanProducts: z
           .array(z.string())
           .describe('Examples of loan products they typically offer relevant to the user\'s potential needs (e.g., "Personal Loans", "Auto Loans", "Secured Loans").'),
@@ -66,7 +66,7 @@ const BankLoanEligibilityOutputSchema = z.object({
           .describe('Common requirements or characteristics of these lenders (e.g., "Often require stable income and good credit history", "May have more flexible criteria but potentially higher rates").'),
       })
     )
-    .describe('A list of 2-3 example types of banks or lenders with illustrative loan product information. This is for informational purposes and not a live list of offers or endorsements.'),
+    .describe('A list of 2-3 example specific financial institutions with illustrative loan product information. This is for informational purposes and not a live list of offers or endorsements.'),
 });
 export type BankLoanEligibilityOutput = z.infer<typeof BankLoanEligibilityOutputSchema>;
 
@@ -95,12 +95,12 @@ Based on this profile, provide:
 1.  **Eligibility Assessment**: A qualitative assessment (e.g., "Likely Eligible," "Potentially Eligible with Conditions," "Challenging based on provided information").
 2.  **Key Factors**: Briefly explain the key factors influencing this assessment. Consider income, debt-to-income ratio (if calculable with provided data), credit score estimate, and employment stability.
 3.  **Suggested Next Steps**: Recommend 2-3 general next steps for the user (e.g., "Gather proof of income," "Check your credit report for accuracy," "Consider reducing existing debt if possible").
-4.  **Potential Lenders**: List 2-3 *types* of financial institutions or generic lender examples (e.g., "Large National Banks," "Local Credit Unions," "Online Fintech Lenders") that a person with this profile might consider. For each:
-    *   Provide their generic name (e.g., "Community Credit Union", "Major Retail Bank").
-    *   List 1-2 examples of relevant loan products they might offer.
-    *   Give general information about their typical interest rates or credit requirements.
-    *   Mention any common requirements or characteristics.
-    IMPORTANT: Do NOT list specific real bank names like "Chase", "Bank of America", etc. Use generic types. Emphasize that this is illustrative and actual terms and eligibility require direct application and are subject to change.
+4.  **Potential Lenders**: List 2-3 *specific, recognizable financial institutions* (e.g., "Chase Bank", "Bank of America", "Wells Fargo", "Discover Personal Loans", "SoFi") that a person with this profile might consider. For each:
+    *   Provide their specific name.
+    *   List 1-2 examples of relevant loan products they might offer (e.g., "Personal Loans", "Auto Loans").
+    *   Give general information about their typical interest rates or credit requirements (e.g., "Often require good to excellent credit", "May offer competitive rates for strong profiles").
+    *   Mention any common requirements or characteristics (e.g., "National presence, online application", "Focus on digital-first experience").
+    IMPORTANT: Emphasize that this list is illustrative, not an endorsement, and actual terms and eligibility require direct application to the lender and are subject to credit approval and other factors.
 
 Ensure your entire response conforms to the output schema.
 The "suggestedNextSteps" should be formatted as bullet points if possible within the string.
