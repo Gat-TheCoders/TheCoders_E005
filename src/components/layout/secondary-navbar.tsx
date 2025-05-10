@@ -13,8 +13,8 @@ export function SecondaryNavbar() {
     { name: 'Home', href: '/', icon: <Home className="h-4 w-4" /> },
     { name: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
     { name: 'My Goals', href: '/personalized-savings-plan', icon: <ListChecks className="h-4 w-4" /> },
-    { name: 'Insights', href: '/expense-optimizer', icon: <LineChart className="h-4 w-4" /> },
-    { name: 'About Us', href: '/about-us', icon: <Info className="h-4 w-4" /> }, // Added About Us
+    { name: 'Insights', href: '/dashboard', icon: <LineChart className="h-4 w-4" /> }, // Changed href to /dashboard
+    { name: 'About Us', href: '/about-us', icon: <Info className="h-4 w-4" /> }, 
     { name: 'Settings', href: '/settings', icon: <Settings className="h-4 w-4" /> },
   ];
 
