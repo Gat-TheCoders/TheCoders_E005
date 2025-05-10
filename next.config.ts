@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
     // OpenTelemetry (used by Genkit) might be causing this.
     if (!isServer) {
       config.resolve.fallback = {
-        ...config.resolve.fallback,
+        ...(config.resolve.fallback || {}), // Ensure fallback is an object before spreading
         async_hooks: false, // Provide an empty module or mark as external for client bundles
       };
     }
