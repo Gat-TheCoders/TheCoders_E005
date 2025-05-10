@@ -1,46 +1,84 @@
 
-import { CreditScoreSimulator } from "@/components/dashboard/credit-score-simulator";
-import { SavingsPlanGenerator } from "@/components/dashboard/savings-plan-generator";
-import { BankLoanEligibility } from "@/components/dashboard/bank-loan-eligibility";
-import { GroupLendingAdvisor } from "@/components/dashboard/group-lending-advisor";
-import { DigitalWallet } from "@/components/dashboard/digital-wallet";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
+import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight } from 'lucide-react';
 
-export default function DashboardPage() {
+export default function HomePage() {
+  const features = [
+    { 
+      href: '/credit-score-simulator', 
+      title: 'Credit Score Simulator', 
+      icon: <TrendingUp className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />, 
+      description: "Estimate your creditworthiness based on transaction and mobile usage patterns." 
+    },
+    { 
+      href: '/personalized-savings-plan', 
+      title: 'Personalized Savings Plan', 
+      icon: <PiggyBank className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />, 
+      description: "Get an AI-powered savings strategy tailored to your income, expenses, and financial goals." 
+    },
+    { 
+      href: '/bank-loan-eligibility', 
+      title: 'Bank Loan Eligibility', 
+      icon: <Landmark className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />, 
+      description: "Assess your general loan eligibility and explore potential lender information." 
+    },
+    { 
+      href: '/group-lending-advisor', 
+      title: 'Group Lending Advisor', 
+      icon: <Users className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />, 
+      description: "Receive AI-driven advice for your Self-Help Group or group lending initiatives." 
+    },
+    { 
+      href: '/digital-wallet', 
+      title: 'Simulated Digital Wallet', 
+      icon: <Wallet className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />, 
+      description: "Explore a simulation of community support funding credited to a virtual wallet." 
+    },
+  ];
+
   return (
-    <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
+    <div className="container mx-auto py-12 px-4 md:px-6 lg:px-8">
       <ScrollReveal initialClass="opacity-0 -translate-y-10" finalClass="opacity-100 translate-y-0" delay={0}>
-        <section className="mb-12 text-center">
+        <section className="mb-16 text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl animated-text-gradient">
             Welcome to Own Finance
           </h1>
           <p className="mt-6 text-lg leading-8 text-foreground/80 max-w-3xl mx-auto">
-            Empowering you with AI-driven insights to navigate your financial journey. Simulate credit scores, generate personalized savings plans, assess loan eligibility, get advice for group lending, and explore simulated community support.
+            Empowering you with AI-driven insights to navigate your financial journey. Explore our tools to simulate credit scores, generate personalized savings plans, assess loan eligibility, and more.
           </p>
         </section>
       </ScrollReveal>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12 mb-12">
-        <ScrollReveal delay={200} className="h-full">
-          <CreditScoreSimulator />
-        </ScrollReveal>
-        <ScrollReveal delay={400} className="h-full">
-          <SavingsPlanGenerator />
-        </ScrollReveal>
-      </div>
-
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12 mb-12">
-        <ScrollReveal delay={600} className="h-full">
-         <BankLoanEligibility />
-        </ScrollReveal>
-        <ScrollReveal delay={800} className="h-full">
-          <GroupLendingAdvisor />
-        </ScrollReveal>
-      </div>
-      
-      <ScrollReveal delay={1000}>
-        <DigitalWallet />
-      </ScrollReveal>
+      <section>
+        <h2 className="text-3xl font-semibold mb-10 text-center text-primary">Explore Our Features</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <ScrollReveal key={feature.href} delay={150 * (index + 1)} className="h-full">
+              <Link href={feature.href} passHref legacyBehavior>
+                <Card className="group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary">
+                  <CardHeader className="items-center text-center pt-8 pb-4">
+                    <div className="p-4 rounded-full bg-primary/10 mb-4 transition-colors group-hover:bg-accent/10">
+                       {feature.icon}
+                    </div>
+                    <CardTitle className="text-xl font-semibold group-hover:text-accent transition-colors">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-center flex-grow px-6 pb-6">
+                    <CardDescription className="text-sm text-muted-foreground">{feature.description}</CardDescription>
+                  </CardContent>
+                  <div className="p-6 pt-0 text-center">
+                     <Button variant="ghost" className="text-primary group-hover:text-accent font-semibold transition-colors">
+                        Explore Feature <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                     </Button>
+                  </div>
+                </Card>
+              </Link>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
