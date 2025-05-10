@@ -11,6 +11,7 @@ import {
   type GenerateSavingsPlanInput,
   type GenerateSavingsPlanOutput
 } from '@/ai/flows/personalized-savings-plan';
+import { GenerateSavingsPlanInputSchema } from '@/ai/schemas/personalized-savings-plan-schemas';
 import {
   assessLoanEligibility as assessLoanEligibilityFlow,
   type BankLoanEligibilityInput,
@@ -49,10 +50,17 @@ export async function handleSimulateCreditScore(input: CreditScoreSimulationInpu
 
 export async function handleGenerateSavingsPlan(input: GenerateSavingsPlanInput): Promise<GenerateSavingsPlanOutput | { error: string }> {
   try {
+    // Optionally, re-validate with Zod schema if input comes directly from client without server-side form validation
+    // const validatedInput = GenerateSavingsPlanInputSchema.parse(input);
+    // const result = await generateSavingsPlanFlow(validatedInput);
     const result = await generateSavingsPlanFlow(input);
     return result;
   } catch (e) {
     console.error("Error in handleGenerateSavingsPlan:", e);
+    // Handle Zod validation errors specifically if parsing
+    if (e instanceof Error && (e as any).issues) { // Basic check for ZodError
+       return { error: "Invalid input data for savings plan."}
+    }
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during savings plan generation." };
   }
 }
