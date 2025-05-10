@@ -137,4 +137,29 @@ body {
       background-position: -100% center; /* End with the second P-A-P pattern visible, creating a loop */
     }
   }
+
+  .animated-bg-gradient {
+    /* P = Primary, A = Accent. Pattern is P-A-P. Repeat twice for seamless animation. */
+    background-image: linear-gradient(
+      to right,
+      hsl(var(--primary)) 0%,
+      hsl(var(--accent)) 25%,
+      hsl(var(--primary)) 50%,
+      hsl(var(--primary)) 50%, /* Second pattern for seamless loop */
+      hsl(var(--accent)) 75%,
+      hsl(var(--primary)) 100%
+    );
+    background-size: 200% auto; /* The gradient is twice as wide as the element */
+    animation: bg-gradient-flow 3s linear infinite;
+    /* Text color should be handled by the component's variant, e.g., text-primary-foreground for Button */
+  }
+
+  @keyframes bg-gradient-flow {
+    0% {
+      background-position: 0% center;
+    }
+    100% {
+      background-position: -100% center;
+    }
+  }
 }
