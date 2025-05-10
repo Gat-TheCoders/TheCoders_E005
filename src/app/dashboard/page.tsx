@@ -11,7 +11,8 @@ import {
   LineChart as LineChartLucideIcon,
   CalendarDays,
   PackagePlus,
-  Landmark
+  Landmark,
+  Sigma
 } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,6 +38,16 @@ const financialDashboardData = [
   totalInvestments: item.insuranceInvestments + item.stockInvestments + item.mutualFundInvestments
 }));
 
+const annualTotals = financialDashboardData.reduce((acc, curr) => {
+    acc.income += curr.income;
+    acc.savings += curr.savings;
+    acc.insuranceInvestments += curr.insuranceInvestments;
+    acc.stockInvestments += curr.stockInvestments;
+    acc.mutualFundInvestments += curr.mutualFundInvestments;
+    acc.totalInvestments += curr.totalInvestments;
+    return acc;
+}, { income: 0, savings: 0, insuranceInvestments: 0, stockInvestments: 0, mutualFundInvestments: 0, totalInvestments: 0 });
+
 
 export default function DashboardPage() {
 
@@ -60,7 +71,7 @@ export default function DashboardPage() {
                 <CardHeader>
                     <div className="flex items-center space-x-3">
                         <LineChartLucideIcon className="h-8 w-8 text-primary" />
-                        <CardTitle className="text-2xl text-primary">Monthly Financial Summary</CardTitle>
+                        <CardTitle className="text-2xl text-primary">Financial Summary</CardTitle>
                     </div>
                     <CardDescription>Monthly income, savings, and investment breakdown (₹). All data is illustrative.</CardDescription>
                 </CardHeader>
@@ -98,7 +109,7 @@ export default function DashboardPage() {
                                     <span className="ml-1 text-foreground">₹{item.stockInvestments.toLocaleString('en-IN')}</span>
                                 </div>
                                 <div className="flex items-center">
-                                    <Landmark className="h-4 w-4 mr-1.5 text-muted-foreground" /> {/* Using Landmark for Mutual Funds */}
+                                    <Landmark className="h-4 w-4 mr-1.5 text-muted-foreground" />
                                     <span className="font-medium">Mutual Funds:</span>
                                     <span className="ml-1 text-foreground">₹{item.mutualFundInvestments.toLocaleString('en-IN')}</span>
                                 </div>
@@ -106,6 +117,48 @@ export default function DashboardPage() {
                             {index < financialDashboardData.length - 1 && <Separator className="my-4" />}
                         </div>
                     ))}
+
+                    <Separator className="my-8 border-dashed" />
+
+                    <div className="p-4 border rounded-lg shadow-md bg-primary/10">
+                        <h4 className="text-xl font-bold text-primary mb-4 flex items-center">
+                            <Sigma className="h-6 w-6 mr-2 text-accent" />
+                            Annual Totals
+                        </h4>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-3 text-md">
+                            <div className="flex items-center">
+                                <DollarSign className="h-5 w-5 mr-2 text-muted-foreground" />
+                                <span className="font-semibold">Total Income:</span>
+                                <span className="ml-1.5 text-foreground font-bold">₹{annualTotals.income.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="flex items-center">
+                                <PiggyBankIcon className="h-5 w-5 mr-2 text-muted-foreground" />
+                                <span className="font-semibold">Total Savings:</span>
+                                <span className="ml-1.5 text-foreground font-bold">₹{annualTotals.savings.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="flex items-center col-span-2 md:col-span-1">
+                                <PackagePlus className="h-5 w-5 mr-2 text-muted-foreground" />
+                                <span className="font-semibold">Total Investments:</span>
+                                <span className="ml-1.5 text-foreground font-bold">₹{annualTotals.totalInvestments.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="flex items-center">
+                                <ShieldCheck className="h-5 w-5 mr-2 text-muted-foreground" />
+                                <span className="font-semibold">Total Insurance:</span>
+                                <span className="ml-1.5 text-foreground font-bold">₹{annualTotals.insuranceInvestments.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="flex items-center">
+                                <TrendingUp className="h-5 w-5 mr-2 text-muted-foreground" />
+                                <span className="font-semibold">Total Stocks:</span>
+                                <span className="ml-1.5 text-foreground font-bold">₹{annualTotals.stockInvestments.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div className="flex items-center">
+                                <Landmark className="h-5 w-5 mr-2 text-muted-foreground" />
+                                <span className="font-semibold">Total Mutual Funds:</span>
+                                <span className="ml-1.5 text-foreground font-bold">₹{annualTotals.mutualFundInvestments.toLocaleString('en-IN')}</span>
+                            </div>
+                        </div>
+                    </div>
+
                      <p className="mt-6 text-xs text-muted-foreground text-center">
                         For a detailed expense view, visit the <Link href="/insights" className="text-primary hover:underline">Insights page</Link>.
                     </p>
