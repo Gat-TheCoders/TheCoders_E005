@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview Analyzes user expenses, suggests reductions, and provides a plan to optimize savings and investments.
+ * @fileOverview Analyzes user's income, transaction history, and savings goals to suggest expense reductions and provide a plan to optimize savings and investments.
  *
  * - analyzeExpensesAndOptimizeSavings - A function that analyzes expenses and provides optimization advice.
  * - ExpenseOptimizerInput - The input type for the analyzeExpensesAndOptimizeSavings function.
@@ -10,26 +10,15 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const ExpenseCategoryInputSchema = z.object({
-  categoryName: z
-    .string({ required_error: "Category name is required."})
-    .min(1, { message: "Category name cannot be empty." })
-    .describe('Name of the expense category (e.g., Groceries, Dining Out).'),
-  amountSpent: z
-    .number({ required_error: "Amount spent is required."})
-    .positive({ message: "Amount spent must be a positive number." })
-    .describe('Amount spent in this category for the period (typically monthly).'),
-});
-
 const ExpenseOptimizerInputSchema = z.object({
   monthlyIncome: z
     .number({ required_error: "Monthly income is required."})
     .positive({ message: "Monthly income must be a positive number." })
     .describe('User\'s total gross monthly income.'),
-  expenseCategories: z
-    .array(ExpenseCategoryInputSchema)
-    .min(1, { message: "At least one expense category is required." })
-    .describe('A list of user-defined expense categories and amounts spent.'),
+  transactionHistoryDescription: z
+    .string({ required_error: "Transaction history description is required."})
+    .min(50, { message: "Please provide a detailed description of your transaction history (min 50 characters)." })
+    .describe('A detailed textual description of recent transaction patterns from the digital wallet, including types of purchases, frequencies, typical amounts, merchants, etc. This will be used to infer spending categories and habits.'),
   savingsGoals: z
     .string({ required_error: "Savings goals are required."})
     .min(10, { message: "Please describe your savings goals in at least 10 characters." })
@@ -40,7 +29,7 @@ export type ExpenseOptimizerInput = z.infer<typeof ExpenseOptimizerInputSchema>;
 const ReductionSuggestionSchema = z.object({
   categoryName: z
     .string()
-    .describe('The expense category where a reduction is suggested.'),
+    .describe('The inferred expense category where a reduction is suggested.'),
   suggestedReductionAmount: z
     .number()
     .describe('The suggested monetary amount by which to reduce spending in this category per month.'),
@@ -68,10 +57,10 @@ const InvestmentIdeaSchema = z.object({
 const ExpenseOptimizerOutputSchema = z.object({
   expenseAnalysis: z
     .string()
-    .describe('A general overview of the user\'s spending habits based on the provided income and expenses. Highlight key areas of spending.'),
+    .describe('A general overview of the user\'s spending habits based on the provided income and transaction history. Highlight key inferred areas of spending and estimated total expenses.'),
   reductionSuggestions: z
     .array(ReductionSuggestionSchema)
-    .describe('A list of actionable suggestions for reducing expenses in specific categories. Aim for 2-4 realistic suggestions.'),
+    .describe('A list of actionable suggestions for reducing expenses in specific inferred categories. Aim for 2-4 realistic suggestions.'),
   savingsOptimizationPlan: z
     .string()
     .describe('A plan outlining how the potential monthly savings (sum of all suggested reductions) can be allocated towards the user\'s stated savings goals. Show the impact on achieving these goals (e.g., faster achievement, increased contribution).'),
@@ -95,29 +84,27 @@ const expenseOptimizerPrompt = ai.definePrompt({
   name: 'expenseOptimizerPrompt',
   input: {schema: ExpenseOptimizerInputSchema},
   output: {schema: ExpenseOptimizerOutputSchema},
-  prompt: `You are an AI financial assistant. Your task is to analyze a user's income, expenses, and savings goals to provide personalized recommendations for expense reduction and savings optimization.
+  prompt: `You are an AI financial assistant. Your task is to analyze a user's income, transaction history description, and savings goals to provide personalized recommendations for expense reduction and savings optimization.
 
 User's Financial Profile:
 - Monthly Income: {{{monthlyIncome}}}
-- Expense Categories:
-{{#each expenseCategories}}
-  - {{categoryName}}: {{amountSpent}}
-{{/each}}
+- Transaction History Description: {{{transactionHistoryDescription}}}
 - Savings Goals: {{{savingsGoals}}}
 
 Based on this profile, please provide:
 
 1.  **Expense Analysis (expenseAnalysis)**:
-    *   Give a brief overview of their spending. Calculate total monthly expenses.
-    *   Calculate the percentage of income spent on each category and highlight any categories that seem unusually high compared to typical budgets, or if total expenses exceed income.
+    *   Infer primary expense categories and estimate monthly amounts spent in each based on the 'transactionHistoryDescription'.
+    *   Give a brief overview of their spending habits. Calculate total estimated monthly expenses.
+    *   Highlight any inferred categories that seem unusually high compared to typical budgets, or if total estimated expenses appear to exceed income.
 
 2.  **Reduction Suggestions (reductionSuggestions)**:
-    *   Provide 2-4 specific, actionable suggestions for reducing expenses.
+    *   Based on the inferred expense categories, provide 2-4 specific, actionable suggestions for reducing expenses.
     *   For each suggestion:
-        *   Identify the 'categoryName'.
+        *   Identify the 'categoryName' (e.g., "Dining Out", "Subscriptions", "Shopping").
         *   Suggest a 'suggestedReductionAmount' (a specific monetary value for monthly reduction).
         *   Calculate the 'potentialMonthlySavings' (which will be the same as suggestedReductionAmount).
-        *   Provide 'reasoning' (e.g., "Consider reducing dining out by $X by cooking more meals at home," or "Look for cheaper alternatives for subscriptions, potentially saving $Y/month").
+        *   Provide 'reasoning' (e.g., "Based on your transaction history, consider reducing dining out frequency to save approximately $X by cooking more meals at home," or "Review your subscriptions; cancelling unused ones could save $Y/month").
     *   Focus on realistic and impactful changes. Avoid overly drastic or vague suggestions.
 
 3.  **Savings Optimization Plan (savingsOptimizationPlan)**:
@@ -159,5 +146,3 @@ const expenseOptimizerFlow = ai.defineFlow(
     return output;
   }
 );
-
-    

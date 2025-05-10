@@ -28,8 +28,8 @@ import {
 } from '@/ai/flows/community-support-advisor';
 import {
   analyzeExpensesAndOptimizeSavings as analyzeExpensesAndOptimizeSavingsFlow,
-  type ExpenseOptimizerInput,
-  type ExpenseOptimizerOutput,
+  type ExpenseOptimizerInput, // Ensure this type is correctly imported after changes
+  type ExpenseOptimizerOutput, // Ensure this type is correctly imported after changes
 } from '@/ai/flows/expense-optimizer';
 
 export async function handleSimulateCreditScore(input: CreditScoreSimulationInput): Promise<CreditScoreSimulationOutput | { error: string }> {
@@ -91,5 +91,3 @@ export async function handleAnalyzeExpensesAndOptimizeSavings(input: ExpenseOpti
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during expense analysis and savings optimization." };
   }
 }
-
-    

@@ -47,7 +47,7 @@ export default function HomePage() {
       href: '/expense-optimizer',
       title: 'Expense Optimizer',
       icon: <BarChartBig className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
-      description: "Analyze expenses, get reduction tips, and optimize your savings and investment strategy."
+      description: "Analyze your transaction patterns, get reduction tips, and optimize your savings and investment strategy."
     }
   ];
 
@@ -94,5 +94,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-    

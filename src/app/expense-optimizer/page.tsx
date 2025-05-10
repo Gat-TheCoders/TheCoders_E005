@@ -8,7 +8,7 @@ import { ScrollReveal } from '@/components/utils/scroll-reveal';
 
 export const metadata: Metadata = {
   title: 'Expense Optimizer | Own Finance',
-  description: 'Analyze your expenses, get suggestions to reduce them, and optimize your savings and investments with AI-powered insights.',
+  description: 'Analyze your spending patterns, get suggestions to reduce expenses, and optimize your savings and investments with AI-powered insights based on your transaction history.',
 };
 
 export default function ExpenseOptimizerPage() {
@@ -20,7 +20,7 @@ export default function ExpenseOptimizerPage() {
             AI-Powered Expense Optimizer
           </h1>
           <p className="mt-4 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
-            Track your expenses, receive personalized suggestions to cut costs, and learn how to boost your savings and investments effectively.
+            Describe your transaction patterns, receive personalized suggestions to cut costs, and learn how to boost your savings and investments effectively.
           </p>
         </header>
       </ScrollReveal>
@@ -42,5 +42,3 @@ export default function ExpenseOptimizerPage() {
     </div>
   );
 }
-
-    

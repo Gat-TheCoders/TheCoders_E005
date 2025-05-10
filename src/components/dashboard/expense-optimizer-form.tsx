@@ -1,11 +1,10 @@
-
 'use client';
 
 import { useState } from 'react';
-import { useForm, useFieldArray, type SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { BarChartBig, Loader2, PlusCircle, Trash2, Info, Search, TrendingDown, ShieldAlert, Lightbulb, DollarSign } from 'lucide-react';
+import { BarChartBig, Loader2, Search, TrendingDown, ShieldAlert, Lightbulb, DollarSign, Info } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,14 +17,11 @@ import type { ExpenseOptimizerInput, ExpenseOptimizerOutput } from '@/ai/flows/e
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-const expenseCategorySchema = z.object({
-  categoryName: z.string().min(1, { message: "Category name cannot be empty." }),
-  amountSpent: z.coerce.number().positive({ message: "Amount must be a positive number." }),
-});
-
 const formSchema = z.object({
   monthlyIncome: z.coerce.number().positive({ message: "Monthly income must be a positive number." }),
-  expenseCategories: z.array(expenseCategorySchema).min(1, { message: "Please add at least one expense category." }),
+  transactionHistoryDescription: z
+    .string({ required_error: "Transaction history description is required."})
+    .min(50, { message: "Please provide a detailed description of your transaction history (min 50 characters)." }),
   savingsGoals: z.string().min(10, { message: "Please describe your savings goals (min 10 characters)." }),
 });
 
@@ -38,30 +34,16 @@ export function ExpenseOptimizerForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       monthlyIncome: undefined,
-      expenseCategories: [{ categoryName: '', amountSpent: undefined as unknown as number }],
+      transactionHistoryDescription: '',
       savingsGoals: '',
     },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "expenseCategories"
   });
 
   const onSubmit: SubmitHandler<ExpenseOptimizerInput> = async (values) => {
     setIsLoading(true);
     setAnalysisResult(null);
     
-    // Ensure amountSpent is a number
-    const processedValues = {
-        ...values,
-        expenseCategories: values.expenseCategories.map(cat => ({
-            ...cat,
-            amountSpent: Number(cat.amountSpent) || 0
-        }))
-    };
-
-    const result = await handleAnalyzeExpensesAndOptimizeSavings(processedValues);
+    const result = await handleAnalyzeExpensesAndOptimizeSavings(values);
     setIsLoading(false);
 
     if ('error' in result) {
@@ -88,7 +70,7 @@ export function ExpenseOptimizerForm() {
           </div>
           <CardTitle>AI-Powered Expense Optimizer</CardTitle>
         </div>
-        <CardDescription>Input your income, expenses, and goals to receive AI-driven advice on how to save and invest smarter.</CardDescription>
+        <CardDescription>Input your income, describe your transaction patterns, and state your goals to receive AI-driven advice on how to save and invest smarter.</CardDescription>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -107,53 +89,23 @@ export function ExpenseOptimizerForm() {
               )}
             />
 
-            <div>
-              <FormLabel className="text-base font-medium">Expense Categories</FormLabel>
-              <p className="text-sm text-muted-foreground mb-2">List your primary monthly expenses.</p>
-              {fields.map((item, index) => (
-                <div key={item.id} className="flex items-end gap-2 mb-3 p-3 border rounded-md bg-secondary/10">
-                  <FormField
-                    control={form.control}
-                    name={`expenseCategories.${index}.categoryName`}
-                    render={({ field }) => (
-                      <FormItem className="flex-grow">
-                        <FormLabel className="text-xs">Category Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., Groceries" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name={`expenseCategories.${index}.amountSpent`}
-                    render={({ field }) => (
-                      <FormItem className="w-1/3">
-                        <FormLabel className="text-xs">Amount ($)</FormLabel>
-                        <FormControl>
-                          <Input type="number" placeholder="e.g., 400" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="button" variant="ghost" size="icon" onClick={() => remove(index)} className="text-destructive hover:bg-destructive/10">
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              ))}
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => append({ categoryName: '', amountSpent: undefined as unknown as number })}
-                className="mt-1"
-              >
-                <PlusCircle className="mr-2 h-4 w-4" /> Add Expense Category
-              </Button>
-               <FormMessage>{form.formState.errors.expenseCategories?.root?.message}</FormMessage>
-            </div>
+            <FormField
+              control={form.control}
+              name="transactionHistoryDescription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center"><Info className="mr-2 h-4 w-4 text-muted-foreground" />Transaction History Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Describe your recent spending from your digital wallet: e.g., 'Weekly groceries around $150 at various supermarkets, $5 daily for coffee, $60 on fuel every 2 weeks, multiple streaming subscriptions totaling $45/month, dine out 2-3 times a month spending about $50 each time, occasional online shopping for clothes/electronics averaging $100-$200/month...'"
+                      className="resize-y min-h-[150px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             
             <FormField
               control={form.control}
@@ -262,5 +214,3 @@ export function ExpenseOptimizerForm() {
     </Card>
   );
 }
-
-    
