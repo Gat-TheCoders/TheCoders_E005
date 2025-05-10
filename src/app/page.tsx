@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
-import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Clipboard, BarChartBig, ShieldCheck, Activity, Flame, LineChart } from 'lucide-react';
+import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Clipboard, BarChartBig, ShieldCheck, Activity, Flame, LineChart, Receipt } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -52,6 +52,12 @@ export default function HomePage() {
       title: 'Expense Optimizer',
       icon: <BarChartBig className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
       description: "Analyze your transaction patterns, get reduction tips, and optimize your savings and investment strategy."
+    },
+    {
+      href: '/bill-payment',
+      title: 'Bill Payment',
+      icon: <Receipt className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
+      description: "Easily manage and pay your bills through our secure platform. (Coming Soon)"
     }
   ];
 
@@ -96,17 +102,22 @@ export default function HomePage() {
           {features.map((feature, index) => (
             <ScrollReveal 
               key={feature.href} 
-              delay={200 + (150 * index)} 
+              delay={200 + (100 * index)} // Adjusted delay for smoother staggered animation
               className={cn(
                 "h-full",
-                index === features.length - 1 && features.length % 2 === 1 && "sm:col-span-2 sm:flex sm:justify-center",
-                index === features.length - 1 && features.length % 3 === 1 && "lg:col-start-2 lg:col-span-1"
+                // Logic to center the last card if it's alone in a row
+                features.length % 3 === 1 && index === features.length -1 && "lg:col-start-2", // Center if 1 card in last row of 3-col grid
+                features.length % 2 === 1 && index === features.length -1 && "sm:col-span-2 sm:flex sm:justify-center lg:col-span-1 lg:col-start-auto", // Center if 1 card in last row of 2-col grid, but reset for lg
+                features.length === 7 && index === features.length -1 && "lg:col-start-2", // Specific for 7 items to center the last one
+                features.length === 8 && (index === features.length -2 || index === features.length -1) && "lg:col-start-auto",
+                features.length === 8 && index === features.length -2 && "lg:justify-self-end lg:ml-[calc(50%_-_(theme(spacing.4)))]", // Hacky centering for 2 cards
+                features.length === 8 && index === features.length -1 && "lg:justify-self-start lg:mr-[calc(50%_-_(theme(spacing.4)))]"  // Hacky centering for 2 cards
               )}
             >
               <Link href={feature.href} passHref legacyBehavior>
                 <Card className={cn(
                   "group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary",
-                  index === features.length - 1 && features.length % 2 === 1 && "sm:max-w-md w-full"
+                  features.length % 2 === 1 && index === features.length -1 && "sm:max-w-md w-full" // Ensure centered card on SM takes full width if alone
                 )}>
                   <CardHeader className="items-center text-center pt-8 pb-4">
                     <div className="p-4 rounded-full bg-primary/10 mb-4 transition-colors group-hover:bg-accent/10">
