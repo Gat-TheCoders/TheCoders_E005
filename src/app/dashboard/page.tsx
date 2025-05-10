@@ -1,28 +1,22 @@
 // src/app/dashboard/page.tsx
-'use client'; // Ensure this is a client component for chart interaction and state
+'use client'; 
 
-import type { Metadata } from 'next';
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { 
   ArrowLeft, 
-  PiggyBank as PiggyBankIcon, // Renamed to avoid conflict with data key
-  BarChartBig as BarChartBigIcon, // Renamed
+  PiggyBank as PiggyBankIcon,
   DollarSign,
   ShieldCheck,
   TrendingUp,
-  LineChart as LineChartLucideIcon // Renamed for clarity
+  LineChart as LineChartLucideIcon,
+  CalendarDays,
+  PackagePlus,
+  Landmark
 } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, type ChartConfig } from "@/components/ui/chart";
-import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-
-// Static metadata can be defined here if needed, but for dynamic titles, useEffect is better in client components
-// export const metadata: Metadata = {
-//   title: 'Financial Overview | Own Finance',
-//   description: 'Visualize your monthly income, savings, and investment breakdown.',
-// };
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 
 const financialDashboardData = [
@@ -44,20 +38,7 @@ const financialDashboardData = [
 }));
 
 
-const dashboardChartConfig = {
-  income: { label: "Income", color: "hsl(var(--chart-1))", icon: DollarSign },
-  savings: { label: "Savings", color: "hsl(var(--chart-2))", icon: PiggyBankIcon },
-  insuranceInvestments: { label: "Insurance", color: "hsl(var(--chart-3))", icon: ShieldCheck },
-  stockInvestments: { label: "Stocks", color: "hsl(var(--chart-4))", icon: TrendingUp },
-  mutualFundInvestments: { label: "Mutual Funds", color: "hsl(var(--chart-5))", icon: BarChartBigIcon },
-} satisfies ChartConfig;
-
-
 export default function DashboardPage() {
-  // useEffect for dynamic title updates if needed
-  // useEffect(() => {
-  //   document.title = 'Financial Overview | Own Finance';
-  // }, []);
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
@@ -68,7 +49,7 @@ export default function DashboardPage() {
             Financial Overview
           </h1>
           <p className="mt-4 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
-            Visualize your monthly income, savings, and investment breakdown. All data is illustrative.
+            View your monthly income, savings, and investment breakdown. All data is illustrative.
           </p>
         </header>
       </ScrollReveal>
@@ -83,42 +64,49 @@ export default function DashboardPage() {
                     </div>
                     <CardDescription>Monthly income, savings, and investment breakdown (₹). All data is illustrative.</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <ChartContainer config={dashboardChartConfig} className="min-h-[350px] w-full aspect-video">
-                        <ResponsiveContainer width="100%" height={400}>
-                            <ComposedChart 
-                                data={financialDashboardData} 
-                                margin={{ top: 5, right: 20, left: -20, bottom: 5 }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                <XAxis 
-                                    dataKey="month" 
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickMargin={8}
-                                    tickFormatter={(value) => value.slice(0, 3)}
-                                />
-                                <YAxis 
-                                    tickFormatter={(value) => `₹${value/1000}k`}
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickMargin={8}
-                                />
-                                <ChartTooltip
-                                    cursor={false}
-                                    content={<ChartTooltipContent indicator="dot" />}
-                                />
-                                <ChartLegend content={<ChartLegendContent />} />
-                                <Line type="monotone" dataKey="income" stroke="var(--color-income)" strokeWidth={2} dot={false} name="Income"/>
-                                <Line type="monotone" dataKey="savings" stroke="var(--color-savings)" strokeWidth={2} dot={false} name="Savings"/>
-                                <Bar dataKey="insuranceInvestments" stackId="investments" fill="var(--color-insuranceInvestments)" radius={[4, 4, 0, 0]} name="Insurance" barSize={30}/>
-                                <Bar dataKey="stockInvestments" stackId="investments" fill="var(--color-stockInvestments)" name="Stocks" barSize={30}/>
-                                <Bar dataKey="mutualFundInvestments" stackId="investments" fill="var(--color-mutualFundInvestments)" radius={[4, 4, 0, 0]} name="Mutual Funds" barSize={30}/>
-                            </ComposedChart>
-                        </ResponsiveContainer>
-                    </ChartContainer>
-                     <p className="mt-4 text-xs text-muted-foreground text-center">
-                        Note: "Total Investments" is represented by the sum of stacked Insurance, Stocks, and Mutual Funds bars.
+                <CardContent className="space-y-6">
+                    {financialDashboardData.map((item, index) => (
+                        <div key={item.month} className="p-4 border rounded-lg shadow-sm bg-secondary/10">
+                            <h4 className="text-lg font-semibold text-primary mb-3 flex items-center">
+                                <CalendarDays className="h-5 w-5 mr-2 text-accent" />
+                                {item.month}
+                            </h4>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-2 text-sm">
+                                <div className="flex items-center">
+                                    <DollarSign className="h-4 w-4 mr-1.5 text-muted-foreground" />
+                                    <span className="font-medium">Income:</span>
+                                    <span className="ml-1 text-foreground">₹{item.income.toLocaleString('en-IN')}</span>
+                                </div>
+                                <div className="flex items-center">
+                                    <PiggyBankIcon className="h-4 w-4 mr-1.5 text-muted-foreground" />
+                                    <span className="font-medium">Savings:</span>
+                                    <span className="ml-1 text-foreground">₹{item.savings.toLocaleString('en-IN')}</span>
+                                </div>
+                                <div className="flex items-center col-span-2 md:col-span-1">
+                                    <PackagePlus className="h-4 w-4 mr-1.5 text-muted-foreground" />
+                                    <span className="font-medium">Total Investments:</span>
+                                    <span className="ml-1 text-foreground">₹{item.totalInvestments.toLocaleString('en-IN')}</span>
+                                </div>
+                                <div className="flex items-center">
+                                    <ShieldCheck className="h-4 w-4 mr-1.5 text-muted-foreground" />
+                                    <span className="font-medium">Insurance:</span>
+                                    <span className="ml-1 text-foreground">₹{item.insuranceInvestments.toLocaleString('en-IN')}</span>
+                                </div>
+                                <div className="flex items-center">
+                                    <TrendingUp className="h-4 w-4 mr-1.5 text-muted-foreground" />
+                                    <span className="font-medium">Stocks:</span>
+                                    <span className="ml-1 text-foreground">₹{item.stockInvestments.toLocaleString('en-IN')}</span>
+                                </div>
+                                <div className="flex items-center">
+                                    <Landmark className="h-4 w-4 mr-1.5 text-muted-foreground" /> {/* Using Landmark for Mutual Funds */}
+                                    <span className="font-medium">Mutual Funds:</span>
+                                    <span className="ml-1 text-foreground">₹{item.mutualFundInvestments.toLocaleString('en-IN')}</span>
+                                </div>
+                            </div>
+                            {index < financialDashboardData.length - 1 && <Separator className="my-4" />}
+                        </div>
+                    ))}
+                     <p className="mt-6 text-xs text-muted-foreground text-center">
                         For a detailed expense view, visit the <Link href="/insights" className="text-primary hover:underline">Insights page</Link>.
                     </p>
                 </CardContent>
@@ -139,3 +127,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+
