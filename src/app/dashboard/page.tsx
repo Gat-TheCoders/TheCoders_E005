@@ -1,101 +1,107 @@
 // src/app/dashboard/page.tsx
-'use client';
-
 import type { Metadata } from 'next';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowLeft, BarChart, PiggyBank, TrendingDown, TrendingUp, DollarSign, Wallet, PackageOpen, LineChart as LineChartIcon } from "lucide-react";
+import { ArrowLeft, CreditCard, PiggyBank, BarChartBig, Landmark, LayoutDashboard, TrendingUp, ListChecks, Settings, Home, Info, ArrowRight } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, type ChartConfig } from "@/components/ui/chart";
-import { ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
-// Metadata can't be dynamically generated in client components easily without workarounds.
-// For static metadata, it's fine. If dynamic needed, consider moving to server component or layout.
-// export const metadata: Metadata = { // This will cause a warning if used in a 'use client' component directly for dynamic titles
-//   title: 'Financial Insights | Own Finance',
-//   description: 'View your financial year overview including income, expenses, investments, and savings.',
-// };
+export const metadata: Metadata = {
+  title: 'My Dashboard | Own Finance',
+  description: 'Your financial command center. Access tools and get a quick overview of your financial activities.',
+};
 
-
-const financialYearData = [
-  { month: "Apr", income: 75000, expenses: 45000, investments: 15000, savings: 15000 },
-  { month: "May", income: 76000, expenses: 46000, investments: 16000, savings: 14000 },
-  { month: "Jun", income: 77000, expenses: 44000, investments: 17000, savings: 16000 },
-  { month: "Jul", income: 75000, expenses: 47000, investments: 15000, savings: 13000 },
-  { month: "Aug", income: 78000, expenses: 48000, investments: 18000, savings: 12000 },
-  { month: "Sep", income: 80000, expenses: 45000, investments: 20000, savings: 15000 },
-  { month: "Oct", income: 82000, expenses: 50000, investments: 18000, savings: 14000 },
-  { month: "Nov", income: 79000, expenses: 47000, investments: 19000, savings: 13000 },
-  { month: "Dec", income: 85000, expenses: 48000, investments: 22000, savings: 15000 },
-  { month: "Jan", income: 80000, expenses: 46000, investments: 20000, savings: 14000 },
-  { month: "Feb", income: 81000, expenses: 45000, investments: 21000, savings: 15000 },
-  { month: "Mar", income: 83000, expenses: 47000, investments: 23000, savings: 13000 },
+const dashboardFeatures = [
+  {
+    title: "Credit Score Simulator",
+    description: "Estimate your creditworthiness.",
+    href: "/credit-score-simulator",
+    icon: <CreditCard className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
+  },
+  {
+    title: "Personalized Savings Plan",
+    description: "Create AI-powered savings strategies.",
+    href: "/personalized-savings-plan",
+    icon: <PiggyBank className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
+  },
+  {
+    title: "Expense Optimizer",
+    description: "Analyze spending and optimize savings.",
+    href: "/expense-optimizer",
+    icon: <BarChartBig className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
+  },
+  {
+    title: "Bank Loan Eligibility",
+    description: "Assess your general loan eligibility.",
+    href: "/bank-loan-eligibility",
+    icon: <Landmark className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
+  },
 ];
 
-const chartConfig = {
-  income: { label: "Income", color: "hsl(var(--chart-1))", icon: DollarSign },
-  expenses: { label: "Expenses", color: "hsl(var(--chart-4))", icon: Wallet },
-  investments: { label: "Investments", color: "hsl(var(--chart-2))", icon: PackageOpen },
-  savings: { label: "Savings", color: "hsl(var(--chart-3))", icon: PiggyBank },
-} satisfies ChartConfig;
-
-export default function FinancialInsightsPage() {
+export default function DashboardPage() {
   return (
     <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8">
       <ScrollReveal delay={0}>
         <header className="mb-10 text-center">
+          <LayoutDashboard className="h-16 w-16 text-primary mx-auto mb-6" />
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-primary">
-            Financial Insights
+            My Dashboard
           </h1>
           <p className="mt-4 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
-            A visual overview of your simulated financial activity throughout the year. All data is illustrative.
+            Welcome to your financial command center. Access key tools and manage your finances effectively.
           </p>
         </header>
       </ScrollReveal>
 
       <ScrollReveal delay={200}>
-        <Card className="shadow-xl col-span-1 lg:col-span-2">
-          <CardHeader>
-            <div className="flex items-center space-x-3">
-              <LineChartIcon className="h-8 w-8 text-primary" />
-              <CardTitle className="text-2xl text-primary">Financial Year Overview</CardTitle>
-            </div>
-            <CardDescription>Monthly breakdown of income, expenses, investments, and savings (₹).</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="min-h-[300px] w-full aspect-video">
-              <ResponsiveContainer width="100%" height={400}>
-                <ComposedChart data={financialYearData} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis 
-                    dataKey="month" 
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                   />
-                  <YAxis 
-                    tickFormatter={(value) => `₹${value/1000}k`}
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                  />
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="dot" />}
-                  />
-                  <ChartLegend content={<ChartLegendContent />} />
-                  <Line type="monotone" dataKey="income" stroke="var(--color-income)" strokeWidth={2} dot={false} name="Income"/>
-                  <Bar dataKey="expenses" fill="var(--color-expenses)" radius={4} name="Expenses" />
-                  <Line type="monotone" dataKey="investments" stroke="var(--color-investments)" strokeWidth={2} dot={false} name="Investments"/>
-                  <Line type="monotone" dataKey="savings" stroke="var(--color-savings)" strokeWidth={2} dot={false} name="Savings"/>
-                </ComposedChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-6 text-center text-primary/90">Quick Access Tools</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {dashboardFeatures.map((feature, index) => (
+              <Link href={feature.href} passHref key={index} legacyBehavior>
+                <Card className="group h-full flex flex-col rounded-lg shadow-md transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 cursor-pointer border-border hover:border-primary">
+                  <CardHeader className="items-center text-center pt-6 pb-3">
+                    <div className="p-3 rounded-full bg-primary/10 mb-3 transition-colors group-hover:bg-accent/10">
+                      {feature.icon}
+                    </div>
+                    <CardTitle className="text-lg font-semibold group-hover:text-accent transition-colors">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-center flex-grow px-4 pb-4">
+                    <CardDescription className="text-xs text-muted-foreground">{feature.description}</CardDescription>
+                  </CardContent>
+                   <CardFooter className="p-4 pt-0 text-center justify-center">
+                      <Button variant="outline" size="sm" className="font-medium text-primary group-hover:text-accent group-hover:border-accent transition-colors">
+                        Go to Tool <ArrowRight className="ml-2 h-3 w-3 transition-transform group-hover:translate-x-1" />
+                      </Button>
+                  </CardFooter>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
       </ScrollReveal>
+      
+      <ScrollReveal delay={300}>
+        <section className="mb-12">
+            <Card className="shadow-lg">
+                <CardHeader>
+                    <CardTitle className="text-xl text-primary">Financial Overview</CardTitle>
+                    <CardDescription>View a detailed breakdown of your financial activities.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground mb-4">
+                        For a comprehensive visual summary of your income, expenses, investments, and savings over the financial year, please visit the Insights page.
+                    </p>
+                    <Button asChild className="animated-bg-gradient">
+                        <Link href="/insights">
+                            View Financial Insights <ArrowRight className="ml-2 h-4 w-4"/>
+                        </Link>
+                    </Button>
+                </CardContent>
+            </Card>
+        </section>
+      </ScrollReveal>
+
 
       <ScrollReveal delay={400}>
         <div className="mt-12 text-center">
