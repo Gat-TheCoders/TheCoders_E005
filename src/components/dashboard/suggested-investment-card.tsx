@@ -16,12 +16,17 @@ import { handleSuggestInvestment } from '@/app/actions';
 import type { SuggestedInvestmentInput, SuggestedInvestmentOutput } from '@/ai/flows/suggested-investment-flow';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { cn } from "@/lib/utils"; // Added import for cn
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   monthlyIncome: z.coerce
     .number({ required_error: 'Monthly income is required.' })
     .positive({ message: 'Monthly income must be a positive number.' }),
+  investmentCapacity: z.coerce
+    .number({ invalid_type_error: 'Investment capacity must be a number.' })
+    .positive({ message: 'Investment capacity must be a positive number.' })
+    .optional()
+    .or(z.literal('')), // Allow empty string for optional number field
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -35,13 +40,22 @@ export function SuggestedInvestmentCard() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       monthlyIncome: undefined,
+      investmentCapacity: undefined,
     },
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
     setIsLoading(true);
     setSuggestionsResult(null);
-    const result = await handleSuggestInvestment(values);
+    
+    const processedValues: SuggestedInvestmentInput = {
+      monthlyIncome: Number(values.monthlyIncome),
+      investmentCapacity: values.investmentCapacity === '' || values.investmentCapacity === undefined 
+                          ? undefined 
+                          : Number(values.investmentCapacity),
+    };
+
+    const result = await handleSuggestInvestment(processedValues);
     setIsLoading(false);
 
     if ('error' in result) {
@@ -54,7 +68,7 @@ export function SuggestedInvestmentCard() {
       setSuggestionsResult(result);
       toast({
         title: 'Investment Suggestions Ready',
-        description: 'AI-powered investment ideas based on your income.',
+        description: 'AI-powered investment ideas based on your income and capacity.',
       });
     }
   };
@@ -79,7 +93,7 @@ export function SuggestedInvestmentCard() {
           </div>
           <CardTitle>AI Investment Suggester</CardTitle>
         </div>
-        <CardDescription>Enter your monthly income (INR) to get general investment ideas. This is not financial advice.</CardDescription>
+        <CardDescription>Enter your monthly income and optional investment capacity (INR) to get general investment ideas. This is not financial advice.</CardDescription>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -92,6 +106,19 @@ export function SuggestedInvestmentCard() {
                   <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
                   <FormControl>
                     <Input type="number" placeholder="e.g., 50000" {...field} value={field.value ?? ""} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="investmentCapacity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center"><Briefcase className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Investment Capacity (₹) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="e.g., 10000" {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -14,6 +14,11 @@ export const SuggestedInvestmentInputSchema = z.object({
     .number({ required_error: 'Monthly income is required.' })
     .positive({ message: 'Monthly income must be a positive number.' })
     .describe("User's gross monthly income in INR."),
+  investmentCapacity: z.coerce
+    .number({ invalid_type_error: 'Investment capacity must be a number.' })
+    .positive({ message: 'Investment capacity must be a positive number.' })
+    .optional()
+    .describe("User's estimated monthly investment capacity in INR (optional). This is the amount they are comfortable investing each month."),
 });
 export type SuggestedInvestmentInput = z.infer<typeof SuggestedInvestmentInputSchema>;
 
@@ -26,7 +31,7 @@ export const StockSuggestionSchema = z.object({
     .describe('Type of investment (e.g., "Index Fund SIP", "Large-cap Equity Stock", "Diversified Mutual Fund").'),
   rationale: z
     .string()
-    .describe('Brief explanation why this investment type might be suitable for the given income level and general financial goals.'),
+    .describe('Brief explanation why this investment type might be suitable for the given income level and investment capacity. If capacity is provided, mention how it might fit.'),
   riskLevel: z
     .enum(['Low', 'Medium', 'High', 'Varies'])
     .describe('General risk level associated with this type of investment.'),
@@ -42,7 +47,7 @@ export const SuggestedInvestmentOutputSchema = z.object({
     .array(StockSuggestionSchema)
     .min(1, 'At least one suggestion should be provided.')
     .max(3, 'No more than three suggestions should be provided.')
-    .describe('A list of 2-3 general investment suggestions tailored to the user\'s income level.'),
+    .describe('A list of 2-3 general investment suggestions tailored to the user\'s income level and investment capacity (if provided).'),
   disclaimer: z
     .string()
     .describe('A mandatory disclaimer stating that the suggestions are for educational purposes only and not financial advice.'),
