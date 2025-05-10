@@ -1,6 +1,7 @@
 import { CreditScoreSimulator } from "@/components/dashboard/credit-score-simulator";
 import { SavingsPlanGenerator } from "@/components/dashboard/savings-plan-generator";
 import { BankLoanEligibility } from "@/components/dashboard/bank-loan-eligibility";
+import { GroupLendingAdvisor } from "@/components/dashboard/group-lending-advisor";
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
 
 export default function DashboardPage() {
@@ -12,7 +13,7 @@ export default function DashboardPage() {
             Welcome to FinanceForward
           </h1>
           <p className="mt-6 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
-            Empowering you with AI-driven insights to navigate your financial journey. Simulate credit scores, generate personalized savings plans, and assess loan eligibility with ease.
+            Empowering you with AI-driven insights to navigate your financial journey. Simulate credit scores, generate personalized savings plans, assess loan eligibility, and get advice for group lending.
           </p>
         </section>
       </ScrollReveal>
@@ -26,8 +27,12 @@ export default function DashboardPage() {
         </ScrollReveal>
       </div>
 
-      <ScrollReveal delay={600}>
+      <ScrollReveal delay={600} className="mb-12">
         <BankLoanEligibility />
+      </ScrollReveal>
+
+      <ScrollReveal delay={800}>
+        <GroupLendingAdvisor />
       </ScrollReveal>
     </div>
   );
