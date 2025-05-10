@@ -121,9 +121,9 @@ export function BankLoanEligibility() {
                 name="monthlyIncome"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income ($)</FormLabel>
+                    <FormLabel className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 6000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 50000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -158,9 +158,9 @@ export function BankLoanEligibility() {
                 name="desiredLoanAmount"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-muted-foreground" />Desired Loan Amount ($) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
+                    <FormLabel className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-muted-foreground" />Desired Loan Amount (₹) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 10000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 500000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -194,9 +194,9 @@ export function BankLoanEligibility() {
               name="existingMonthlyDebtPayments"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-muted-foreground" />Existing Monthly Debt Payments ($) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
+                  <FormLabel className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-muted-foreground" />Existing Monthly Debt Payments (₹) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 500" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                    <Input type="number" placeholder="e.g., 10000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

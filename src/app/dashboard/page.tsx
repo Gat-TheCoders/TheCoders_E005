@@ -15,30 +15,30 @@ export const metadata: Metadata = {
 
 // Dummy data for illustrative purposes
 const stockInvestments = [
-  { id: 'stock1', name: 'TechNova Inc.', symbol: 'TNV', shares: 100, currentPrice: 150.75, purchasePrice: 120.50, dataAiHint: "technology chart" },
-  { id: 'stock2', name: 'GreenEnergy Corp.', symbol: 'GEC', shares: 200, currentPrice: 75.20, purchasePrice: 60.00, dataAiHint: "ecology graph" },
-  { id: 'stock3', name: 'HealthPlus Solutions', symbol: 'HPS', shares: 50, currentPrice: 280.00, purchasePrice: 250.00, dataAiHint: "medical data" },
+  { id: 'stock1', name: 'TechNova Solutions Ltd.', symbol: 'TNVINDIA', shares: 100, currentPrice: 1507.50, purchasePrice: 1205.00, dataAiHint: "technology chart" },
+  { id: 'stock2', name: 'GreenEnergy India', symbol: 'GEINDIA', shares: 200, currentPrice: 752.00, purchasePrice: 600.00, dataAiHint: "ecology graph" },
+  { id: 'stock3', name: 'HealthPlus Pharma', symbol: 'HPSINDIA', shares: 50, currentPrice: 2800.00, purchasePrice: 2500.00, dataAiHint: "medical data" },
 ];
 
 const mutualFundInvestments = [
-  { id: 'mf1', name: 'Global Growth Fund', type: 'Equity', units: 500, nav: 45.60, investedValue: 20000, dataAiHint: "world finance" },
-  { id: 'mf2', name: 'Balanced Advantage Fund', type: 'Hybrid', units: 1000, nav: 22.30, investedValue: 18000, dataAiHint: "scale balance" },
-  { id: 'mf3', name: 'Secure Income Fund', type: 'Debt', units: 1500, nav: 15.75, investedValue: 22000, dataAiHint: "safe money" },
+  { id: 'mf1', name: 'India Growth Fund', type: 'Equity', units: 500, nav: 45.60, investedValue: 20000, dataAiHint: "india finance" },
+  { id: 'mf2', name: 'Dynamic Asset Allocation Fund', type: 'Hybrid', units: 1000, nav: 22.30, investedValue: 18000, dataAiHint: "scale balance" },
+  { id: 'mf3', name: 'Secure Income Plan', type: 'Debt', units: 1500, nav: 15.75, investedValue: 22000, dataAiHint: "safe money" },
 ];
 
 const savingsAccounts = [
-  { id: 'savings1', name: 'Emergency Fund', balance: 5250.75, goal: 10000, currency: '$', dataAiHint: "safe moneybox" },
-  { id: 'savings2', name: 'Vacation Fund', balance: 1820.50, goal: 3000, currency: '$', dataAiHint: "travel savings" },
-  { id: 'savings3', name: 'General Savings', balance: 7680.00, currency: '$', dataAiHint: "piggy bank icon" },
+  { id: 'savings1', name: 'Emergency Fund', balance: 52500.75, goal: 100000, currency: '₹', dataAiHint: "safe moneybox" },
+  { id: 'savings2', name: 'Vacation Fund', balance: 18200.50, goal: 30000, currency: '₹', dataAiHint: "travel savings" },
+  { id: 'savings3', name: 'General Savings', balance: 76800.00, currency: '₹', dataAiHint: "piggy bank icon" },
 ];
 const totalSavings = savingsAccounts.reduce((acc, s) => acc + s.balance, 0);
 
 const expenseCategories = [
-  { id: 'expense1', name: 'Housing', amount: 1250.00, currency: '$', dataAiHint: "home rent" },
-  { id: 'expense2', name: 'Food & Groceries', amount: 475.50, currency: '$', dataAiHint: "shopping cart" },
-  { id: 'expense3', name: 'Transportation', amount: 210.00, currency: '$', dataAiHint: "bus car" },
-  { id: 'expense4', name: 'Entertainment', amount: 165.25, currency: '$', dataAiHint: "movie tickets" },
-  { id: 'expense5', name: 'Utilities', amount: 185.70, currency: '$', dataAiHint: "electricity bill" },
+  { id: 'expense1', name: 'Housing', amount: 12500.00, currency: '₹', dataAiHint: "home rent" },
+  { id: 'expense2', name: 'Food & Groceries', amount: 4750.50, currency: '₹', dataAiHint: "shopping cart" },
+  { id: 'expense3', name: 'Transportation', amount: 2100.00, currency: '₹', dataAiHint: "bus car" },
+  { id: 'expense4', name: 'Entertainment', amount: 1650.25, currency: '₹', dataAiHint: "movie tickets" },
+  { id: 'expense5', name: 'Utilities', amount: 1850.70, currency: '₹', dataAiHint: "electricity bill" },
 ];
 const totalMonthlyExpenses = expenseCategories.reduce((acc, e) => acc + e.amount, 0);
 
@@ -70,23 +70,23 @@ export default function DashboardPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
               <div>
                 <p className="text-muted-foreground">Total Investment Value:</p>
-                <p className="text-lg font-semibold text-primary">${totalInvestmentValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                <p className="text-lg font-semibold text-primary">₹{totalInvestmentValue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
               </div>
               <div>
                 <p className="text-muted-foreground">Total Savings:</p>
-                <p className="text-lg font-semibold text-primary">${totalSavings.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                <p className="text-lg font-semibold text-primary">₹{totalSavings.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
               </div>
                <div>
                 <p className="text-muted-foreground">Total Stock Value:</p>
-                <p className="font-semibold text-foreground/90">${totalStockValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                <p className="font-semibold text-foreground/90">₹{totalStockValue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
               </div>
               <div>
                 <p className="text-muted-foreground">Total Mutual Fund Value:</p>
-                <p className="font-semibold text-foreground/90">${totalMutualFundValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                <p className="font-semibold text-foreground/90">₹{totalMutualFundValue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
               </div>
               <div>
                 <p className="text-muted-foreground">Total Monthly Expenses (Simulated):</p>
-                <p className="text-lg font-semibold text-primary">${totalMonthlyExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                <p className="text-lg font-semibold text-primary">₹{totalMonthlyExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
               </div>
             </div>
           </CardContent>
@@ -117,9 +117,9 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent className="text-sm space-y-1">
                     <div className="flex justify-between"><span>Shares:</span> <span className="font-medium">{stock.shares}</span></div>
-                    <div className="flex justify-between"><span>Current Price:</span> <span className="font-medium">${stock.currentPrice.toFixed(2)}</span></div>
-                    <div className="flex justify-between"><span>Purchase Price:</span> <span className="font-medium">${stock.purchasePrice.toFixed(2)}</span></div>
-                    <div className="flex justify-between"><span>Total Value:</span> <span className="font-bold text-primary">${(stock.shares * stock.currentPrice).toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Current Price:</span> <span className="font-medium">₹{stock.currentPrice.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Purchase Price:</span> <span className="font-medium">₹{stock.purchasePrice.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Total Value:</span> <span className="font-bold text-primary">₹{(stock.shares * stock.currentPrice).toFixed(2)}</span></div>
                     <div className="h-24 w-full mt-2 rounded bg-muted flex items-center justify-center">
                        <img 
                         src={`https://picsum.photos/seed/${stock.id}/300/100`} 
@@ -154,10 +154,10 @@ export default function DashboardPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm space-y-1">
-                    <div className="flex justify-between"><span>Units:</span> <span className="font-medium">{mf.units.toLocaleString()}</span></div>
-                    <div className="flex justify-between"><span>NAV:</span> <span className="font-medium">${mf.nav.toFixed(2)}</span></div>
-                    <div className="flex justify-between"><span>Invested Value:</span> <span className="font-medium">${mf.investedValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>
-                    <div className="flex justify-between"><span>Current Value:</span> <span className="font-bold text-primary">${(mf.units * mf.nav).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>
+                    <div className="flex justify-between"><span>Units:</span> <span className="font-medium">{mf.units.toLocaleString('en-IN')}</span></div>
+                    <div className="flex justify-between"><span>NAV:</span> <span className="font-medium">₹{mf.nav.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Invested Value:</span> <span className="font-medium">₹{mf.investedValue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>
+                    <div className="flex justify-between"><span>Current Value:</span> <span className="font-bold text-primary">₹{(mf.units * mf.nav).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span></div>
                      <div className="h-24 w-full mt-2 rounded bg-muted flex items-center justify-center">
                        <img 
                         src={`https://picsum.photos/seed/${mf.id}/300/100`} 
@@ -191,13 +191,13 @@ export default function DashboardPage() {
                   <CardContent className="text-sm space-y-2">
                     <div className="flex justify-between">
                         <span>Current Balance:</span> 
-                        <span className="font-bold text-primary">{account.currency}{account.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                        <span className="font-bold text-primary">{account.currency}{account.balance.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                     </div>
                     {account.goal && (
                       <>
                         <div className="flex justify-between">
                             <span>Goal:</span> 
-                            <span className="font-medium">{account.currency}{account.goal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                            <span className="font-medium">{account.currency}{account.goal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                         </div>
                         <Progress value={(account.balance / account.goal) * 100} className="h-2" />
                         <p className="text-xs text-muted-foreground text-right">{((account.balance / account.goal) * 100).toFixed(1)}% Achieved</p>
@@ -233,7 +233,7 @@ export default function DashboardPage() {
                   <CardContent className="pt-4 text-sm">
                     <div className="flex justify-between items-center">
                       <span className="font-medium">{expense.name}</span>
-                      <span className="font-bold text-primary">{expense.currency}{expense.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                      <span className="font-bold text-primary">{expense.currency}{expense.amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                     </div>
                      <div className="h-16 w-full mt-2 rounded bg-muted flex items-center justify-center">
                        <img 
@@ -249,7 +249,7 @@ export default function DashboardPage() {
                <div className="pt-4 border-t border-border/50">
                 <div className="flex justify-between text-md font-semibold">
                     <span>Total Monthly Expenses:</span>
-                    <span className="text-accent">{totalMonthlyExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    <span className="text-accent">₹{totalMonthlyExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
                </div>
             </CardContent>

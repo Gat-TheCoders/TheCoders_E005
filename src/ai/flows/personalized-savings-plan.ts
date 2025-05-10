@@ -13,9 +13,9 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateSavingsPlanInputSchema = z.object({
-  income: z.number().describe('Your monthly income.'),
-  expenses: z.number().describe('Your monthly expenses.'),
-  financialGoals: z.string().describe('Your financial goals.'),
+  income: z.number().describe('Your monthly income in INR.'),
+  expenses: z.number().describe('Your monthly expenses in INR.'),
+  financialGoals: z.string().describe('Your financial goals (e.g., "Save ₹1,00,000 for a down payment", "Invest for retirement").'),
 });
 export type GenerateSavingsPlanInput = z.infer<typeof GenerateSavingsPlanInputSchema>;
 
@@ -32,12 +32,13 @@ const prompt = ai.definePrompt({
   name: 'generateSavingsPlanPrompt',
   input: {schema: GenerateSavingsPlanInputSchema},
   output: {schema: GenerateSavingsPlanOutputSchema},
-  prompt: `You are a financial advisor specializing in creating personalized savings plans.
+  prompt: `You are a financial advisor specializing in creating personalized savings plans, with a focus on the Indian context.
 
-  Based on the user's income, expenses, and financial goals, generate a detailed savings plan.
+  Based on the user's income, expenses, and financial goals (assume all monetary values are in Indian Rupees - INR), generate a detailed savings plan.
+  The plan should be actionable and provide specific suggestions. Consider common Indian savings and investment options where appropriate.
 
-  Income: {{{income}}}
-  Expenses: {{{expenses}}}
+  Income (INR): {{{income}}}
+  Expenses (INR): {{{expenses}}}
   Financial Goals: {{{financialGoals}}}
 
   Savings Plan:`,
@@ -54,3 +55,4 @@ const generateSavingsPlanFlow = ai.defineFlow(
     return output!;
   }
 );
+

@@ -125,9 +125,9 @@ export function GroupLendingAdvisor() {
                 name="totalPooledFundTarget"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Total Pooled Fund Target ($)</FormLabel>
+                    <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Total Pooled Fund Target (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 5000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 50000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -259,3 +259,4 @@ export function GroupLendingAdvisor() {
     </Card>
   );
 }
+

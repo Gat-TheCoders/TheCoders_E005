@@ -156,9 +156,9 @@ export function DigitalWallet() {
                 name="monthlyIncome"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex items-center"><CircleDollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income ($)</FormLabel>
+                    <FormLabel className="flex items-center"><CircleDollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 1200" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 15000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -219,7 +219,7 @@ export function DigitalWallet() {
               </div>
             <AlertDescription className="mt-2">
               <p className="text-2xl font-bold text-accent">
-                Simulated Credit: ${animatedBalance.toFixed(2)}
+                Simulated Credit: ₹{animatedBalance.toFixed(2)}
               </p>
               <p className="text-sm text-muted-foreground mt-1">This amount has been hypothetically credited to your simulated digital wallet by the AI Community Support Advisor.</p>
             </AlertDescription>
@@ -263,3 +263,4 @@ export function DigitalWallet() {
     </Card>
   );
 }
+

@@ -79,9 +79,9 @@ export function SavingsPlanGenerator() {
               name="income"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Monthly Income ($)</FormLabel>
+                  <FormLabel>Monthly Income (₹)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 5000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                    <Input type="number" placeholder="e.g., 50000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -92,9 +92,9 @@ export function SavingsPlanGenerator() {
               name="expenses"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Monthly Expenses ($)</FormLabel>
+                  <FormLabel>Monthly Expenses (₹)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 3500" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                    <Input type="number" placeholder="e.g., 35000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

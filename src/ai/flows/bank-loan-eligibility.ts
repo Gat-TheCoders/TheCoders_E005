@@ -14,7 +14,7 @@ const BankLoanEligibilityInputSchema = z.object({
   monthlyIncome: z
     .number({required_error: "Monthly income is required."})
     .positive({message: "Monthly income must be a positive number."})
-    .describe('The applicant\'s gross monthly income.'),
+    .describe('The applicant\'s gross monthly income in INR.'),
   employmentStatus: z
     .enum(['Employed', 'Self-Employed', 'Unemployed', 'Student', 'Retired', 'Other'], {required_error: "Employment status is required."})
     .describe('The applicant\'s current employment status.'),
@@ -22,7 +22,7 @@ const BankLoanEligibilityInputSchema = z.object({
     .number()
     .positive({message: "Desired loan amount must be a positive number."})
     .optional()
-    .describe('The desired loan amount, if known.'),
+    .describe('The desired loan amount in INR, if known.'),
   loanPurpose: z
     .string()
     .min(3, {message: "Loan purpose should be at least 3 characters."})
@@ -35,7 +35,7 @@ const BankLoanEligibilityInputSchema = z.object({
     .number()
     .nonnegative({message: "Existing monthly debt payments cannot be negative."})
     .optional()
-    .describe('Total monthly payments for existing debts (e.g., credit cards, other loans).'),
+    .describe('Total monthly payments in INR for existing debts (e.g., credit cards, other loans).'),
 });
 export type BankLoanEligibilityInput = z.infer<typeof BankLoanEligibilityInputSchema>;
 
@@ -54,16 +54,16 @@ const BankLoanEligibilityOutputSchema = z.object({
       z.object({
         bankName: z
           .string()
-          .describe('Specific name of a recognizable financial institution or lender (e.g., "Chase Bank", "Bank of America", "SoFi").'),
+          .describe('Specific name of a recognizable financial institution or lender (e.g., "HDFC Bank", "ICICI Bank", "State Bank of India", "Bajaj Finserv").'),
         loanProducts: z
           .array(z.string())
-          .describe('Examples of loan products they typically offer relevant to the user\'s potential needs (e.g., "Personal Loans", "Auto Loans", "Secured Loans").'),
+          .describe('Examples of loan products they typically offer relevant to the user\'s potential needs (e.g., "Personal Loans", "Home Loans", "Car Loans").'),
         typicalInterestRateInfo: z
           .string()
           .describe('General information about typical interest rates for such lenders (e.g., "May offer competitive rates for applicants with good to excellent credit", "Interest rates might be higher for fair credit").'),
         commonRequirements: z
           .string()
-          .describe('Common requirements or characteristics of these lenders (e.g., "Often require stable income and good credit history", "May have more flexible criteria but potentially higher rates").'),
+          .describe('Common requirements or characteristics of these lenders (e.g., "Often require stable income and good credit history", "May have more flexible criteria but potentially higher rates", "PAN card and Aadhaar card usually required").'),
       })
     )
     .describe('A list of 2-3 example specific financial institutions with illustrative loan product information. This is for informational purposes and not a live list of offers or endorsements.'),
@@ -80,26 +80,26 @@ const assessLoanEligibilityPrompt = ai.definePrompt({
   name: 'assessLoanEligibilityPrompt',
   input: {schema: BankLoanEligibilityInputSchema},
   output: {schema: BankLoanEligibilityOutputSchema},
-  prompt: `You are an AI financial assistant. Your role is to provide a general assessment of loan eligibility based on the information provided by the user.
+  prompt: `You are an AI financial assistant. Your role is to provide a general assessment of loan eligibility based on the information provided by the user. Assume all monetary values are in Indian Rupees (INR).
 This is a simulation for educational purposes and NOT a guarantee of a loan or specific terms. Do not ask for personally identifiable information.
 
 User's Financial Profile:
-- Monthly Income: {{{monthlyIncome}}}
+- Monthly Income (INR): {{{monthlyIncome}}}
 - Employment Status: {{{employmentStatus}}}
-- Desired Loan Amount: {{#if desiredLoanAmount}}{{{desiredLoanAmount}}}{{else}}Not specified{{/if}}
+- Desired Loan Amount (INR): {{#if desiredLoanAmount}}{{{desiredLoanAmount}}}{{else}}Not specified{{/if}}
 - Loan Purpose: {{#if loanPurpose}}{{{loanPurpose}}}{{else}}Not specified{{/if}}
 - Estimated Credit Score: {{{creditScoreEstimate}}}
-- Existing Monthly Debt Payments: {{#if existingMonthlyDebtPayments}}{{{existingMonthlyDebtPayments}}}{{else}}Not specified or N/A{{/if}}
+- Existing Monthly Debt Payments (INR): {{#if existingMonthlyDebtPayments}}{{{existingMonthlyDebtPayments}}}{{else}}Not specified or N/A{{/if}}
 
 Based on this profile, provide:
 1.  **Eligibility Assessment**: A qualitative assessment (e.g., "Likely Eligible," "Potentially Eligible with Conditions," "Challenging based on provided information").
 2.  **Key Factors**: Briefly explain the key factors influencing this assessment. Consider income, debt-to-income ratio (if calculable with provided data), credit score estimate, and employment stability.
-3.  **Suggested Next Steps**: Recommend 2-3 general next steps for the user (e.g., "Gather proof of income," "Check your credit report for accuracy," "Consider reducing existing debt if possible").
-4.  **Potential Lenders**: List 2-3 *specific, recognizable financial institutions* (e.g., "Chase Bank", "Bank of America", "Wells Fargo", "Discover Personal Loans", "SoFi") that a person with this profile might consider. For each:
+3.  **Suggested Next Steps**: Recommend 2-3 general next steps for the user (e.g., "Gather proof of income (salary slips, bank statements)," "Check your CIBIL score and report for accuracy," "Consider reducing existing debt if possible").
+4.  **Potential Lenders**: List 2-3 *specific, recognizable Indian financial institutions* (e.g., "HDFC Bank", "ICICI Bank", "State Bank of India", "Axis Bank", "Bajaj Finserv") that a person with this profile might consider. For each:
     *   Provide their specific name.
-    *   List 1-2 examples of relevant loan products they might offer (e.g., "Personal Loans", "Auto Loans").
-    *   Give general information about their typical interest rates or credit requirements (e.g., "Often require good to excellent credit", "May offer competitive rates for strong profiles").
-    *   Mention any common requirements or characteristics (e.g., "National presence, online application", "Focus on digital-first experience").
+    *   List 1-2 examples of relevant loan products they might offer (e.g., "Personal Loans", "Home Loans", "Car Loans").
+    *   Give general information about their typical interest rates or credit requirements (e.g., "Often require good to excellent CIBIL score", "May offer competitive rates for strong profiles").
+    *   Mention any common requirements or characteristics (e.g., "Wide branch network, online application", "Focus on digital-first experience", "Requires KYC documents like PAN and Aadhaar").
     IMPORTANT: Emphasize that this list is illustrative, not an endorsement, and actual terms and eligibility require direct application to the lender and are subject to credit approval and other factors.
 
 Ensure your entire response conforms to the output schema.

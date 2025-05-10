@@ -81,9 +81,9 @@ export function ExpenseOptimizerForm() {
               name="monthlyIncome"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income ($)</FormLabel>
+                  <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 5000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                    <Input type="number" placeholder="e.g., 50000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -98,7 +98,7 @@ export function ExpenseOptimizerForm() {
                   <FormLabel className="flex items-center"><Info className="mr-2 h-4 w-4 text-muted-foreground" />Transaction History Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Describe your recent spending from your digital wallet: e.g., 'Weekly groceries around $150 at various supermarkets, $5 daily for coffee, $60 on fuel every 2 weeks, multiple streaming subscriptions totaling $45/month, dine out 2-3 times a month spending about $50 each time, occasional online shopping for clothes/electronics averaging $100-$200/month...'"
+                      placeholder="Describe your recent spending from your digital wallet: e.g., 'Weekly groceries around ₹3000 at various supermarkets, ₹100 daily for chai/snacks, ₹1500 on fuel every 2 weeks, multiple streaming subscriptions totaling ₹800/month, dine out 2-3 times a month spending about ₹1000 each time, occasional online shopping for clothes/electronics averaging ₹2000-₹4000/month...'"
                       className="resize-y min-h-[150px]"
                       {...field}
                     />
@@ -116,7 +116,7 @@ export function ExpenseOptimizerForm() {
                   <FormLabel className="flex items-center"><Lightbulb className="mr-2 h-4 w-4 text-muted-foreground" />Savings & Investment Goals</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="e.g., Save $10,000 for a house down payment in 2 years, invest 10% of income for retirement, build a $3000 emergency fund..."
+                      placeholder="e.g., Save ₹2,00,000 for a bike down payment in 1 year, invest 10% of income for retirement, build a ₹50,000 emergency fund..."
                       className="resize-y min-h-[100px]"
                       {...field}
                     />
@@ -160,11 +160,11 @@ export function ExpenseOptimizerForm() {
                       <AccordionTrigger className="px-4 py-3 hover:no-underline">
                         <div className="flex items-center space-x-2">
                            <DollarSign className="h-5 w-5 text-destructive" />
-                           <span className="font-medium text-base">Reduce {suggestion.categoryName} by ${suggestion.suggestedReductionAmount.toFixed(2)}/month</span>
+                           <span className="font-medium text-base">Reduce {suggestion.categoryName} by ₹{suggestion.suggestedReductionAmount.toFixed(2)}/month</span>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pt-0 pb-3 space-y-1 text-sm">
-                        <p><strong className="font-medium text-foreground/80">Potential Monthly Savings:</strong> ${suggestion.potentialMonthlySavings.toFixed(2)}</p>
+                        <p><strong className="font-medium text-foreground/80">Potential Monthly Savings:</strong> ₹{suggestion.potentialMonthlySavings.toFixed(2)}</p>
                         <p><strong className="font-medium text-foreground/80">Reasoning:</strong> {suggestion.reasoning}</p>
                       </AccordionContent>
                     </AccordionItem>
@@ -215,3 +215,4 @@ export function ExpenseOptimizerForm() {
     </Card>
   );
 }
+
