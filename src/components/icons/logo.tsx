@@ -22,7 +22,7 @@ export function FinanceForwardLogo(props: SVGProps<SVGSVGElement>) {
           <animateTransform
             attributeName="gradientTransform"
             type="translate"
-            values="0 0; -180 0; 0 0" // Translate by negative viewBox width (180)
+            values="0 0; -180 0" // Changed: continuous flow in one direction
             dur="3s"
             repeatCount="indefinite"
           />
@@ -42,3 +42,4 @@ export function FinanceForwardLogo(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
