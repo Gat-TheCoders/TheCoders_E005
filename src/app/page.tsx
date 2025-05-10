@@ -1,5 +1,6 @@
 import { CreditScoreSimulator } from "@/components/dashboard/credit-score-simulator";
 import { SavingsPlanGenerator } from "@/components/dashboard/savings-plan-generator";
+import { BankLoanEligibility } from "@/components/dashboard/bank-loan-eligibility";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
 import { FileText } from "lucide-react";
@@ -13,12 +14,12 @@ export default function DashboardPage() {
             Welcome to FinanceForward
           </h1>
           <p className="mt-6 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
-            Empowering you with AI-driven insights to navigate your financial journey. Simulate credit scores and generate personalized savings plans with ease.
+            Empowering you with AI-driven insights to navigate your financial journey. Simulate credit scores, generate personalized savings plans, and assess loan eligibility with ease.
           </p>
         </section>
       </ScrollReveal>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12 mb-12">
         <ScrollReveal delay={200}>
           <CreditScoreSimulator />
         </ScrollReveal>
@@ -28,6 +29,11 @@ export default function DashboardPage() {
       </div>
 
       <ScrollReveal delay={600}>
+        <BankLoanEligibility />
+      </ScrollReveal>
+
+
+      <ScrollReveal delay={800}>
         <Card className="mt-12 shadow-lg bg-card transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1">
           <CardHeader>
             <div className="flex items-center space-x-2 group">
@@ -41,8 +47,8 @@ export default function DashboardPage() {
             <CardDescription className="text-base">
               FinanceForward uses advanced AI models to provide simulations and suggestions.
               These tools are designed for educational purposes to help you understand financial concepts.
-              The simulated credit score does not impact your actual creditworthiness, and savings plans are suggestions to guide your financial planning.
-              Always consult with a qualified financial advisor for personalized advice.
+              The simulated credit score does not impact your actual creditworthiness, savings plans are suggestions to guide your financial planning, and loan eligibility assessments are estimates, not guarantees.
+              Always consult with a qualified financial advisor for personalized advice and directly with financial institutions for loan applications.
             </CardDescription>
           </CardContent>
         </Card>

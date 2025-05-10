@@ -11,10 +11,14 @@ import {
   type GenerateSavingsPlanInput,
   type GenerateSavingsPlanOutput
 } from '@/ai/flows/personalized-savings-plan';
+import {
+  assessLoanEligibility as assessLoanEligibilityFlow,
+  type BankLoanEligibilityInput,
+  type BankLoanEligibilityOutput,
+} from '@/ai/flows/bank-loan-eligibility';
 
 export async function handleSimulateCreditScore(input: CreditScoreSimulationInput): Promise<CreditScoreSimulationOutput | { error: string }> {
   try {
-    // Input validation can be done here using the Zod schema if needed, though react-hook-form will handle it client-side.
     const result = await simulateCreditScoreFlow(input);
     return result;
   } catch (e) {
@@ -30,5 +34,15 @@ export async function handleGenerateSavingsPlan(input: GenerateSavingsPlanInput)
   } catch (e) {
     console.error("Error in handleGenerateSavingsPlan:", e);
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during savings plan generation." };
+  }
+}
+
+export async function handleAssessLoanEligibility(input: BankLoanEligibilityInput): Promise<BankLoanEligibilityOutput | { error: string }> {
+  try {
+    const result = await assessLoanEligibilityFlow(input);
+    return result;
+  } catch (e) {
+    console.error("Error in handleAssessLoanEligibility:", e);
+    return { error: e instanceof Error ? e.message : "An unexpected error occurred during loan eligibility assessment." };
   }
 }
