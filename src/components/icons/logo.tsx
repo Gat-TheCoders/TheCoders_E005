@@ -34,7 +34,7 @@ export function FinanceForwardLogo(props: SVGProps<SVGSVGElement>) {
         dominantBaseline="middle" // Explicitly set dominant-baseline for better vertical centering
         textAnchor="middle" // Anchor the text from its middle point for centering
         fontFamily="var(--font-geist-sans), Arial, sans-serif"
-        fontSize="30"
+        fontSize="30" // Increased font size
         fontWeight="bold"
         fill="url(#logoGradient)"
       >
