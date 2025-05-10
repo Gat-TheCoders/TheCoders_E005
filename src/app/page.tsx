@@ -102,22 +102,22 @@ export default function HomePage() {
           {features.map((feature, index) => (
             <ScrollReveal 
               key={feature.href} 
-              delay={200 + (100 * index)} // Adjusted delay for smoother staggered animation
+              delay={200 + (100 * index)}
               className={cn(
                 "h-full",
-                // Logic to center the last card if it's alone in a row
-                features.length % 3 === 1 && index === features.length -1 && "lg:col-start-2", // Center if 1 card in last row of 3-col grid
-                features.length % 2 === 1 && index === features.length -1 && "sm:col-span-2 sm:flex sm:justify-center lg:col-span-1 lg:col-start-auto", // Center if 1 card in last row of 2-col grid, but reset for lg
-                features.length === 7 && index === features.length -1 && "lg:col-start-2", // Specific for 7 items to center the last one
-                features.length === 8 && (index === features.length -2 || index === features.length -1) && "lg:col-start-auto",
-                features.length === 8 && index === features.length -2 && "lg:justify-self-end lg:ml-[calc(50%_-_(theme(spacing.4)))]", // Hacky centering for 2 cards
-                features.length === 8 && index === features.length -1 && "lg:justify-self-start lg:mr-[calc(50%_-_(theme(spacing.4)))]"  // Hacky centering for 2 cards
+                // Center if 1 card in last row of LG (3-col grid)
+                features.length % 3 === 1 && index === features.length - 1 && "lg:col-start-2",
+                // Center if 1 card in last row of SM (2-col grid), and reset for LG
+                features.length % 2 === 1 && index === features.length - 1 && "sm:col-span-2 sm:flex sm:justify-center lg:col-span-1 lg:col-start-auto",
+                // Specific handling for 7 items on LG to ensure centering, as the SM rule's LG reset might override the LG centering rule.
+                features.length === 7 && index === features.length - 1 && "lg:col-start-2" 
               )}
             >
               <Link href={feature.href} passHref legacyBehavior>
                 <Card className={cn(
                   "group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary",
-                  features.length % 2 === 1 && index === features.length -1 && "sm:max-w-md w-full" // Ensure centered card on SM takes full width if alone
+                  // Ensure centered card on SM takes appropriate width if its parent (ScrollReveal) is flex-centered
+                  features.length % 2 === 1 && index === features.length -1 && "sm:max-w-md w-full"
                 )}>
                   <CardHeader className="items-center text-center pt-8 pb-4">
                     <div className="p-4 rounded-full bg-primary/10 mb-4 transition-colors group-hover:bg-accent/10">
@@ -250,3 +250,4 @@ export default function HomePage() {
     </div>
   );
 }
+
