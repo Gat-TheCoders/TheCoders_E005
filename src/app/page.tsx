@@ -81,7 +81,7 @@ export default function HomePage() {
                     <CardDescription className="text-sm text-muted-foreground">{feature.description}</CardDescription>
                   </CardContent>
                   <div className="p-6 pt-0 text-center">
-                     <Button variant="ghost" className="text-primary group-hover:text-accent font-semibold transition-colors">
+                     <Button variant="default" className="font-semibold animated-bg-gradient">
                         Explore Feature <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                      </Button>
                   </div>
