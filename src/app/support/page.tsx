@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft, LifeBuoy, Bot, Mail, Phone as PhoneIcon, MessageSquare } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 
 export const metadata: Metadata = {
   title: 'Support | Own Finance',
@@ -93,3 +93,4 @@ export default function SupportPage() {
     </div>
   );
 }
+
