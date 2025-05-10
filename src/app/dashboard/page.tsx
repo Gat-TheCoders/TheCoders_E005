@@ -69,7 +69,7 @@ export default function DashboardPage() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
               <div>
-                <p className="text-muted-foreground">Total Investment Value:</p>
+                <p className="text-muted-foreground">Total Invested Money:</p>
                 <p className="text-lg font-semibold text-primary">₹{totalInvestmentValue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
               </div>
               <div>
