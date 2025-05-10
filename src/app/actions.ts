@@ -21,6 +21,11 @@ import {
   type GroupLendingAdvisorInput,
   type GroupLendingAdvisorOutput,
 } from '@/ai/flows/group-lending-advisor';
+import {
+  simulateCommunitySupport as simulateCommunitySupportFlow,
+  type CommunitySupportAdvisorInput,
+  type CommunitySupportAdvisorOutput,
+} from '@/ai/flows/community-support-advisor';
 
 export async function handleSimulateCreditScore(input: CreditScoreSimulationInput): Promise<CreditScoreSimulationOutput | { error: string }> {
   try {
@@ -59,5 +64,15 @@ export async function handleAdviseOnGroupLending(input: GroupLendingAdvisorInput
   } catch (e) {
     console.error("Error in handleAdviseOnGroupLending:", e);
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during group lending advice generation." };
+  }
+}
+
+export async function handleSimulateCommunitySupport(input: CommunitySupportAdvisorInput): Promise<CommunitySupportAdvisorOutput | { error: string }> {
+  try {
+    const result = await simulateCommunitySupportFlow(input);
+    return result;
+  } catch (e) {
+    console.error("Error in handleSimulateCommunitySupport:", e);
+    return { error: e instanceof Error ? e.message : "An unexpected error occurred during community support simulation." };
   }
 }

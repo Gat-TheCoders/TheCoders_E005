@@ -3,6 +3,7 @@ import { CreditScoreSimulator } from "@/components/dashboard/credit-score-simula
 import { SavingsPlanGenerator } from "@/components/dashboard/savings-plan-generator";
 import { BankLoanEligibility } from "@/components/dashboard/bank-loan-eligibility";
 import { GroupLendingAdvisor } from "@/components/dashboard/group-lending-advisor";
+import { DigitalWallet } from "@/components/dashboard/digital-wallet";
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
 
 export default function DashboardPage() {
@@ -13,8 +14,8 @@ export default function DashboardPage() {
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl animated-text-gradient">
             Welcome to Own Finance
           </h1>
-          <p className="mt-6 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
-            Empowering you with AI-driven insights to navigate your financial journey. Simulate credit scores, generate personalized savings plans, assess loan eligibility, and get advice for group lending.
+          <p className="mt-6 text-lg leading-8 text-foreground/80 max-w-3xl mx-auto">
+            Empowering you with AI-driven insights to navigate your financial journey. Simulate credit scores, generate personalized savings plans, assess loan eligibility, get advice for group lending, and explore simulated community support.
           </p>
         </section>
       </ScrollReveal>
@@ -28,14 +29,18 @@ export default function DashboardPage() {
         </ScrollReveal>
       </div>
 
-      <ScrollReveal delay={600} className="mb-12">
-        <BankLoanEligibility />
-      </ScrollReveal>
-
-      <ScrollReveal delay={800}>
-        <GroupLendingAdvisor />
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12 mb-12">
+        <ScrollReveal delay={600} className="h-full">
+         <BankLoanEligibility />
+        </ScrollReveal>
+        <ScrollReveal delay={800} className="h-full">
+          <GroupLendingAdvisor />
+        </ScrollReveal>
+      </div>
+      
+      <ScrollReveal delay={1000}>
+        <DigitalWallet />
       </ScrollReveal>
     </div>
   );
 }
-
