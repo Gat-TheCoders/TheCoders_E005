@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, ListChecks, LineChart, Settings, Home, Info } from 'lucide-react'; // Added Home and Info
+import { LayoutDashboard, LineChart, Settings, Home, Info } from 'lucide-react'; // Removed ListChecks
 import { usePathname } from 'next/navigation';
 
 export function SecondaryNavbar() {
@@ -12,7 +12,7 @@ export function SecondaryNavbar() {
   const navItems = [
     { name: 'Home', href: '/', icon: <Home className="h-4 w-4" /> },
     { name: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
-    { name: 'My Goals', href: '/personalized-savings-plan', icon: <ListChecks className="h-4 w-4" /> },
+    // { name: 'My Goals', href: '/personalized-savings-plan', icon: <ListChecks className="h-4 w-4" /> }, // Removed My Goals
     { name: 'Insights', href: '/insights', icon: <LineChart className="h-4 w-4" /> }, 
     { name: 'About Us', href: '/about-us', icon: <Info className="h-4 w-4" /> }, 
     { name: 'Settings', href: '/settings', icon: <Settings className="h-4 w-4" /> },
@@ -41,5 +41,6 @@ export function SecondaryNavbar() {
     </nav>
   );
 }
+
 
 
