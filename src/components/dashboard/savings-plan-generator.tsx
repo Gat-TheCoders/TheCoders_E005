@@ -12,7 +12,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { handleGenerateSavingsPlan } from '@/app/actions';
-import { GenerateSavingsPlanInputSchema, type GenerateSavingsPlanInput, type GenerateSavingsPlanOutput } from '@/ai/flows/personalized-savings-plan';
+import { type GenerateSavingsPlanInput, type GenerateSavingsPlanOutput } from '@/ai/flows/personalized-savings-plan';
+import { GenerateSavingsPlanInputSchema } from '@/ai/schemas/personalized-savings-plan-schemas';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Separator } from '../ui/separator';
@@ -90,7 +91,7 @@ export function SavingsPlanGenerator() {
                   <FormItem>
                     <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 50000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 50000" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))} value={field.value ?? ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -103,7 +104,7 @@ export function SavingsPlanGenerator() {
                   <FormItem>
                     <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Expenses (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 35000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 35000" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))} value={field.value ?? ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -133,7 +134,7 @@ export function SavingsPlanGenerator() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Target Amount (₹)</FormLabel>
-                          <FormControl><Input type="number" placeholder="e.g., 100000" {...field} value={field.value === 0 ? "" : field.value || ""} /></FormControl>
+                          <FormControl><Input type="number" placeholder="e.g., 100000" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))} value={field.value ?? ""} /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -144,7 +145,7 @@ export function SavingsPlanGenerator() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Current Amount Saved (₹)</FormLabel>
-                          <FormControl><Input type="number" placeholder="e.g., 10000" {...field} value={field.value === 0 ? "" : field.value || ""} /></FormControl>
+                          <FormControl><Input type="number" placeholder="e.g., 10000" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))} value={field.value ?? ""} /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -235,3 +236,4 @@ export function SavingsPlanGenerator() {
     </Card>
   );
 }
+
