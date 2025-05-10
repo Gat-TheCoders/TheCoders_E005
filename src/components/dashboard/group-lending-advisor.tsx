@@ -1,10 +1,11 @@
+
 'use client';
 
 import { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Users, DollarSign, ClipboardList, ShieldCheck, Lightbulb, Loader2, ListChecks, Brain, TrendingDown, AlertTriangle } from 'lucide-react';
+import { Users, DollarSign, ClipboardList, ShieldCheck, Lightbulb, Loader2, ListChecks, Brain, TrendingUp, AlertTriangle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,12 +20,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 const formSchema = z.object({
   groupSize: z
-    .number({ required_error: "Group size is required." })
-    .int()
+    .coerce.number({invalid_type_error: "Group size must be a number.", required_error: "Group size is required." })
+    .int({message: "Group size must be an integer."})
     .positive({ message: "Group size must be a positive integer." })
     .min(2, { message: "A group must have at least 2 members."}),
   totalPooledFundTarget: z
-    .number({ required_error: "Total pooled fund target is required." })
+    .coerce.number({invalid_type_error: "Fund target must be a number.", required_error: "Total pooled fund target is required." })
     .positive({ message: "Fund target must be a positive number." }),
   groupPurpose: z
     .string({ required_error: "Group purpose is required." })
@@ -43,8 +44,8 @@ export function GroupLendingAdvisor() {
   const form = useForm<GroupLendingAdvisorInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      groupSize: undefined,
-      totalPooledFundTarget: undefined,
+      groupSize: '' as unknown as number,
+      totalPooledFundTarget: '' as unknown as number,
       groupPurpose: '',
       memberContributionFrequency: undefined,
       groupRiskProfile: undefined,
@@ -113,7 +114,7 @@ export function GroupLendingAdvisor() {
                   <FormItem>
                     <FormLabel className="flex items-center"><Users className="mr-2 h-4 w-4 text-muted-foreground" />Group Size (Members)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 10" {...field} onChange={e => field.onChange(parseInt(e.target.value) || undefined)} />
+                      <Input type="number" placeholder="e.g., 10" {...field} value={field.value === 0 ? "" : field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -126,7 +127,7 @@ export function GroupLendingAdvisor() {
                   <FormItem>
                     <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Total Pooled Fund Target ($)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 5000" {...field} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                      <Input type="number" placeholder="e.g., 5000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

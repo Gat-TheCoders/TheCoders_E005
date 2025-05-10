@@ -33,8 +33,8 @@ export function SavingsPlanGenerator() {
   const form = useForm<GenerateSavingsPlanInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      income: undefined, // Use undefined for number inputs to show placeholder
-      expenses: undefined,
+      income: '' as unknown as number, // Initialize with empty string for controlled input
+      expenses: '' as unknown as number, // Initialize with empty string for controlled input
       financialGoals: '',
     },
   });
@@ -81,7 +81,7 @@ export function SavingsPlanGenerator() {
                 <FormItem>
                   <FormLabel>Monthly Income ($)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 5000" {...field} />
+                    <Input type="number" placeholder="e.g., 5000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,7 +94,7 @@ export function SavingsPlanGenerator() {
                 <FormItem>
                   <FormLabel>Monthly Expenses ($)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 3500" {...field} />
+                    <Input type="number" placeholder="e.g., 3500" {...field} value={field.value === 0 ? "" : field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

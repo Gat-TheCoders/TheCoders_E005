@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -33,7 +34,7 @@ export function ExpenseOptimizerForm() {
   const form = useForm<ExpenseOptimizerInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      monthlyIncome: undefined,
+      monthlyIncome: '' as unknown as number, // Initialize with empty string
       transactionHistoryDescription: '',
       savingsGoals: '',
     },
@@ -82,7 +83,7 @@ export function ExpenseOptimizerForm() {
                 <FormItem>
                   <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income ($)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 5000" {...field} />
+                    <Input type="number" placeholder="e.g., 5000" {...field} value={field.value === 0 ? "" : field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

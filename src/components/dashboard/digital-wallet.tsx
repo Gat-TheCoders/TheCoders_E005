@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, type EffectCallback, type DependencyList, useEffect } from 'react';
@@ -22,11 +23,11 @@ const formSchema = z.object({
     .string({ required_error: "Please describe your current situation."})
     .min(50, { message: "Please provide more details about your situation (min 50 characters)." }),
   monthlyIncome: z
-    .number({ required_error: "Monthly income is required."})
+    .coerce.number({invalid_type_error: "Monthly income must be a number.", required_error: "Monthly income is required."})
     .nonnegative({ message: "Monthly income cannot be negative." }),
   householdSize: z
-    .number({ required_error: "Household size is required."})
-    .int()
+    .coerce.number({invalid_type_error: "Household size must be a number.", required_error: "Household size is required."})
+    .int({message: "Household size must be an integer."})
     .positive({ message: "Household size must be a positive integer." }),
   reasonForSupport: z
     .enum(['Job Loss', 'Medical Emergency', 'Unexpected Essential Expense', 'Low Income', 'Natural Disaster Impact', 'Other'], { required_error: "Reason for seeking support is required."}),
@@ -57,8 +58,8 @@ export function DigitalWallet() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       currentSituation: '',
-      monthlyIncome: undefined,
-      householdSize: undefined,
+      monthlyIncome: '' as unknown as number,
+      householdSize: '' as unknown as number,
       reasonForSupport: undefined,
     },
   });
@@ -157,7 +158,7 @@ export function DigitalWallet() {
                   <FormItem>
                     <FormLabel className="flex items-center"><CircleDollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income ($)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 1200" {...field} onChange={e => field.onChange(parseFloat(e.target.value) || undefined)} />
+                      <Input type="number" placeholder="e.g., 1200" {...field} value={field.value === 0 ? "" : field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -170,7 +171,7 @@ export function DigitalWallet() {
                   <FormItem>
                     <FormLabel className="flex items-center"><Users className="mr-2 h-4 w-4 text-muted-foreground" />Household Size</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 3" {...field} onChange={e => field.onChange(parseInt(e.target.value) || undefined)} />
+                      <Input type="number" placeholder="e.g., 3" {...field} value={field.value === 0 ? "" : field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
