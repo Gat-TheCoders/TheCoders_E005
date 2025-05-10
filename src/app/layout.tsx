@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={`${GeistSans.variable} antialiased flex flex-col min-h-screen`}>
         <Header />
         <SecondaryNavbar /> {/* Add SecondaryNavbar here */}
-        <main className="flex-grow">
+        <main className="flex-grow pt-[48px]"> {/* Add padding-top equal to SecondaryNavbar height */}
           {children}
         </main>
         <FinancialChatbot /> {/* Add chatbot here */}
