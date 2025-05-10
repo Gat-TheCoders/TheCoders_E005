@@ -8,25 +8,25 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 87.8%; /* Light gray #E0E0E0 */
-    --foreground: 0 0% 13.9%; /* Darker gray for text on light gray */
+    --background: 60 56% 91%; /* Cool Light Beige #F5F5DC */
+    --foreground: 0 0% 13.9%; /* Darker gray for text, good contrast with beige */
 
-    --muted: 0 0% 92%; /* Lighter gray for muted */
+    --muted: 60 30% 93%; /* Lighter, less saturated beige for muted */
     --muted-foreground: 0 0% 40%; /* Muted text */
 
     --popover: 0 0% 100%; /* White */
     --popover-foreground: 0 0% 13.9%;
 
-    --card: 0 0% 100%; /* White for cards */
+    --card: 0 0% 100%; /* White for cards, to stand out from beige bg */
     --card-foreground: 0 0% 13.9%;
 
-    --border: 0 0% 80%; /* Slightly darker gray for borders */
-    --input: 0 0% 80%; /* Same as border for input fields */
+    --border: 60 20% 85%; /* Beige-toned border, slightly darker than bg */
+    --input: 60 20% 85%; /* Same as border for input fields */
 
     --primary: 180 100% 25.1%; /* Teal #008080 */
     --primary-foreground: 0 0% 100%; /* White */
 
-    --secondary: 0 0% 80%; /* Darker gray for secondary elements */
+    --secondary: 60 25% 88%; /* A slightly darker/desaturated beige for secondary elements */
     --secondary-foreground: 0 0% 9%; /* Darker for text on secondary */
 
     --accent: 158 100% 32%; /* Green #00A36C */
@@ -44,28 +44,29 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
-    --sidebar-background: 0 0% 98%;
+    /* Sidebar colors adjusted to complement the new background */
+    --sidebar-background: 60 30% 96%; /* Very light beige for sidebar */
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 180 100% 25.1%;
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 158 100% 32%;
     --sidebar-accent-foreground: 0 0% 9%;
-    --sidebar-border: 220 13% 91%;
+    --sidebar-border: 60 20% 88%; /* Beige-toned sidebar border */
     --sidebar-ring: 180 100% 25.1%;
   }
 
   .dark {
     --background: 220 10% 10%; /* Dark blue-gray */
-    --foreground: 0 0% 87.8%; /* Light gray */
+    --foreground: 60 50% 85%; /* Light beige text for dark mode */
 
     --muted: 220 10% 20%;
-    --muted-foreground: 0 0% 60%;
+    --muted-foreground: 60 30% 60%; /* Muted beige text */
 
     --popover: 220 10% 12%; /* Darker popover */
-    --popover-foreground: 0 0% 87.8%;
+    --popover-foreground: 60 50% 85%;
 
     --card: 220 10% 12%; /* Darker card */
-    --card-foreground: 0 0% 87.8%;
+    --card-foreground: 60 50% 85%;
 
     --border: 220 10% 25%;
     --input: 220 10% 25%;
@@ -74,7 +75,7 @@ body {
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 10% 25%;
-    --secondary-foreground: 0 0% 87.8%;
+    --secondary-foreground: 60 50% 85%;
 
     --accent: 158 100% 42%; /* Lighter Green */
     --accent-foreground: 0 0% 100%;
