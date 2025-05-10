@@ -86,9 +86,23 @@ export default function HomePage() {
         </ScrollReveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <ScrollReveal key={feature.href} delay={200 + (150 * index)} className="h-full">
+            <ScrollReveal 
+              key={feature.href} 
+              delay={200 + (150 * index)} 
+              className={cn(
+                "h-full",
+                // Center last item if it's alone in the row for sm (2 cols)
+                index === features.length - 1 && features.length % 2 === 1 && "sm:col-span-2 sm:flex sm:justify-center",
+                // Center last item if it's alone in the row for lg (3 cols)
+                index === features.length - 1 && features.length % 3 === 1 && "lg:col-start-2 lg:col-span-1" // Explicitly set lg:col-span-1 to override sm:col-span-2
+              )}
+            >
               <Link href={feature.href} passHref legacyBehavior>
-                <Card className="group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary">
+                <Card className={cn(
+                  "group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary",
+                  // If centered on sm, give the card a max-width so it doesn't stretch too much
+                  index === features.length - 1 && features.length % 2 === 1 && "sm:max-w-md w-full"
+                )}>
                   <CardHeader className="items-center text-center pt-8 pb-4">
                     <div className="p-4 rounded-full bg-primary/10 mb-4 transition-colors group-hover:bg-accent/10">
                         {feature.icon}
@@ -112,3 +126,4 @@ export default function HomePage() {
     </div>
   );
 }
+
