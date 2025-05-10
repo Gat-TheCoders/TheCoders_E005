@@ -19,7 +19,7 @@ export function SecondaryNavbar() {
 
   return (
     <nav className="bg-card/80 backdrop-blur-md border-b border-border/60 shadow-sm">
-      <div className="container mx-auto px-4 md:px-6 lg:px-8 h-12 flex items-center justify-center sm:justify-start">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 h-12 flex items-center justify-center">
         <ul className="flex items-center space-x-3 sm:space-x-5 text-sm font-medium">
           {navItems.map((item) => (
             <li key={item.name}>
