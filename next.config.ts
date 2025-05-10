@@ -29,9 +29,12 @@ const nextConfig: NextConfig = {
     // This error occurs when a Node.js specific module is attempted to be bundled for the client.
     // OpenTelemetry (used by Genkit) might be causing this.
     if (!isServer) {
-      config.resolve.fallback = {
-        ...(config.resolve.fallback || {}), // Ensure fallback is an object before spreading
-        async_hooks: false, // Provide an empty module or mark as external for client bundles
+      config.resolve = {
+        ...(config.resolve || {}), // Preserve existing resolve config or use empty obj if undefined
+        fallback: {
+          ...(config.resolve?.fallback || {}), // Preserve existing fallbacks or use empty obj
+          async_hooks: false, // Provide an empty module for client bundles
+        },
       };
     }
     return config;
