@@ -2,9 +2,9 @@
 import type { Metadata } from 'next';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowLeft, Info as InfoIcon, Users, Building, Target } from "lucide-react";
+import { ArrowLeft, Info as InfoIcon, Building, Target } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const metadata: Metadata = {
   title: 'About Us | Own Finance',
@@ -58,30 +58,6 @@ export default function AboutUsPage() {
         </Card>
       </ScrollReveal>
       
-      <ScrollReveal delay={400}>
-        <Card className="max-w-3xl mx-auto shadow-lg">
-            <CardHeader>
-                 <div className="flex items-center space-x-3 mb-2">
-                    <Users className="h-8 w-8 text-accent" />
-                    <CardTitle className="text-2xl text-primary">Meet the (Illustrative) Team</CardTitle>
-                </div>
-                <CardDescription>We are a passionate group of developers, financial experts, and AI enthusiasts dedicated to building Own Finance. (This section is illustrative)</CardDescription>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="bg-secondary/20 p-4 rounded-lg text-center">
-                    <img data-ai-hint="professional portrait" src="https://picsum.photos/seed/team1/100/100" alt="Team Member 1" className="w-24 h-24 rounded-full mx-auto mb-3 border-2 border-primary" />
-                    <h4 className="font-semibold text-foreground/90">Alex Chen</h4>
-                    <p className="text-xs text-muted-foreground">Lead AI Developer</p>
-                </div>
-                 <div className="bg-secondary/20 p-4 rounded-lg text-center">
-                    <img data-ai-hint="finance expert" src="https://picsum.photos/seed/team2/100/100" alt="Team Member 2" className="w-24 h-24 rounded-full mx-auto mb-3 border-2 border-primary" />
-                    <h4 className="font-semibold text-foreground/90">Priya Sharma</h4>
-                    <p className="text-xs text-muted-foreground">Financial Analyst</p>
-                </div>
-            </CardContent>
-        </Card>
-      </ScrollReveal>
-
       <ScrollReveal delay={500}>
         <div className="mt-12 text-center">
           <Button variant="outline" asChild className="transition-all hover:shadow-md">
@@ -95,3 +71,4 @@ export default function AboutUsPage() {
     </div>
   );
 }
+
