@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
     // Fix for "Module not found: Can't resolve 'async_hooks'"
     // This error occurs when a Node.js specific module is attempted to be bundled for the client.
     // OpenTelemetry (used by Genkit) might be causing this.
+    // Note: This webpack configuration is standard for Webpack-based builds.
+    // If using Turbopack, its handling of fallbacks might differ.
     if (!isServer) {
       config.resolve = {
         ...(config.resolve || {}), // Preserve existing resolve config or use empty obj if undefined
@@ -42,3 +44,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
