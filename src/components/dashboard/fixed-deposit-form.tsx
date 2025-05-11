@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -210,7 +211,7 @@ export function FixedDepositForm() {
               className="w-full animated-bg-gradient"
               disabled={isLoading}
             >
-              <Wallet className="mr-2 h-4 w-4" /> Create Fixed Deposit (Simulated)
+              <Wallet className="mr-2 h-4 w-4" /> Create Fixed Deposit
             </Button>
             <p className="text-xs text-muted-foreground mt-2 text-center">
               This will simulate creating an FD with the principal amount from your digital wallet.
