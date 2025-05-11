@@ -5,12 +5,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { TrendingUp, Loader2, Info, CreditCard, CheckSquare, ShieldAlert, ListTree } from 'lucide-react';
+import { TrendingUp, Loader2, Info, CreditCard, CheckSquare, ShieldAlert, ListTree, Landmark, History, Percent, CalendarClock, Layers3, FilePlus2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { handleSimulateCreditScore } from '@/app/actions';
 import type { CreditScoreSimulationInput, CreditScoreSimulationOutput } from '@/ai/flows/credit-score-simulation';
@@ -18,9 +20,22 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const formSchema = z.object({
-  transactionPatterns: z.string().min(5, { message: "Please provide a detailed description of transaction patterns (min 5 characters)." }),
-  mobileUsagePatterns: z.string().min(5, { message: "Please provide a detailed description of mobile usage patterns (min 5 characters)." }),
+  transactionPatterns: z.string().min(5, { message: "Transaction patterns: min 5 characters." }),
+  mobileUsagePatterns: z.string().min(5, { message: "Mobile usage patterns: min 5 characters." }),
+  bankName: z.string().optional().or(z.literal('')),
+  paymentHistory: z.string().min(10, { message: "Payment history: min 10 characters." }),
+  creditUtilization: z.coerce
+    .number({ invalid_type_error: "Credit utilization must be a number." })
+    .min(0, { message: "Credit utilization must be 0 or greater." })
+    .max(100, { message: "Credit utilization cannot exceed 100." })
+    .optional()
+    .or(z.literal('')),
+  lengthOfCreditHistory: z.string().min(3, { message: "Length of credit history: min 3 characters." }).optional().or(z.literal('')),
+  creditMix: z.string().min(5, { message: "Credit mix: min 5 characters." }),
+  newCredit: z.string().min(5, { message: "New credit activity: min 5 characters." }),
 });
+
+const exampleBankNames = ["State Bank of India", "HDFC Bank", "ICICI Bank", "Axis Bank", "Kotak Mahindra Bank", "Punjab National Bank", "Bank of Baroda", "Other"];
 
 export function CreditScoreSimulator() {
   const { toast } = useToast();
@@ -32,13 +47,28 @@ export function CreditScoreSimulator() {
     defaultValues: {
       transactionPatterns: '',
       mobileUsagePatterns: '',
+      bankName: '',
+      paymentHistory: '',
+      creditUtilization: undefined, // Store as number or undefined
+      lengthOfCreditHistory: '',
+      creditMix: '',
+      newCredit: '',
     },
   });
 
-  async function onSubmit(values: CreditScoreSimulationInput) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setSimulationResult(null);
-    const result = await handleSimulateCreditScore(values);
+
+    // Ensure numeric fields are correctly formatted or undefined
+    const processedValues: CreditScoreSimulationInput = {
+        ...values,
+        creditUtilization: values.creditUtilization === '' ? undefined : Number(values.creditUtilization),
+        bankName: values.bankName === '' ? undefined : values.bankName,
+        lengthOfCreditHistory: values.lengthOfCreditHistory === '' ? undefined : values.lengthOfCreditHistory,
+    };
+
+    const result = await handleSimulateCreditScore(processedValues);
     setIsLoading(false);
 
     if ('error' in result) {
@@ -70,6 +100,112 @@ export function CreditScoreSimulator() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
+            <FormField
+              control={form.control}
+              name="bankName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center"><Landmark className="mr-2 h-4 w-4 text-muted-foreground" />Primary Bank Name <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your primary bank" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {exampleBankNames.map(bank => (
+                        <SelectItem key={bank} value={bank}>{bank}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="paymentHistory"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center"><History className="mr-2 h-4 w-4 text-muted-foreground" />Payment History</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="e.g., All payments made on time for the last 3 years. One credit card payment was 5 days late 1 year ago."
+                      className="resize-y min-h-[80px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="creditUtilization"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center"><Percent className="mr-2 h-4 w-4 text-muted-foreground" />Credit Utilization (%) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="e.g., 30 (for 30%)" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : parseFloat(e.target.value))} value={field.value ?? ''} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lengthOfCreditHistory"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center"><CalendarClock className="mr-2 h-4 w-4 text-muted-foreground" />Length of Credit History <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., 5 years" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="creditMix"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center"><Layers3 className="mr-2 h-4 w-4 text-muted-foreground" />Credit Mix</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="e.g., 2 credit cards, 1 auto loan (active). No mortgages."
+                      className="resize-y min-h-[80px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="newCredit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center"><FilePlus2 className="mr-2 h-4 w-4 text-muted-foreground" />New Credit Activity</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="e.g., Applied for one new credit card 3 months ago. No other recent inquiries."
+                      className="resize-y min-h-[80px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="transactionPatterns"
@@ -189,3 +325,4 @@ export function CreditScoreSimulator() {
     </Card>
   );
 }
+

@@ -22,6 +22,33 @@ const CreditScoreSimulationInputSchema = z.object({
     .string({ required_error: "Mobile usage patterns description is required."})
     .min(5, { message: "Please provide a detailed description of mobile usage patterns (min 5 characters)." })
     .describe('Detailed description of mobile usage patterns, including data consumption, app usage, and call/message frequency.'),
+  bankName: z
+    .string()
+    .optional()
+    .describe('Name of the primary bank the user deals with.'),
+  paymentHistory: z
+    .string({ required_error: "Payment history description is required."})
+    .min(10, { message: "Describe payment history (min 10 characters)." })
+    .describe('Description of payment history, including on-time payments, late payments, defaults, etc.'),
+  creditUtilization: z
+    .coerce.number({invalid_type_error: "Credit utilization must be a number."})
+    .min(0, { message: "Credit utilization must be 0 or greater."})
+    .max(100, { message: "Credit utilization cannot exceed 100."})
+    .optional()
+    .describe('Percentage of total available credit currently being used (e.g., 30 for 30%).'),
+  lengthOfCreditHistory: z
+    .string()
+    .min(3, { message: "Length of credit history should be at least 3 characters."})
+    .optional()
+    .describe('Length of the user\'s credit history (e.g., "2 years", "5+ years", "Less than 6 months").'),
+  creditMix: z
+    .string({ required_error: "Credit mix description is required."})
+    .min(5, { message: "Describe credit mix (min 5 characters)." })
+    .describe('Description of the types of credit accounts held (e.g., credit cards, auto loans, mortgages, student loans).'),
+  newCredit: z
+    .string({ required_error: "New credit information is required."})
+    .min(5, { message: "Describe new credit activity (min 5 characters)." })
+    .describe('Information about recent credit applications or newly opened accounts.'),
 });
 export type CreditScoreSimulationInput = z.infer<typeof CreditScoreSimulationInputSchema>;
 
@@ -65,23 +92,29 @@ const simulateCreditScorePrompt = ai.definePrompt({
   name: 'simulateCreditScorePrompt',
   input: {schema: CreditScoreSimulationInputSchema},
   output: {schema: CreditScoreSimulationOutputSchema},
-  prompt: `You are an AI model that simulates credit scores based on user-provided transaction and mobile usage patterns.
+  prompt: `You are an AI model that simulates credit scores based on user-provided financial and behavioral patterns.
 The simulated credit score should be a number between 300 and 850.
 
-Analyze the following patterns:
-Transaction Patterns: {{{transactionPatterns}}}
-Mobile Usage Patterns: {{{mobileUsagePatterns}}}
+Analyze the following user inputs:
+- Transaction Patterns: {{{transactionPatterns}}}
+- Mobile Usage Patterns: {{{mobileUsagePatterns}}}
+{{#if bankName}}- Primary Bank Name: {{{bankName}}}{{/if}}
+- Payment History: {{{paymentHistory}}}
+{{#if creditUtilization}}- Credit Utilization (%): {{{creditUtilization}}}%{{else}}- Credit Utilization (%): Not Specified{{/if}}
+{{#if lengthOfCreditHistory}}- Length of Credit History: {{{lengthOfCreditHistory}}}{{else}}- Length of Credit History: Not Specified{{/if}}
+- Credit Mix: {{{creditMix}}}
+- New Credit Activity: {{{newCredit}}}
 
-Based on this analysis, provide the following information:
+Based on this comprehensive analysis, provide the following information:
 1.  **Simulated Credit Score (simulatedCreditScore)**: The estimated numerical credit score.
-2.  **Factors Influencing Score (factorsInfluencingScore)**: Explain the key factors derived from the input that influenced this simulated score. Mention both positive and negative aspects if applicable.
+2.  **Factors Influencing Score (factorsInfluencingScore)**: Explain the key factors derived from ALL inputs that influenced this simulated score. Specifically mention how payment history, credit utilization (low is good, high is bad), length of credit history (longer is generally better), credit mix (diverse and well-managed is good), and new credit (too much new credit can be negative) contributed. Also consider the transaction and mobile usage patterns.
 3.  **Benefits of a Good Credit Score (benefitsOfGoodCreditScore)**: Provide 3-4 general benefits of maintaining a good credit score, formatted as bullet points (e.g., "- Better interest rates on loans and credit cards.").
 4.  **Eligible Card Suggestions (eligibleCards)**: Based *only* on the *simulatedCreditScore*, suggest 1-3 specific, recognizable credit or debit cards that someone with such a score might typically be eligible for.
     *   If the simulated score is low (e.g., below 600-650), prioritize secured credit cards or debit cards suitable for credit building.
     *   For each card, include:
-        *   'cardName': Specific name (e.g., "Discover it® Secured Credit Card", "Chase Freedom Rise℠").
+        *   'cardName': Specific name (e.g., "Discover it® Secured Credit Card", "Chase Freedom Rise℠", "HDFC Millennia Credit Card").
         *   'cardType': "Credit Card" or "Debit Card".
-        *   'issuer': The bank or company (e.g., "Discover", "Chase").
+        *   'issuer': The bank or company (e.g., "Discover", "Chase", "HDFC Bank").
         *   'keyFeatures': An array of 2-4 brief, attractive features (e.g., ["Builds credit history", "No annual fee", "Cashback rewards"]).
         *   'typicalCreditScoreRange': A general textual description of the credit score this card usually targets (e.g., "Fair (580-669)", "Good for building credit", "Excellent (750+)", "No credit history required").
         *   'notes': (Optional) A very brief note on suitability (e.g., "Good for students.", "Reports to all 3 credit bureaus.").
@@ -112,8 +145,9 @@ const simulateCreditScoreFlow = ai.defineFlow(
     if (output.simulatedCreditScore < 300 || output.simulatedCreditScore > 850) {
         console.warn(`Simulated credit score ${output.simulatedCreditScore} is outside the typical 300-850 range. Clamping it or re-evaluating prompt.`);
         // Example: Clamp score to be within range, or decide if this is an error state
-        // output.simulatedCreditScore = Math.max(300, Math.min(850, output.simulatedCreditScore));
+        output.simulatedCreditScore = Math.max(300, Math.min(850, output.simulatedCreditScore));
     }
     return output;
   }
 );
+
