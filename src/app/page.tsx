@@ -63,7 +63,7 @@ export default function HomePage() {
       href: '/fixed-deposit',
       title: 'Fixed Deposit',
       icon: <Database className="h-8 w-8 text-primary group-hover:text-accent transition-colors" />,
-      description: "Explore fixed deposit options and manage your investments securely. (Coming Soon)"
+      description: "Explore fixed deposit options and calculate potential returns."
     }
   ];
 
@@ -97,21 +97,22 @@ export default function HomePage() {
               delay={200 + (100 * index)}
               className={cn(
                 "h-full",
-                // Center if 1 card in last row of LG (3-col grid)
-                features.length % 3 === 1 && index === features.length - 1 && "lg:col-start-2",
-                // Center if 1 card in last row of SM (2-col grid), and reset for LG
-                features.length % 2 === 1 && index === features.length - 1 && "sm:col-span-2 sm:flex sm:justify-center lg:col-span-1 lg:col-start-auto",
-                 (features.length === 7 && index === features.length - 1) || (features.length === 8 && index >= features.length - 2 && features.length % 3 === 2) ? "lg:col-start-auto" : "",
-                 features.length === 7 && index === features.length -1 && "lg:col-start-2",
-                 features.length === 8 && index === features.length -2 && "lg:col-start-[auto] sm:col-span-1", 
-                 features.length === 8 && index === features.length -1 && "lg:col-start-auto sm:col-span-2 sm:flex sm:justify-center lg:col-span-1"
+                // For a 3-column grid (lg):
+                // If there are 7 features, the last one (index 6) is centered in its row.
+                // (features.length % 3 === 1 && index === features.length - 1) && "lg:col-start-2",
+                // If there are 8 features, the last two (indices 6, 7) are not specially centered in a 3-col grid.
+                // (features.length % 3 === 2 && index >= features.length - 2) is too broad.
+
+                // For a 2-column grid (sm):
+                // If there's an odd number of features, the last one is full-width and centered.
+                (features.length % 2 === 1 && index === features.length - 1) && "sm:col-span-2 sm:flex sm:justify-center"
               )}
             >
               <Link href={feature.href} passHref legacyBehavior>
                 <Card className={cn(
                   "group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary",
-                  features.length % 2 === 1 && index === features.length -1 && "sm:max-w-md w-full",
-                  features.length === 8 && index === features.length -1 && "sm:max-w-md w-full" 
+                  // If it's the single centered item in a 2-column grid, apply max-width.
+                  (features.length % 2 === 1 && index === features.length - 1) && "sm:max-w-md w-full"
                 )}>
                   <CardHeader className="items-center text-center pt-8 pb-4">
                     <div className="p-4 rounded-full bg-primary/10 mb-4 transition-colors group-hover:bg-accent/10">
