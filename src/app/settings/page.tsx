@@ -4,7 +4,7 @@
 import type { Metadata } from 'next';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowLeft, Settings as SettingsIcon, UserCircle, Bell, Languages, Moon, Sun, Trash2, ShieldAlert, ChevronDown } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, UserCircle, Bell, Languages, Moon, Sun, Trash2, ShieldAlert, ChevronDown, Edit3 } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Switch } from "@/components/ui/switch";
@@ -56,12 +56,21 @@ export default function SettingsPage() {
     switch (value) {
       case 'en': languageName = 'English'; break;
       case 'es': languageName = 'Español (Mock)'; break;
-      case 'hi': languageName = 'हिंदी (Hindi - Mock)'; break;
-      case 'kn': languageName = 'ಕನ್ನಡ (Kannada - Mock)'; break;
-      case 'ta': languageName = 'தமிழ் (Tamil - Mock)'; break;
-      case 'te': languageName = 'తెలుగు (Telugu - Mock)'; break;
+      case 'hi': languageName = 'हिंदी (Hindi)'; break;
+      case 'kn': languageName = 'ಕನ್ನಡ (Kannada)'; break;
+      case 'ta': languageName = 'தமிழ் (Tamil)'; break;
+      case 'te': languageName = 'తెలుగు (Telugu)'; break;
     }
     toast({ title: `Language set to ${languageName}`});
+  };
+
+  const handleEditProfile = () => {
+    // Placeholder for actual edit profile functionality
+    // Could open a modal or navigate to an edit profile page
+    toast({
+      title: 'Edit Profile Clicked (Mock)',
+      description: 'This would typically open a profile editing form or page.',
+    });
   };
 
   if (!mounted) {
@@ -101,7 +110,9 @@ export default function SettingsPage() {
                     <Label htmlFor="email">Email Address</Label>
                     <p id="email" className="text-sm text-muted-foreground">john.doe@example.com (Placeholder)</p>
                 </div>
-                 <Button variant="outline" size="sm">Edit Profile (Coming Soon)</Button>
+                 <Button variant="outline" size="sm" onClick={handleEditProfile}>
+                    <Edit3 className="mr-2 h-4 w-4" /> Edit Profile
+                 </Button>
             </CardContent>
         </Card>
       </ScrollReveal>
@@ -132,7 +143,7 @@ export default function SettingsPage() {
                         Get real-time alerts on your device.
                         </span>
                     </Label>
-                    <Switch id="push-notifications" onCheckedChange={(checked) => toast({ title: `Push notifications ${checked ? 'enabled (simulated)' : 'disabled (simulated)'}`}) } />
+                    <Switch id="push-notifications" onCheckedChange={(checked) => toast({ title: `Push notifications ${checked ? 'enabled' : 'disabled'}`}) } />
                 </div>
             </CardContent>
         </Card>
@@ -156,11 +167,11 @@ export default function SettingsPage() {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="en">English</SelectItem>
-                            <SelectItem value="es" disabled>Español (Coming Soon)</SelectItem>
-                            <SelectItem value="hi" disabled>हिंदी (Hindi - Coming Soon)</SelectItem>
-                            <SelectItem value="kn" disabled>ಕನ್ನಡ (Kannada - Coming Soon)</SelectItem>
-                            <SelectItem value="ta" disabled>தமிழ் (Tamil - Coming Soon)</SelectItem>
-                            <SelectItem value="te" disabled>తెలుగు (Telugu - Coming Soon)</SelectItem>
+                            <SelectItem value="es">Español (Mock)</SelectItem>
+                            <SelectItem value="hi">हिंदी (Hindi)</SelectItem>
+                            <SelectItem value="kn">ಕನ್ನಡ (Kannada)</SelectItem>
+                            <SelectItem value="ta">தமிழ் (Tamil)</SelectItem>
+                            <SelectItem value="te">తెలుగు (Telugu)</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
