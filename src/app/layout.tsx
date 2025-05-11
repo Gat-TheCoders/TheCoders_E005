@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/layout/header';
 import { SecondaryNavbar } from '@/components/layout/secondary-navbar'; // Import SecondaryNavbar
 import { FinancialChatbot } from '@/components/chat/financial-chatbot'; // Import the chatbot
+import { Footer } from '@/components/layout/footer'; // Import Footer
 
 export const metadata: Metadata = {
   title: 'Own Finance',
@@ -26,6 +27,7 @@ export default function RootLayout({
           {children}
         </main>
         <FinancialChatbot /> {/* Add chatbot here */}
+        <Footer /> {/* Add Footer here */}
         <Toaster />
       </body>
     </html>
