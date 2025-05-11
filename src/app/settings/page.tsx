@@ -104,11 +104,11 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
                 <div className="flex flex-col space-y-1">
                     <Label htmlFor="name">Full Name</Label>
-                    <p id="name" className="text-sm text-muted-foreground">John Doe (Placeholder)</p>
+                    <p id="name" className="text-sm text-muted-foreground">John Doe</p>
                 </div>
                 <div className="flex flex-col space-y-1">
                     <Label htmlFor="email">Email Address</Label>
-                    <p id="email" className="text-sm text-muted-foreground">john.doe@example.com (Placeholder)</p>
+                    <p id="email" className="text-sm text-muted-foreground">john.doe@example.com</p>
                 </div>
                  <Button variant="outline" size="sm" onClick={handleEditProfile}>
                     <Edit3 className="mr-2 h-4 w-4" /> Edit Profile
