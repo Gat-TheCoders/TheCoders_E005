@@ -1,6 +1,6 @@
+
 'use client';
 
-import type { Metadata } from 'next';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowLeft, Receipt, Construction, Lightbulb, Droplets, Wifi, Flame, Tv2 } from "lucide-react";
@@ -8,12 +8,8 @@ import { ScrollReveal } from '@/components/utils/scroll-reveal';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
-// Note: Metadata export is still fine in client components for Next.js App Router
-// It will be statically extracted during build time.
-export const metadata: Metadata = {
-  title: 'Bill Payment | Own Finance',
-  description: 'Manage and pay your bills securely and conveniently through Own Finance.',
-};
+// Metadata removed from client component.
+// If metadata is needed, it should be defined in a Server Component or layout file.
 
 const billCategories = [
   { name: "Electricity Bill", icon: Lightbulb, amount: "1,250.00", dueDate: "15th Jul 2024", status: "Pending", provider: "Adani Electricity" },
@@ -110,3 +106,4 @@ export default function BillPaymentPage() {
     </div>
   );
 }
+
