@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview Simulates a credit score based on transaction and mobile usage patterns,
+ * @fileOverview Simulates a credit score based on transaction patterns,
  * provides benefits of good credit, and suggests potentially eligible cards.
  *
  * - simulateCreditScore - A function that simulates the credit score and related information.
@@ -18,10 +18,6 @@ const CreditScoreSimulationInputSchema = z.object({
     .string({ required_error: "Transaction patterns description is required."})
     .min(5, { message: "Please provide a detailed description of transaction patterns (min 5 characters)." })
     .describe('Detailed description of transaction patterns, including frequency, amounts, and types of transactions.'),
-  mobileUsagePatterns: z
-    .string({ required_error: "Mobile usage patterns description is required."})
-    .min(5, { message: "Please provide a detailed description of mobile usage patterns (min 5 characters)." })
-    .describe('Detailed description of mobile usage patterns, including data consumption, app usage, and call/message frequency.'),
   bankName: z
     .string()
     .optional()
@@ -97,7 +93,6 @@ The simulated credit score should be a number between 300 and 850.
 
 Analyze the following user inputs:
 - Transaction Patterns: {{{transactionPatterns}}}
-- Mobile Usage Patterns: {{{mobileUsagePatterns}}}
 {{#if bankName}}- Primary Bank Name: {{{bankName}}}{{/if}}
 - Payment History: {{{paymentHistory}}}
 {{#if creditUtilization}}- Credit Utilization (%): {{{creditUtilization}}}%{{else}}- Credit Utilization (%): Not Specified{{/if}}
@@ -107,7 +102,7 @@ Analyze the following user inputs:
 
 Based on this comprehensive analysis, provide the following information:
 1.  **Simulated Credit Score (simulatedCreditScore)**: The estimated numerical credit score.
-2.  **Factors Influencing Score (factorsInfluencingScore)**: Explain the key factors derived from ALL inputs that influenced this simulated score. Specifically mention how payment history, credit utilization (low is good, high is bad), length of credit history (longer is generally better), credit mix (diverse and well-managed is good), and new credit (too much new credit can be negative) contributed. Also consider the transaction and mobile usage patterns.
+2.  **Factors Influencing Score (factorsInfluencingScore)**: Explain the key factors derived from ALL inputs that influenced this simulated score. Specifically mention how payment history, credit utilization (low is good, high is bad), length of credit history (longer is generally better), credit mix (diverse and well-managed is good), and new credit (too much new credit can be negative) contributed. Also consider the transaction patterns.
 3.  **Benefits of a Good Credit Score (benefitsOfGoodCreditScore)**: Provide 3-4 general benefits of maintaining a good credit score, formatted as bullet points (e.g., "- Better interest rates on loans and credit cards.").
 4.  **Eligible Card Suggestions (eligibleCards)**: Based *only* on the *simulatedCreditScore*, suggest 1-3 specific, recognizable credit or debit cards that someone with such a score might typically be eligible for.
     *   If the simulated score is low (e.g., below 600-650), prioritize secured credit cards or debit cards suitable for credit building.

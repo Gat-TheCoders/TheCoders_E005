@@ -21,7 +21,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const formSchema = z.object({
   transactionPatterns: z.string().min(5, { message: "Transaction patterns: min 5 characters." }),
-  mobileUsagePatterns: z.string().min(5, { message: "Mobile usage patterns: min 5 characters." }),
   bankName: z.string().optional().or(z.literal('')),
   paymentHistory: z.string().min(10, { message: "Payment history: min 10 characters." }),
   creditUtilization: z.coerce
@@ -45,7 +44,6 @@ export function CreditScoreSimulator() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       transactionPatterns: '',
-      mobileUsagePatterns: '',
       bankName: '',
       paymentHistory: '',
       creditUtilization: undefined, 
@@ -61,6 +59,7 @@ export function CreditScoreSimulator() {
 
     const processedValues: CreditScoreSimulationInput = {
         ...values,
+        // mobileUsagePatterns is removed
         creditUtilization: values.creditUtilization === undefined ? undefined : Number(values.creditUtilization),
         bankName: values.bankName === '' ? undefined : values.bankName,
         lengthOfCreditHistory: values.lengthOfCreditHistory === '' ? undefined : values.lengthOfCreditHistory,
@@ -213,23 +212,6 @@ export function CreditScoreSimulator() {
                   <FormControl>
                     <Textarea
                       placeholder="e.g., Frequent small online purchases, monthly utility bill payments, occasional large transfers..."
-                      className="resize-y min-h-[100px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="mobileUsagePatterns"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex items-center"><ListTree className="mr-2 h-4 w-4 text-muted-foreground" />Mobile Usage Patterns</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="e.g., High data consumption on streaming apps, regular use of banking apps, low call frequency..."
                       className="resize-y min-h-[100px]"
                       {...field}
                     />
