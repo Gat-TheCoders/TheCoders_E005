@@ -1,3 +1,4 @@
+'use client';
 
 import type { Metadata } from 'next';
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,8 @@ import { ScrollReveal } from '@/components/utils/scroll-reveal';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
+// Note: Metadata export is still fine in client components for Next.js App Router
+// It will be statically extracted during build time.
 export const metadata: Metadata = {
   title: 'Bill Payment | Own Finance',
   description: 'Manage and pay your bills securely and conveniently through Own Finance.',
@@ -107,4 +110,3 @@ export default function BillPaymentPage() {
     </div>
   );
 }
-
