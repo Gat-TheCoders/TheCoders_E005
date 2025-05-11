@@ -25,8 +25,8 @@ const nextConfig: NextConfig = {
     },
   },
   webpack: (config, { isServer }) => {
-    // Fix for "Module not found: Can't resolve 'async_hooks'"
-    // This error occurs when a Node.js specific module is attempted to be bundled for the client.
+    // Fix for "Module not found: Can't resolve 'async_hooks'" and "Module not found: Can't resolve 'fs'"
+    // These errors occur when Node.js specific modules are attempted to be bundled for the client.
     // OpenTelemetry (used by Genkit) might be causing this.
     // Note: This webpack configuration is standard for Webpack-based builds.
     // If using Turbopack, its handling of fallbacks might differ.
@@ -36,6 +36,7 @@ const nextConfig: NextConfig = {
         fallback: {
           ...(config.resolve?.fallback || {}), // Preserve existing fallbacks or use empty obj
           async_hooks: false, // Provide an empty module for client bundles
+          fs: false, // Provide an empty module for 'fs'
         },
       };
     }

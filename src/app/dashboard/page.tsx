@@ -15,7 +15,7 @@ import {
   Sigma
 } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'; // Added CardFooter
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
