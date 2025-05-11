@@ -3,11 +3,11 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'; // Corrected import order
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
 import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Database, SlidersHorizontal, Receipt, Lightbulb, FileText, PackageSearch, Cog } from 'lucide-react';
 import Image from 'next/image';
-import { cn } from '@/lib/utils'; // Added import for cn
+import { cn } from '@/lib/utils';
 
 interface CardLinkProps {
   href: string;
@@ -52,11 +52,7 @@ export default function HomePage() {
               <p className="mt-6 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
                 Empowering you with AI-driven insights to navigate your financial journey. Explore our tools to simulate credit scores, generate personalized savings plans, assess loan eligibility, and more.
               </p>
-              <div className="mt-10">
-                <Button size="lg" asChild className="animated-bg-gradient text-lg px-8 py-6">
-                  <Link href="/dashboard">Get Started</Link>
-                </Button>
-              </div>
+              {/* "Get Started" button removed from here */}
             </div>
           </section>
         </ScrollReveal>
