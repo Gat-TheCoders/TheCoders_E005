@@ -1,11 +1,10 @@
-
 'use client';
 
 import { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Database, DollarSign, CalendarClock, TrendingUp, Loader2, Info, Percent } from 'lucide-react';
+import { Database, DollarSign, CalendarClock, TrendingUp, Loader2, Info, Percent, Wallet } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -98,6 +97,16 @@ export function FixedDepositForm() {
       title: 'Fixed Deposit Calculated',
       description: 'Potential returns have been estimated.',
     });
+  };
+
+  const handleCreateFdSimulation = () => {
+    if (calculationResult) {
+      toast({
+        title: "Fixed Deposit Creation Simulated",
+        description: `Simulating creation of a Fixed Deposit for ₹${calculationResult.principal.toLocaleString('en-IN')} from your digital wallet. This is a mock transaction.`,
+        variant: "default"
+      });
+    }
   };
 
   return (
@@ -193,6 +202,19 @@ export function FixedDepositForm() {
               <p className="text-sm text-muted-foreground">Maturity Amount (Principal + Interest)</p>
               <p className="text-2xl font-bold text-accent">₹{calculationResult.maturityAmount.toLocaleString('en-IN')}</p>
             </div>
+          </div>
+
+          <div className="mt-6">
+            <Button 
+              onClick={handleCreateFdSimulation} 
+              className="w-full animated-bg-gradient"
+              disabled={isLoading}
+            >
+              <Wallet className="mr-2 h-4 w-4" /> Create Fixed Deposit (Simulated)
+            </Button>
+            <p className="text-xs text-muted-foreground mt-2 text-center">
+              This will simulate creating an FD with the principal amount from your digital wallet.
+            </p>
           </div>
           
           <Alert variant="default" className="mt-6 bg-primary/5 border-primary/20">
