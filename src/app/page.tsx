@@ -32,7 +32,7 @@ function CardLink({ href, icon, title, description, className }: CardLinkProps) 
         <CardDescription className="text-xs text-muted-foreground">{description}</CardDescription>
       </CardContent>
       <CardFooter className="p-4 pt-0 text-center justify-center">
-          <Button variant="outline" size="sm" className="font-semibold text-primary group-hover:text-accent group-hover:border-accent transition-colors animated-bg-gradient hover:text-primary-foreground group-hover:text-accent-foreground">
+          <Button variant="outline" size="sm" className="font-semibold text-primary-foreground transition-colors animated-bg-gradient hover:text-accent-foreground group-hover:text-accent-foreground group-hover:border-accent">
             Explore Feature <ArrowRight className="ml-2 h-3 w-3 transition-transform group-hover:translate-x-1" />
           </Button>
       </CardFooter>
@@ -150,7 +150,6 @@ export default function HomePage() {
                 />
               </ScrollReveal>
             </div>
-             {/* Removed Suggested Investment CardLink from here */}
           </div>
         </section>
 
