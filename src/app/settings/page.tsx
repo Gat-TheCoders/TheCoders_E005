@@ -51,6 +51,19 @@ export default function SettingsPage() {
     });
   };
 
+  const handleLanguageChange = (value: string) => {
+    let languageName = 'English';
+    switch (value) {
+      case 'en': languageName = 'English'; break;
+      case 'es': languageName = 'Español (Mock)'; break;
+      case 'hi': languageName = 'हिंदी (Hindi - Mock)'; break;
+      case 'kn': languageName = 'ಕನ್ನಡ (Kannada - Mock)'; break;
+      case 'ta': languageName = 'தமிழ் (Tamil - Mock)'; break;
+      case 'te': languageName = 'తెలుగు (Telugu - Mock)'; break;
+    }
+    toast({ title: `Language set to ${languageName}`});
+  };
+
   if (!mounted) {
     // Avoid rendering UI that depends on theme before hydration
     return <div className="container mx-auto py-8 px-4 md:px-6 lg:px-8 flex items-center justify-center min-h-[calc(100vh-10rem)]"><SettingsIcon className="h-16 w-16 text-primary animate-spin-slow" /></div>;
@@ -137,13 +150,17 @@ export default function SettingsPage() {
             <CardContent className="space-y-6">
                 <div className="flex items-center justify-between">
                     <Label htmlFor="language" className="flex-shrink-0 mr-4">Language</Label>
-                    <Select defaultValue="en" onValueChange={(value) => toast({ title: `Language set to ${value === 'en' ? 'English' : 'Spanish (Mock)'}`})}>
-                        <SelectTrigger className="w-[180px]">
+                    <Select defaultValue="en" onValueChange={handleLanguageChange}>
+                        <SelectTrigger className="w-[220px] sm:w-[180px]">
                             <SelectValue placeholder="Select language" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="en">English</SelectItem>
                             <SelectItem value="es" disabled>Español (Coming Soon)</SelectItem>
+                            <SelectItem value="hi" disabled>हिंदी (Hindi - Coming Soon)</SelectItem>
+                            <SelectItem value="kn" disabled>ಕನ್ನಡ (Kannada - Coming Soon)</SelectItem>
+                            <SelectItem value="ta" disabled>தமிழ் (Tamil - Coming Soon)</SelectItem>
+                            <SelectItem value="te" disabled>తెలుగు (Telugu - Coming Soon)</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
