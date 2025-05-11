@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -169,20 +168,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Continuous Improvement Section */}
-        <ScrollReveal delay={500}>
-          <section className="py-12 md:py-20 bg-primary/5">
-            <div className="container mx-auto px-4 md:px-6 text-center">
-              <Cog className="h-12 w-12 text-primary mx-auto mb-4 animate-spin-slow" />
-              <h3 className="text-2xl font-semibold text-primary mb-3">Continuous Improvement</h3>
-              <p className="text-foreground/70 max-w-xl mx-auto">
-                Own Finance is constantly evolving. We are committed to adding new features and enhancing existing tools to provide you with the best financial companion.
-              </p>
-            </div>
-          </section>
-        </ScrollReveal>
       </main>
     </div>
   );
 }
-
