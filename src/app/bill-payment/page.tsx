@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowLeft, Receipt, Construction, Lightbulb, Droplets, Wifi, Flame, Tv2 } from "lucide-react";
+import { ArrowLeft, Receipt, Lightbulb, Droplets, Wifi, Flame, Tv2 } from "lucide-react";
 import { ScrollReveal } from '@/components/utils/scroll-reveal';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -84,7 +84,6 @@ export default function BillPaymentPage() {
                 ))}
 
                 <div className="mt-8 text-center">
-                     <Construction className="h-12 w-12 text-muted-foreground/50 mx-auto mb-2" />
                     <p className="text-sm text-muted-foreground">
                         Automatic bill fetching and full payment gateway integration are under development.
                     </p>
