@@ -55,7 +55,6 @@ export default function SettingsPage() {
     let languageName = 'English';
     switch (value) {
       case 'en': languageName = 'English'; break;
-      case 'es': languageName = 'Español (Mock)'; break;
       case 'hi': languageName = 'हिंदी (Hindi)'; break;
       case 'kn': languageName = 'ಕನ್ನಡ (Kannada)'; break;
       case 'ta': languageName = 'தமிழ் (Tamil)'; break;
@@ -167,7 +166,6 @@ export default function SettingsPage() {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="en">English</SelectItem>
-                            <SelectItem value="es">Español (Mock)</SelectItem>
                             <SelectItem value="hi">हिंदी (Hindi)</SelectItem>
                             <SelectItem value="kn">ಕನ್ನಡ (Kannada)</SelectItem>
                             <SelectItem value="ta">தமிழ் (Tamil)</SelectItem>
