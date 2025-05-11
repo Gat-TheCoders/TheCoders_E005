@@ -7,7 +7,7 @@ import { useScrollY } from '@/hooks/use-scroll-y';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, LifeBuoy, Phone, X } from 'lucide-react'; // Added X, removed Home
+import { Search, LifeBuoy, Phone, X } from 'lucide-react'; 
 import { useState } from 'react';
 
 export function Header() {
@@ -38,7 +38,7 @@ export function Header() {
                   if (e.key === 'Enter') {
                     // Placeholder for actual search submission
                     // For now, could close search or navigate to a search page with query
-                    console.log('Search submitted:', (e.target as HTMLInputElement).value);
+                    // console.log('Search submitted:', (e.target as HTMLInputElement).value); // Removed console.log
                     setIsSearchOpen(false); // Example: close on enter
                   } else if (e.key === 'Escape') {
                     setIsSearchOpen(false);
@@ -98,3 +98,4 @@ export function Header() {
     </header>
   );
 }
+

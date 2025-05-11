@@ -36,7 +36,7 @@ export function LoginForm() {
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     setIsLoading(true);
-    console.log('Login Data Submitted:', data);
+    // console.log('Login Data Submitted:', data); // Removed console.log
     // Simulate API call for login
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsLoading(false);
@@ -108,3 +108,4 @@ export function LoginForm() {
     </Card>
   );
 }
+

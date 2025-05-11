@@ -218,7 +218,7 @@ export function OpenAccountKycForm() {
 
   const onSubmit: SubmitHandler<KycFormValues> = async (data) => {
     setIsLoading(true);
-    console.log('KYC Data Submitted:', data);
+    // console.log('KYC Data Submitted:', data); // Removed console.log
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsLoading(false);
@@ -490,3 +490,4 @@ export function OpenAccountKycForm() {
     </Card>
   );
 }
+

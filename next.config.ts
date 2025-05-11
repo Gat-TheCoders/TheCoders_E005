@@ -25,22 +25,26 @@ const nextConfig: NextConfig = {
     },
   },
   webpack: (config, { isServer }) => {
-    // Fix for "Module not found: Can't resolve 'async_hooks'", "Module not found: Can't resolve 'fs'", "Module not found: Can't resolve 'tls'", "Module not found: Can't resolve 'net'", "Module not found: Can't resolve 'http2'", and "Module not found: Can't resolve 'dns'"
+    // Fix for "Module not found: Can't resolve 'async_hooks'", "Module not found: Can't resolve 'fs'", etc.
     // These errors occur when Node.js specific modules are attempted to be bundled for the client.
     // OpenTelemetry (used by Genkit) might be causing this.
-    // Note: This webpack configuration is standard for Webpack-based builds.
-    // If using Turbopack, its handling of fallbacks might differ.
     if (!isServer) {
       config.resolve = {
-        ...(config.resolve || {}), // Preserve existing resolve config or use empty obj if undefined
+        ...(config.resolve || {}), 
         fallback: {
-          ...(config.resolve?.fallback || {}), // Preserve existing fallbacks or use empty obj
-          async_hooks: false, // Provide an empty module for client bundles
-          fs: false, // Provide an empty module for 'fs'
-          tls: false, // Provide an empty module for 'tls'
-          net: false, // Provide an empty module for 'net'
-          http2: false, // Provide an empty module for 'http2'
-          dns: false, // Provide an empty module for 'dns'
+          ...(config.resolve?.fallback || {}), 
+          async_hooks: false,
+          "node:async_hooks": false,
+          fs: false,
+          "node:fs": false,
+          tls: false,
+          "node:tls": false,
+          net: false,
+          "node:net": false,
+          http2: false,
+          "node:http2": false,
+          dns: false,
+          "node:dns": false,
         },
       };
     }
@@ -49,4 +53,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-

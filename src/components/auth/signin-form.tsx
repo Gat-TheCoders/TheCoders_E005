@@ -42,7 +42,7 @@ export function SignInForm() {
 
   const onSubmit: SubmitHandler<SignInFormValues> = async (data) => {
     setIsLoading(true);
-    console.log('Sign In Data Submitted:', data);
+    // console.log('Sign In Data Submitted:', data); // Removed console.log
     // Simulate API call for sign-in
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsLoading(false);

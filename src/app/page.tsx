@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
-import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Database, SlidersHorizontal, Receipt, Lightbulb, FileText, PackageSearch, Cog } from 'lucide-react';
-import Image from 'next/image';
+import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Database, SlidersHorizontal, Receipt, FileText, Lightbulb } from 'lucide-react';
+// import Image from 'next/image'; // Removed unused import
 import { cn } from '@/lib/utils';
 import { SuggestedInvestmentCard } from '@/components/dashboard/suggested-investment-card';
 
@@ -20,7 +20,7 @@ interface CardLinkProps {
 
 function CardLink({ href, icon, title, description, className }: CardLinkProps) {
   return (
-    <Link href={href} className={cn("group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary bg-card", className)}>
+    <Link href={href} className={cn("group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-accent bg-card", className)}>
       <CardHeader className="items-center text-center pt-8 pb-4">
         <div className="p-4 bg-primary/10 rounded-full mb-3 transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-accent/10">
           {icon}
@@ -172,3 +172,4 @@ export default function HomePage() {
     </div>
   );
 }
+
