@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -18,7 +19,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const formSchema = z.object({
   transactionPatterns: z.string().min(5, { message: "Please provide a detailed description of transaction patterns (min 5 characters)." }),
-  mobileUsagePatterns: z.string().min(50, { message: "Please provide a detailed description of mobile usage patterns (min 50 characters)." }),
+  mobileUsagePatterns: z.string().min(5, { message: "Please provide a detailed description of mobile usage patterns (min 5 characters)." }),
 });
 
 export function CreditScoreSimulator() {

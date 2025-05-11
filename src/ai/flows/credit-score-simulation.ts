@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -19,7 +20,7 @@ const CreditScoreSimulationInputSchema = z.object({
     .describe('Detailed description of transaction patterns, including frequency, amounts, and types of transactions.'),
   mobileUsagePatterns: z
     .string({ required_error: "Mobile usage patterns description is required."})
-    .min(50, { message: "Please provide a detailed description of mobile usage patterns (min 50 characters)." })
+    .min(5, { message: "Please provide a detailed description of mobile usage patterns (min 5 characters)." })
     .describe('Detailed description of mobile usage patterns, including data consumption, app usage, and call/message frequency.'),
 });
 export type CreditScoreSimulationInput = z.infer<typeof CreditScoreSimulationInputSchema>;
