@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
         fallback: {
           ...(config.resolve?.fallback || {}), 
           async_hooks: false,
-          "node:async_hooks": false,
+          "node:async_hooks": false, // Added explicit fallback for node:async_hooks
           fs: false,
           "node:fs": false,
           tls: false,
@@ -53,3 +53,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

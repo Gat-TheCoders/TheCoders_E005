@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
-import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Database, SlidersHorizontal, Receipt, FileText, Lightbulb } from 'lucide-react';
+import { TrendingUp, Landmark, Users, Wallet, ArrowRight, Database, SlidersHorizontal, Receipt, FileText, Lightbulb, PiggyBank } from 'lucide-react';
 // import Image from 'next/image'; // Removed unused import
 import { cn } from '@/lib/utils';
 import { SuggestedInvestmentCard } from '@/components/dashboard/suggested-investment-card';
