@@ -28,20 +28,18 @@ const formSchema = z.object({
   desiredLoanAmount: z
     .coerce.number({invalid_type_error: "Desired loan amount must be a number."})
     .positive({message: "Desired loan amount must be a positive number."})
-    .optional()
-    .or(z.literal('')), // Allow empty string
+    .optional(),
   loanPurpose: z
     .string()
     .min(3, {message: "Loan purpose should be at least 3 characters."})
     .optional()
-    .or(z.literal('')), // Allow empty string
+    .or(z.literal('')), // Allow empty string for optional text area
   creditScoreEstimate: z
     .enum(['Excellent (750+)', 'Good (700-749)', 'Fair (650-699)', 'Poor (Below 650)', 'Unknown'], {required_error: "Credit score estimate is required."}),
   existingMonthlyDebtPayments: z
     .coerce.number({invalid_type_error: "Existing monthly debt must be a number."})
     .nonnegative({message: "Existing monthly debt payments cannot be negative."})
-    .optional()
-    .or(z.literal('')), // Allow empty string
+    .optional(),
 });
 
 
@@ -53,23 +51,23 @@ export function BankLoanEligibility() {
   const form = useForm<BankLoanEligibilityInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      monthlyIncome: '' as unknown as number,
+      monthlyIncome: undefined,
       employmentStatus: undefined,
-      desiredLoanAmount: '' as unknown as number,
+      desiredLoanAmount: undefined,
       loanPurpose: '',
       creditScoreEstimate: undefined,
-      existingMonthlyDebtPayments: '' as unknown as number,
+      existingMonthlyDebtPayments: undefined,
     },
   });
 
   const onSubmit: SubmitHandler<BankLoanEligibilityInput> = async (values) => {
     setIsLoading(true);
     setEligibilityResult(null);
-    // Ensure optional empty strings are converted to undefined if AI flow expects number | undefined
+    
     const processedValues = {
         ...values,
-        desiredLoanAmount: values.desiredLoanAmount === '' ? undefined : Number(values.desiredLoanAmount),
-        existingMonthlyDebtPayments: values.existingMonthlyDebtPayments === '' ? undefined : Number(values.existingMonthlyDebtPayments),
+        loanPurpose: values.loanPurpose === '' ? undefined : values.loanPurpose,
+        // Numeric values are already numbers or undefined due to form handling
     };
     const result = await handleAssessLoanEligibility(processedValues);
     setIsLoading(false);
@@ -123,7 +121,7 @@ export function BankLoanEligibility() {
                   <FormItem>
                     <FormLabel className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 50000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 50000" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -160,7 +158,7 @@ export function BankLoanEligibility() {
                   <FormItem>
                     <FormLabel className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-muted-foreground" />Desired Loan Amount (₹) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 500000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 500000" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -196,7 +194,7 @@ export function BankLoanEligibility() {
                 <FormItem>
                   <FormLabel className="flex items-center"><Wallet className="mr-2 h-4 w-4 text-muted-foreground" />Existing Monthly Debt Payments (₹) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 10000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                    <Input type="number" placeholder="e.g., 10000" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

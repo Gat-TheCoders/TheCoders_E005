@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -27,7 +28,7 @@ export function PersonalizedSavingsPlanForm() {
   const form = useForm<PersonalizedSavingsPlanInput>({
     resolver: zodResolver(PersonalizedSavingsPlanInputSchema),
     defaultValues: {
-      monthlyIncome: undefined, // Using undefined for empty number fields controlled by react-hook-form
+      monthlyIncome: undefined,
       monthlyExpenses: undefined,
       customGoals: [{ goalName: '', targetAmount: undefined, targetDate: '', currentAmount: undefined }],
     },
@@ -41,17 +42,18 @@ export function PersonalizedSavingsPlanForm() {
   const onSubmit: SubmitHandler<PersonalizedSavingsPlanInput> = async (values) => {
     setIsLoading(true);
     setPlanResult(null);
-
-    // Ensure numeric fields that might be empty strings are converted to numbers or undefined
+    
     const processedValues: PersonalizedSavingsPlanInput = {
       ...values,
+      // monthlyIncome and monthlyExpenses are already numbers due to z.coerce.number and RHF handling
+      // but ensuring they are numbers before sending if needed.
       monthlyIncome: Number(values.monthlyIncome),
       monthlyExpenses: Number(values.monthlyExpenses),
       customGoals: values.customGoals.map(goal => ({
         ...goal,
         targetAmount: Number(goal.targetAmount),
-        currentAmount: goal.currentAmount === undefined || goal.currentAmount === null || (typeof goal.currentAmount === 'string' && goal.currentAmount.trim() === '') ? 0 : Number(goal.currentAmount),
-        targetDate: goal.targetDate || undefined, // Ensure empty string becomes undefined for optional
+        currentAmount: goal.currentAmount === undefined || goal.currentAmount === null ? 0 : Number(goal.currentAmount),
+        targetDate: goal.targetDate || undefined, 
       })),
     };
     
@@ -94,7 +96,7 @@ export function PersonalizedSavingsPlanForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
-                    <FormControl><Input type="number" placeholder="e.g., 50000" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} value={field.value ?? ''} /></FormControl>
+                    <FormControl><Input type="number" placeholder="e.g., 50000" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -105,7 +107,7 @@ export function PersonalizedSavingsPlanForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Expenses (₹)</FormLabel>
-                    <FormControl><Input type="number" placeholder="e.g., 30000" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} value={field.value ?? ''} /></FormControl>
+                    <FormControl><Input type="number" placeholder="e.g., 30000" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -147,7 +149,7 @@ export function PersonalizedSavingsPlanForm() {
                         render={({ field: f }) => (
                             <FormItem>
                             <FormLabel className="text-sm flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Target Amount (₹)</FormLabel>
-                            <FormControl><Input type="number" placeholder="e.g., 50000" {...f} onChange={e => f.onChange(parseFloat(e.target.value))} value={f.value ?? ''} /></FormControl>
+                            <FormControl><Input type="number" placeholder="e.g., 50000" {...f} value={f.value ?? ''} onChange={e => f.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} /></FormControl>
                             <FormMessage />
                             </FormItem>
                         )}
@@ -158,7 +160,7 @@ export function PersonalizedSavingsPlanForm() {
                         render={({ field: f }) => (
                             <FormItem>
                             <FormLabel className="text-sm flex items-center"><PiggyBank className="mr-2 h-4 w-4 text-muted-foreground" />Currently Saved (₹) <span className="text-xs ml-1">(Optional)</span></FormLabel>
-                            <FormControl><Input type="number" placeholder="e.g., 10000" {...f} onChange={e => f.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} value={f.value ?? ''} /></FormControl>
+                            <FormControl><Input type="number" placeholder="e.g., 10000" {...f} value={f.value ?? ''} onChange={e => f.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} /></FormControl>
                             <FormMessage />
                             </FormItem>
                         )}
@@ -276,3 +278,4 @@ export function PersonalizedSavingsPlanForm() {
     </Card>
   );
 }
+

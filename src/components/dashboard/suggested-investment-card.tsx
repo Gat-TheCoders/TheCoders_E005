@@ -25,8 +25,7 @@ const formSchema = z.object({
   investmentCapacity: z.coerce
     .number({ invalid_type_error: 'Investment capacity must be a number.' })
     .positive({ message: 'Investment capacity must be a positive number.' })
-    .optional()
-    .or(z.literal('')), // Allow empty string for optional number field
+    .optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -50,9 +49,7 @@ export function SuggestedInvestmentCard() {
     
     const processedValues: SuggestedInvestmentInput = {
       monthlyIncome: Number(values.monthlyIncome),
-      investmentCapacity: values.investmentCapacity === '' || values.investmentCapacity === undefined 
-                          ? undefined 
-                          : Number(values.investmentCapacity),
+      investmentCapacity: values.investmentCapacity === undefined ? undefined : Number(values.investmentCapacity),
     };
 
     const result = await handleSuggestInvestment(processedValues);
@@ -105,7 +102,7 @@ export function SuggestedInvestmentCard() {
                 <FormItem>
                   <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 50000" {...field} value={field.value ?? ""} />
+                    <Input type="number" placeholder="e.g., 50000" {...field} value={field.value ?? ""} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,7 +115,7 @@ export function SuggestedInvestmentCard() {
                 <FormItem>
                   <FormLabel className="flex items-center"><Briefcase className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Investment Capacity (₹) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 10000" {...field} value={field.value ?? ""} />
+                    <Input type="number" placeholder="e.g., 10000" {...field} value={field.value ?? ""} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

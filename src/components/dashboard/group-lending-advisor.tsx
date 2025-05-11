@@ -44,8 +44,8 @@ export function GroupLendingAdvisor() {
   const form = useForm<GroupLendingAdvisorInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      groupSize: '' as unknown as number,
-      totalPooledFundTarget: '' as unknown as number,
+      groupSize: undefined,
+      totalPooledFundTarget: undefined,
       groupPurpose: '',
       memberContributionFrequency: undefined,
       groupRiskProfile: undefined,
@@ -55,7 +55,13 @@ export function GroupLendingAdvisor() {
   const onSubmit: SubmitHandler<GroupLendingAdvisorInput> = async (values) => {
     setIsLoading(true);
     setAdviceResult(null);
-    const result = await handleAdviseOnGroupLending(values);
+
+    const processedValues = {
+        ...values,
+        groupSize: Number(values.groupSize),
+        totalPooledFundTarget: Number(values.totalPooledFundTarget),
+    };
+    const result = await handleAdviseOnGroupLending(processedValues);
     setIsLoading(false);
 
     if ('error' in result) {
@@ -114,7 +120,7 @@ export function GroupLendingAdvisor() {
                   <FormItem>
                     <FormLabel className="flex items-center"><Users className="mr-2 h-4 w-4 text-muted-foreground" />Group Size (Members)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 10" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 10" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseInt(e.target.value, 10))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -127,7 +133,7 @@ export function GroupLendingAdvisor() {
                   <FormItem>
                     <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Total Pooled Fund Target (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 50000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 50000" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

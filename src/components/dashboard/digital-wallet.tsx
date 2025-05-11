@@ -58,8 +58,8 @@ export function DigitalWallet() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       currentSituation: '',
-      monthlyIncome: '' as unknown as number,
-      householdSize: '' as unknown as number,
+      monthlyIncome: undefined,
+      householdSize: undefined,
       reasonForSupport: undefined,
     },
   });
@@ -100,8 +100,14 @@ export function DigitalWallet() {
   const onSubmit: SubmitHandler<CommunitySupportAdvisorInput> = async (values) => {
     setIsLoading(true);
     setSupportResult(null);
-    setAnimatedBalance(0); // Reset animated balance on new submission
-    const result = await handleSimulateCommunitySupport(values);
+    setAnimatedBalance(0); 
+    
+    const processedValues = {
+        ...values,
+        monthlyIncome: Number(values.monthlyIncome),
+        householdSize: Number(values.householdSize),
+    };
+    const result = await handleSimulateCommunitySupport(processedValues);
     setIsLoading(false);
 
     if ('error' in result) {
@@ -158,7 +164,7 @@ export function DigitalWallet() {
                   <FormItem>
                     <FormLabel className="flex items-center"><CircleDollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 15000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 15000" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -171,7 +177,7 @@ export function DigitalWallet() {
                   <FormItem>
                     <FormLabel className="flex items-center"><Users className="mr-2 h-4 w-4 text-muted-foreground" />Household Size</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 3" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                      <Input type="number" placeholder="e.g., 3" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseInt(e.target.value, 10))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -219,7 +225,7 @@ export function DigitalWallet() {
               </div>
             <AlertDescription className="mt-2">
               <p className="text-2xl font-bold text-accent">
-                Simulated Credit: ₹{animatedBalance.toFixed(2)}
+                Simulated Credit: ₹{animatedBalance.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
               <p className="text-sm text-muted-foreground mt-1">This amount has been hypothetically credited to your simulated digital wallet by the AI Community Support Advisor.</p>
             </AlertDescription>

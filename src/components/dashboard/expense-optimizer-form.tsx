@@ -19,7 +19,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const formSchema = z.object({
-  monthlyIncome: z.coerce.number().positive({ message: "Monthly income must be a positive number." }),
+  monthlyIncome: z.coerce.number({invalid_type_error: "Monthly income must be a number.", required_error: "Monthly income is required."}).positive({ message: "Monthly income must be a positive number." }),
   transactionHistoryDescription: z
     .string({ required_error: "Transaction history description is required."})
     .min(50, { message: "Please provide a detailed description of your transaction history (min 50 characters)." }),
@@ -34,7 +34,7 @@ export function ExpenseOptimizerForm() {
   const form = useForm<ExpenseOptimizerInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      monthlyIncome: '' as unknown as number, // Initialize with empty string
+      monthlyIncome: undefined, 
       transactionHistoryDescription: '',
       savingsGoals: '',
     },
@@ -44,7 +44,13 @@ export function ExpenseOptimizerForm() {
     setIsLoading(true);
     setAnalysisResult(null);
     
-    const result = await handleAnalyzeExpensesAndOptimizeSavings(values);
+    // Ensure monthlyIncome is a number
+    const processedValues = {
+      ...values,
+      monthlyIncome: Number(values.monthlyIncome),
+    };
+
+    const result = await handleAnalyzeExpensesAndOptimizeSavings(processedValues);
     setIsLoading(false);
 
     if ('error' in result) {
@@ -83,7 +89,7 @@ export function ExpenseOptimizerForm() {
                 <FormItem>
                   <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Monthly Income (₹)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 50000" {...field} value={field.value === 0 ? "" : field.value || ""} />
+                    <Input type="number" placeholder="e.g., 50000" {...field} value={field.value ?? ''} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,11 +166,11 @@ export function ExpenseOptimizerForm() {
                       <AccordionTrigger className="px-4 py-3 hover:no-underline">
                         <div className="flex items-center space-x-2">
                            <DollarSign className="h-5 w-5 text-destructive" />
-                           <span className="font-medium text-base">Reduce {suggestion.categoryName} by ₹{suggestion.suggestedReductionAmount.toFixed(2)}/month</span>
+                           <span className="font-medium text-base">Reduce {suggestion.categoryName} by ₹{suggestion.suggestedReductionAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/month</span>
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="px-4 pt-0 pb-3 space-y-1 text-sm">
-                        <p><strong className="font-medium text-foreground/80">Potential Monthly Savings:</strong> ₹{suggestion.potentialMonthlySavings.toFixed(2)}</p>
+                        <p><strong className="font-medium text-foreground/80">Potential Monthly Savings:</strong> ₹{suggestion.potentialMonthlySavings.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                         <p><strong className="font-medium text-foreground/80">Reasoning:</strong> {suggestion.reasoning}</p>
                       </AccordionContent>
                     </AccordionItem>

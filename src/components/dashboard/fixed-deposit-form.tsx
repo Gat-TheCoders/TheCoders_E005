@@ -56,21 +56,11 @@ export function FixedDepositForm() {
     },
   });
 
-  // Simple interest calculation for FD: P * R * T / 100
-  // For simplicity, we'll assume simple interest compounded annually (though FDs can have different compounding)
-  // A more accurate calculation would consider compounding frequency. This is a simplified model.
   const calculateFdReturns = (values: FixedDepositFormValues): CalculationResult => {
     const principal = values.principalAmount;
     const annualRate = values.annualInterestRate / 100;
     const durationYears = values.durationInMonths / 12;
     
-    // Simple Interest Calculation:
-    // const interestEarned = principal * annualRate * durationYears;
-    
-    // Compound Interest Calculation (compounded annually for simplicity)
-    // A = P (1 + r/n)^(nt)
-    // Here n = 1 (compounded annually)
-    // Interest = A - P
     const maturityAmount = principal * Math.pow((1 + annualRate), durationYears);
     const interestEarned = maturityAmount - principal;
 
@@ -87,7 +77,6 @@ export function FixedDepositForm() {
     setIsLoading(true);
     setCalculationResult(null);
     
-    // Simulate a short delay for calculation
     await new Promise(resolve => setTimeout(resolve, 500));
     
     const result = calculateFdReturns(values);
@@ -131,7 +120,7 @@ export function FixedDepositForm() {
                 <FormItem>
                   <FormLabel className="flex items-center"><DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />Principal Amount (₹)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="e.g., 50000" {...field} value={field.value ?? ""} />
+                    <Input type="number" placeholder="e.g., 50000" {...field} value={field.value ?? ""} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -145,7 +134,7 @@ export function FixedDepositForm() {
                   <FormItem>
                     <FormLabel className="flex items-center"><CalendarClock className="mr-2 h-4 w-4 text-muted-foreground" />Duration (Months)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 12 for 1 year" {...field} value={field.value ?? ""} />
+                      <Input type="number" placeholder="e.g., 12 for 1 year" {...field} value={field.value ?? ""} onChange={e => field.onChange(e.target.value === '' ? undefined : parseInt(e.target.value, 10))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -158,7 +147,7 @@ export function FixedDepositForm() {
                   <FormItem>
                     <FormLabel className="flex items-center"><Percent className="mr-2 h-4 w-4 text-muted-foreground" />Annual Interest Rate (%)</FormLabel>
                     <FormControl>
-                      <Input type="number" step="0.01" placeholder="e.g., 6.5" {...field} value={field.value ?? ""} />
+                      <Input type="number" step="0.01" placeholder="e.g., 6.5" {...field} value={field.value ?? ""} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -230,3 +219,4 @@ export function FixedDepositForm() {
     </Card>
   );
 }
+

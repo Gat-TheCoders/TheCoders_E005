@@ -28,8 +28,7 @@ const formSchema = z.object({
     .number({ invalid_type_error: "Credit utilization must be a number." })
     .min(0, { message: "Credit utilization must be 0 or greater." })
     .max(100, { message: "Credit utilization cannot exceed 100." })
-    .optional()
-    .or(z.literal('')),
+    .optional(),
   lengthOfCreditHistory: z.string().min(3, { message: "Length of credit history: min 3 characters." }).optional().or(z.literal('')),
   creditMix: z.string().min(5, { message: "Credit mix: min 5 characters." }),
   newCredit: z.string().min(5, { message: "New credit activity: min 5 characters." }),
@@ -42,14 +41,14 @@ export function CreditScoreSimulator() {
   const [isLoading, setIsLoading] = useState(false);
   const [simulationResult, setSimulationResult] = useState<CreditScoreSimulationOutput | null>(null);
 
-  const form = useForm<CreditScoreSimulationInput>({
+  const form = useForm<z.infer<typeof formSchema>>({ // Use inferred type for stricter RHF typing
     resolver: zodResolver(formSchema),
     defaultValues: {
       transactionPatterns: '',
       mobileUsagePatterns: '',
       bankName: '',
       paymentHistory: '',
-      creditUtilization: undefined, // Store as number or undefined
+      creditUtilization: undefined, 
       lengthOfCreditHistory: '',
       creditMix: '',
       newCredit: '',
@@ -60,10 +59,9 @@ export function CreditScoreSimulator() {
     setIsLoading(true);
     setSimulationResult(null);
 
-    // Ensure numeric fields are correctly formatted or undefined
     const processedValues: CreditScoreSimulationInput = {
         ...values,
-        creditUtilization: values.creditUtilization === '' ? undefined : Number(values.creditUtilization),
+        creditUtilization: values.creditUtilization === undefined ? undefined : Number(values.creditUtilization),
         bankName: values.bankName === '' ? undefined : values.bankName,
         lengthOfCreditHistory: values.lengthOfCreditHistory === '' ? undefined : values.lengthOfCreditHistory,
     };
@@ -149,7 +147,7 @@ export function CreditScoreSimulator() {
                   <FormItem>
                     <FormLabel className="flex items-center"><Percent className="mr-2 h-4 w-4 text-muted-foreground" />Credit Utilization (%) <span className="text-xs text-muted-foreground ml-1">(Optional)</span></FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g., 30 (for 30%)" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : parseFloat(e.target.value))} value={field.value ?? ''} />
+                      <Input type="number" placeholder="e.g., 30 (for 30%)" {...field} onChange={e => field.onChange(e.target.value === '' ? undefined : parseFloat(e.target.value))} value={field.value ?? ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

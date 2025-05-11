@@ -21,10 +21,9 @@ export const PersonalizedSavingsPlanInputSchema = z.object({
   monthlyIncome: z.coerce.number({invalid_type_error: "Monthly income must be a number.", required_error: "Monthly income is required."}).positive('Monthly income must be a positive number.').describe('Your total gross monthly income in INR.'),
   monthlyExpenses: z.coerce.number({invalid_type_error: "Monthly expenses must be a number.", required_error: "Monthly expenses are required."}).nonnegative('Monthly expenses cannot be negative.').describe('Your total monthly expenses in INR.'),
   customGoals: z.array(GoalInputSchema).min(1, "Define at least one financial goal.").describe("List of your financial goals with target and current savings."),
-}).refine(data => data.monthlyIncome >= data.monthlyExpenses, {
-    message: "Monthly income should ideally be greater than or equal to monthly expenses to create a savings plan.",
-    path: ["monthlyIncome"], 
 });
+// Removed .refine(data => data.monthlyIncome >= data.monthlyExpenses, ...) to allow AI to handle deficit scenarios.
+// The AI prompt is designed to provide advice even if expenses exceed income.
 export type PersonalizedSavingsPlanInput = z.infer<typeof PersonalizedSavingsPlanInputSchema>;
 
 export const GoalPlanOutputSchema = z.object({
@@ -45,3 +44,4 @@ export const PersonalizedSavingsPlanOutputSchema = z.object({
   disclaimer: z.string().describe('Standard disclaimer that this is not financial advice and professional consultation is recommended.'),
 });
 export type PersonalizedSavingsPlanOutput = z.infer<typeof PersonalizedSavingsPlanOutputSchema>;
+
