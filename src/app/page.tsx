@@ -3,11 +3,13 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'; // Corrected import order
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { ScrollReveal } from "@/components/utils/scroll-reveal";
 import { TrendingUp, PiggyBank, Landmark, Users, Wallet, ArrowRight, Database, SlidersHorizontal, Receipt, Lightbulb, FileText, PackageSearch, Cog } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { SuggestedInvestmentCard } from '@/components/dashboard/suggested-investment-card';
+
 
 interface CardLinkProps {
   href: string;
@@ -19,7 +21,7 @@ interface CardLinkProps {
 
 function CardLink({ href, icon, title, description, className }: CardLinkProps) {
   return (
-    <Link href={href} className={cn("group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary", className)}>
+    <Link href={href} className={cn("group h-full flex flex-col rounded-lg shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-2 cursor-pointer border-border hover:border-primary bg-card", className)}>
       <CardHeader className="items-center text-center pt-8 pb-4">
         <div className="p-4 bg-primary/10 rounded-full mb-3 transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-accent/10">
           {icon}
@@ -52,7 +54,6 @@ export default function HomePage() {
               <p className="mt-6 text-lg leading-8 text-foreground/80 max-w-2xl mx-auto">
                 Empowering you with AI-driven insights to navigate your financial journey. Explore our tools to simulate credit scores, generate personalized savings plans, assess loan eligibility, and more.
               </p>
-              {/* "Get Started" button removed from here */}
             </div>
           </section>
         </ScrollReveal>
@@ -149,24 +150,28 @@ export default function HomePage() {
                 />
               </ScrollReveal>
             </div>
-
-            {/* Row for Suggested Investment */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mb-12 justify-center">
-              <ScrollReveal delay={1400} className="h-full lg:col-span-1 md:col-span-2 col-span-1 md:max-w-md lg:max-w-none mx-auto w-full sm:max-w-md">
-                <CardLink
-                  href="/suggested-investment"
-                  icon={<Lightbulb className="h-10 w-10 text-accent group-hover:animate-pulse" />}
-                  title="Suggested Investment"
-                  description="Get AI-powered investment ideas based on your income and capacity."
-                />
-              </ScrollReveal>
-            </div>
-
+             {/* Removed Suggested Investment CardLink from here */}
           </div>
         </section>
 
-        {/* Placeholder for additional sections like Testimonials or CTA */}
-        <ScrollReveal delay={600}>
+        {/* New AI Investment Suggester Section */}
+        <section className="py-12 md:py-20 bg-primary/5">
+          <div className="container mx-auto px-4 md:px-6">
+            <ScrollReveal delay={300}>
+              <h2 className="text-3xl font-semibold mb-10 md:mb-16 text-center text-primary animated-text-gradient">
+                AI Investment Suggester
+              </h2>
+            </ScrollReveal>
+            <ScrollReveal delay={400}>
+              <div className="max-w-2xl mx-auto">
+                <SuggestedInvestmentCard />
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* Continuous Improvement Section */}
+        <ScrollReveal delay={500}>
           <section className="py-12 md:py-20 bg-primary/5">
             <div className="container mx-auto px-4 md:px-6 text-center">
               <Cog className="h-12 w-12 text-primary mx-auto mb-4 animate-spin-slow" />
