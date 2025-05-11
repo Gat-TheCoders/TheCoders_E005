@@ -8,6 +8,11 @@ import {
   type CreditScoreSimulationOutput 
 } from '@/ai/flows/credit-score-simulation';
 import {
+  generateSavingsPlan as generateSavingsPlanFlow,
+  type PersonalizedSavingsPlanInput,
+  type PersonalizedSavingsPlanOutput,
+} from '@/ai/flows/personalized-savings-plan';
+import {
   assessLoanEligibility as assessLoanEligibilityFlow,
   type BankLoanEligibilityInput,
   type BankLoanEligibilityOutput,
@@ -46,6 +51,16 @@ export async function handleSimulateCreditScore(input: CreditScoreSimulationInpu
   } catch (e) {
     console.error("Error in handleSimulateCreditScore:", e);
     return { error: e instanceof Error ? e.message : "An unexpected error occurred during credit score simulation." };
+  }
+}
+
+export async function handleGenerateSavingsPlan(input: PersonalizedSavingsPlanInput): Promise<PersonalizedSavingsPlanOutput | { error: string }> {
+  try {
+    const result = await generateSavingsPlanFlow(input);
+    return result;
+  } catch (e) {
+    console.error("Error in handleGenerateSavingsPlan:", e);
+    return { error: e instanceof Error ? e.message : "An unexpected error occurred during savings plan generation." };
   }
 }
 
