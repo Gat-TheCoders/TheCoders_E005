@@ -116,10 +116,10 @@ export default function SettingsPage() {
                      <Label htmlFor="push-notifications" className="flex flex-col space-y-1">
                         <span>Push Notifications</span>
                         <span className="font-normal leading-snug text-muted-foreground">
-                        Get real-time alerts on your device. (Feature coming soon)
+                        Get real-time alerts on your device.
                         </span>
                     </Label>
-                    <Switch id="push-notifications" disabled />
+                    <Switch id="push-notifications" onCheckedChange={(checked) => toast({ title: `Push notifications ${checked ? 'enabled (simulated)' : 'disabled (simulated)'}`}) } />
                 </div>
             </CardContent>
         </Card>
@@ -213,3 +213,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+
