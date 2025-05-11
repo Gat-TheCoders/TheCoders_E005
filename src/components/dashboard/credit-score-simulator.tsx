@@ -17,7 +17,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const formSchema = z.object({
-  transactionPatterns: z.string().min(50, { message: "Please provide a detailed description of transaction patterns (min 50 characters)." }),
+  transactionPatterns: z.string().min(5, { message: "Please provide a detailed description of transaction patterns (min 5 characters)." }),
   mobileUsagePatterns: z.string().min(50, { message: "Please provide a detailed description of mobile usage patterns (min 50 characters)." }),
 });
 
@@ -56,7 +56,7 @@ export function CreditScoreSimulator() {
   }
 
   return (
-    <Card className="shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 group w-full">
+    <Card className="shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 group w-full bg-card">
       <CardHeader>
         <div className="flex items-center space-x-2">
           <div className="transition-all duration-300 ease-out group-hover:scale-110 group-hover:rotate-[-5deg]">

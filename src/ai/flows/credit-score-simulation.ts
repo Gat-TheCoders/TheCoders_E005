@@ -15,7 +15,7 @@ import {z} from 'genkit';
 const CreditScoreSimulationInputSchema = z.object({
   transactionPatterns: z
     .string({ required_error: "Transaction patterns description is required."})
-    .min(50, { message: "Please provide a detailed description of transaction patterns (min 50 characters)." })
+    .min(5, { message: "Please provide a detailed description of transaction patterns (min 5 characters)." })
     .describe('Detailed description of transaction patterns, including frequency, amounts, and types of transactions.'),
   mobileUsagePatterns: z
     .string({ required_error: "Mobile usage patterns description is required."})
@@ -116,4 +116,3 @@ const simulateCreditScoreFlow = ai.defineFlow(
     return output;
   }
 );
-
